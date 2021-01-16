@@ -4,7 +4,29 @@
     margin-left: 450px;
     z-index: 0;
 }
-.btnPanel{
+#windowBox {
+    position: absolute;
+    background: rgba(128, 0, 0, 0);
+    height: 40px;
+    width: 60px
+}
+#circleCursor {
+    position: absolute;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    height: 4px;
+    width: 4px;
+    border-radius: 50%;
+    border: 2px solid darkgreen;
+    background: linear-gradient(to bottom, rgb(83, 255, 60) 0, rgb(27, 255, 6));
+}
+
+.infoPaper {
+    text-align: center;
+    font-family: 'Turret Road', cursive;
+}
+
+.btnPanel {
     text-align: center;
     position: absolute;
     margin-left: 660px;

@@ -10,14 +10,24 @@ const redGuy = {
     borderRadius: 50,
     backgroundColor: 'red'
 }
-
 const moveBtn = {
     width: 70,
     height: 70,
     borderRadius: 50,
     color:'white',
     backgroundColor: 'red',
-    cursor:'pointer'
+    cursor:'none'
+}
+const backBtn = {
+    position:'absolute',
+    top:262,
+    left: 655,
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    color:'white',
+    backgroundColor: 'green',
+    cursor:'none'
 }
 
 //Objects
@@ -116,9 +126,68 @@ const inventoryHolder = {
     top: 420,
     left:460
 }
+const glove = {
+    position : 'absolute',
+    top: 230,
+    left:518
+}
+const crowBar = {
+    position : 'absolute',
+    top: 285,
+    left:1030
+}
+const bobbyPin = {
+    position : 'absolute',
+    top: 350,
+    left:890
+}
+const screwDriver = {
+    position : 'absolute',
+    top: 365,
+    left:785
+}
+const screw_inventory = {
+    position : 'absolute',
+    top: 433,
+    left:477
+}
+const bobbyPin_inventory = {
+    position : 'absolute',
+    top: 433,
+    left:518,
+    width:16,
+    height:16
+}
+const bulb_inventory = {
+    position : 'absolute',
+    top: 427,
+    left:557,
+}
+const glove_inventory = {
+    position : 'absolute',
+    top: 430,
+    left:592,
+}
+const crowBar_inventory = {
+    position : 'absolute',
+    top: 427,
+    left:640,
+}
+const key_inventory = {
+    position : 'absolute',
+    top: 432,
+    left:717,
+}
+const screwDriver_inventory = {
+    position : 'absolute',
+    top: 437,
+    left:667,
+}
+
 let GameObjects = {
     redGuy,
     moveBtn,
+    backBtn,
     table,
     papers,
     book,
@@ -137,7 +206,18 @@ let GameObjects = {
     trash,
     safe,
     picture,
-    inventoryHolder
+    inventoryHolder,
+    glove,
+    crowBar,
+    bobbyPin,
+    screwDriver,
+    screw_inventory,
+    bobbyPin_inventory,
+    bulb_inventory,
+    glove_inventory,
+    crowBar_inventory,
+    screwDriver_inventory,
+    key_inventory
 }
 
 

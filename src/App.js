@@ -5,7 +5,7 @@ import Canvas from './Canvases/Canvas';
 function App() {
   return (
     <div className="App">
-      <Canvas/>
+      <Canvas key = 'canvas'/>
       <ShowWindowDimensions/>
     </div>
   );
