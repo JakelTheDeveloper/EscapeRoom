@@ -71,9 +71,12 @@ class Canvas extends Component {
       infoMessage: null,
       itemsSelected: 0,
       safePuzzle: false,
+      combinationPuzzle:false,
       safeAnswer: 0,
       safeAnswer2: 0,
       safeAnswer3: 0,
+      safeAnswer4:0,
+      safeAnswer5:0,
       screws: {
         currState: 0,
         selected: false,
@@ -127,7 +130,7 @@ class Canvas extends Component {
     this.handleParams(infoMessage)
   }
   handleIncrement = (id) => {
-    let { safeAnswer, safeAnswer2, safeAnswer3 } = this.state
+    let { safeAnswer, safeAnswer2, safeAnswer3,safeAnswer4,safeAnswer5 } = this.state
     if (id === 1) {
       if (safeAnswer < 9) {
         this.setState({ safeAnswer: safeAnswer += 1 })
@@ -146,10 +149,22 @@ class Canvas extends Component {
       } else if (safeAnswer3 === 9) {
         this.setState({ safeAnswer3: safeAnswer3 = 0 })
       }
+    }else if (id === 4) {
+      if (safeAnswer4 < 9) {
+        this.setState({ safeAnswer4: safeAnswer4 += 1 })
+      } else if (safeAnswer4 === 9) {
+        this.setState({ safeAnswer4: safeAnswer4 = 0 })
+      }
+    }else if (id === 5) {
+      if (safeAnswer5 < 9) {
+        this.setState({ safeAnswer5: safeAnswer5 += 1 })
+      } else if (safeAnswer5 === 9) {
+        this.setState({ safeAnswer5: safeAnswer5 = 0 })
+      }
     }
   }
   handleDecrement = (id) => {
-    let { safeAnswer, safeAnswer2, safeAnswer3 } = this.state
+    let { safeAnswer, safeAnswer2, safeAnswer3,safeAnswer4,safeAnswer5 } = this.state
     if (id === 1) {
       if (safeAnswer > 0) {
         this.setState({ safeAnswer: safeAnswer -= 1 })
@@ -167,6 +182,18 @@ class Canvas extends Component {
         this.setState({ safeAnswer3: safeAnswer3 -= 1 })
       } else if (safeAnswer3 === 0) {
         this.setState({ safeAnswer3: safeAnswer3 = 9 })
+      }
+    }else if (id === 4) {
+      if (safeAnswer4 > 0) {
+        this.setState({ safeAnswer4: safeAnswer4 -= 1 })
+      } else if (safeAnswer4 === 0) {
+        this.setState({ safeAnswer4: safeAnswer4 = 9 })
+      }
+    }else if (id === 5) {
+      if (safeAnswer5 > 0) {
+        this.setState({ safeAnswer5: safeAnswer5 -= 1 })
+      } else if (safeAnswer5 === 0) {
+        this.setState({ safeAnswer5: safeAnswer5 = 9 })
       }
     }
   }
@@ -498,6 +525,37 @@ class Canvas extends Component {
       this.setState({ safePuzzle: safePuzzle = !safePuzzle })
     }
   }
+  handleCombLockClick = () => {
+    let circle = this.refs.char
+    let door = this.refs.door
+    let touch = false
+    let obj1X = parseInt(circle.style.left)
+    let obj1Y = parseInt(circle.style.top)
+    let obj2X = parseInt(door.style.left)
+    let obj2Y = parseInt(door.style.top)
+
+    if (obj1X < obj2X + door.width && obj1X + parseInt(circle.style.width) > obj2X &&
+      obj1Y < obj2Y + door.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+      touch = true
+    }
+
+    let { currCombLock, combinationPuzzle, safeAnswer,safeAnswer2,safeAnswer3,safeAnswer4,safeAnswer5 } = this.state
+    if (currCombLock === combinationLock01 && touch && !combinationPuzzle) {
+        this.setState({
+          safeAnswer:safeAnswer = 0,
+          safeAnswer2:safeAnswer2 = 0,
+          safeAnswer3:safeAnswer3 = 0,
+          safeAnswer4:safeAnswer4 = 0,
+          safeAnswer5:safeAnswer5 = 0,
+          combinationPuzzle:combinationPuzzle = true
+        })
+        this.handleParams(safeAnswer,safeAnswer2,safeAnswer3,safeAnswer4,safeAnswer5)
+      }else if (currCombLock === combinationLock01 && touch && combinationPuzzle) {
+        this.setState({
+          combinationPuzzle:combinationPuzzle = false
+        })
+      }
+    }
   handleBoltLockClick = () => {
     let circle = this.refs.char
     let door = this.refs.door
@@ -540,6 +598,7 @@ class Canvas extends Component {
           ]
           this.setState({ infoMessage: infoMessage = text })
         }
+        this.handleParams(currBoltLock, bobbyPin, itemsSelected, infoMessage, boltUnlocked)
   }
   handleKeyLockClick = () => {
     let circle = this.refs.char
@@ -567,7 +626,6 @@ class Canvas extends Component {
       this.setState({ infoMessage: infoMessage = text })
     } else
       if (currKeyLock === keyLock01 && touch && key.selected) {
-
         this.setState({
           keyUnlocked: keyUnlocked = true,
           currKeyLock: currKeyLock = keyLock02,
@@ -575,9 +633,10 @@ class Canvas extends Component {
           keyState: key.currState = 0,
           itemsSelected: itemsSelected = 0
         })
-        console.log(keyUnlocked)
       }
+      this.handleParams(currKeyLock, itemsSelected, infoMessage, keyUnlocked, key)
   }
+
 
   //Inventory Item Clicks
   handleInventoryClick = (id) => {
@@ -1189,18 +1248,18 @@ class Canvas extends Component {
         />
 
         {/* CombinationLock */}
-        <img src={currCombLock}
-          onClick={() => console.log('CombLock')}
+        {(this.state.currDoor !== door02 ?<img src={currCombLock}
+          onClick={this.handleCombLockClick}
           key="combLock"
           ref="combLock"
           id='combLock'
           name='combLock'
           style={StyleHelper.combLock}
           alt='combLock'
-        />
+        />:null)}
 
         {/* KeyLock */}
-        <img src={currKeyLock}
+        {(this.state.currDoor !== door02 ? <img src={currKeyLock}
           onClick={this.handleKeyLockClick}
           key="keyLock"
           ref="keyLock"
@@ -1208,7 +1267,7 @@ class Canvas extends Component {
           name='keyLock'
           style={StyleHelper.keyLock}
           alt='keyLock'
-        />
+        />:null)}
 
         {/* BoltLock */}
         {(!this.state.boltUnlocked ? <img src={currBoltLock}
@@ -1576,7 +1635,15 @@ class Canvas extends Component {
   checkSafeAnswer = () => {
     let { infoMessage, keyUnlocked, key, safePuzzle, safeAnswer, safeAnswer2, safeAnswer3 } = this.state
     let text
-    if (safeAnswer !== 4 && safeAnswer2 !== 0 && safeAnswer3 !== 0) {
+    if (safeAnswer === 4 && safeAnswer2 === 0 && safeAnswer3 === 0) {
+      this.setState({
+        keyState: key.currState += 1,
+        keyUnlocked: keyUnlocked = true,
+        infoMessage: infoMessage = null,
+        safePuzzle: safePuzzle = false,
+      })
+      
+    } else {
       text = [
         <br key="0" />,
         <br key="1" />,
@@ -1586,14 +1653,32 @@ class Canvas extends Component {
         infoMessage: infoMessage = text,
         safePuzzle: safePuzzle = false
       })
-    } else if (safeAnswer === 4 && safeAnswer2 === 0 && safeAnswer3 === 0 && !keyUnlocked) {
+    }
+    this.handleParams(infoMessage, keyUnlocked, key, safePuzzle, safeAnswer, safeAnswer2, safeAnswer3)
+  }
+
+  checkCombAnswer = () => {
+    let { infoMessage, keyUnlocked, key,currCombLock,combUnlocked, combinationPuzzle, safeAnswer, safeAnswer2, safeAnswer3,safeAnswer4,safeAnswer5 } = this.state
+    let text
+    if (safeAnswer === 1 && safeAnswer2 === 1 && safeAnswer3 === 0 && safeAnswer4 === 0 && safeAnswer5 === 1) {
       this.setState({
-        keyState: key.currState += 1,
-        keyUnlocked: keyUnlocked = true,
         infoMessage: infoMessage = null,
-        safePuzzle: safePuzzle = false,
+        combUnlocked:combUnlocked = true,
+        currCombLock:currCombLock = combinationLock02,
+        combinationPuzzle: combinationPuzzle = false,
+      })
+    } else { 
+      text = [
+        <br key="0" />,
+        <br key="1" />,
+        <br key="2" />,
+        `Nope, It Didn't Work!`]
+      this.setState({
+        infoMessage: infoMessage = text,
+        combinationPuzzle: combinationPuzzle = false
       })
     }
+    this.handleParams(infoMessage, keyUnlocked, key, combinationPuzzle,currCombLock,combUnlocked, safeAnswer, safeAnswer2, safeAnswer3)
   }
   
   render() {
@@ -1601,9 +1686,70 @@ class Canvas extends Component {
       <div>
         {this.renderComponents()}
         {this.renderInventory()}
+        {(this.state.combinationPuzzle ?
+        <div style={{
+          position: 'absolute', top: 200, left: 640, width: 250, height: 155, backgroundColor: 'black',
+          textAlign: 'center',
+          borderStyle: 'solid',
+          borderRadius: 20,
+        }}>
+          <label htmlFor="combGuess"
+              className="combGuess_label"
+            >Enter The Combination Code!</label> <br />
+            <button type='button' id='incDecBtn' onClick={() => this.handleIncrement(1)} className='formBtn'>+</button>
+            <button type='button' id='incDecBtn' onClick={() => this.handleIncrement(2)} className='formBtn'>+</button>
+            <button type='button' id='incDecBtn' onClick={() => this.handleIncrement(3)} className='formBtn'>+</button>
+            <button type='button' id='incDecBtn' onClick={() => this.handleIncrement(4)} className='formBtn'>+</button>
+            <button type='button' id='incDecBtn' onClick={() => this.handleIncrement(5)} className='formBtn'>+</button><br />
+            <div
+              style={{ position:'absolute',marginRight:5, left:56, width: 26, height: 28, background:'white' }}
+              type="text"
+              id="combGuess_input"
+              name="safeAnswer"
+              required
+            >{this.state.safeAnswer}</div>
+            <div
+              style={{position:'absolute', marginRight:5, left:85, width: 26, height: 28, background:'white' }}
+              type="text"
+              id="guess_input"
+              name="safeAnswer2"
+              required
+            >{this.state.safeAnswer2}</div>
+            <div
+              style={{ position:'absolute', left:113, width: 25, height: 28, background:'white' }}
+              type="text"
+              id="guess_input"
+              name="safeAnswer3"
+              required
+            >{this.state.safeAnswer3}</div>
+            <div
+              style={{ position:'absolute', left:140, width: 26, height: 28, background:'white' }}
+              type="text"
+              id="guess_input"
+              name="safeAnswer4"
+              required
+            >{this.state.safeAnswer4}</div>
+            <div
+              style={{ position:'absolute', left:168, width: 26, height: 28, background:'white' }}
+              type="text"
+              id="guess_input"
+              name="safeAnswer5"
+              required
+            >{this.state.safeAnswer5}</div>
+            <br />
+            <button type='button' id='incDecBtn' onClick={() => this.handleDecrement(1)} className='formBtn'>-</button>
+            <button type='button' id='incDecBtn' onClick={() => this.handleDecrement(2)} className='formBtn'>-</button>
+            <button type='button' id='incDecBtn' onClick={() => this.handleDecrement(3)} className='formBtn'>-</button>
+            <button type='button' id='incDecBtn' onClick={() => this.handleDecrement(4)} className='formBtn'>-</button>
+            <button type='button' id='incDecBtn' onClick={() => this.handleDecrement(5)} className='formBtn'>-</button>
+            <br />
+            <button type='button' onClick={this.checkCombAnswer} className='formBtn'>Enter</button>
+        </div>
+        :null)}
+
         {(this.state.safePuzzle ?
           <div style={{
-            position: 'absolute', top: 200, left: 640, width: 250, height: 150, backgroundColor: 'black',
+            position: 'absolute', top: 200, left: 640, width: 250, height: 155, backgroundColor: 'black',
             textAlign: 'center',
             borderStyle: 'solid',
             borderRadius: 5,
