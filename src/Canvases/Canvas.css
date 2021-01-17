@@ -4,6 +4,25 @@
     margin-left: 450px;
     z-index: 0;
 }
+input{
+    cursor: none;
+}
+
+label{
+    cursor: none;
+    color: white;
+}
+button{
+    cursor: none;
+}
+#incDecBtn{
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 28px;
+    height: 28px;
+    text-Align: 'center';
+    cursor: none;
+}
 #windowBox {
     position: absolute;
     background: rgba(128, 0, 0, 0);
