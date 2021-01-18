@@ -47,9 +47,13 @@ import StyleHelper from '../StyleHelper/StyleHelper'
 
 import './Canvas.css'
 class Canvas extends Component {
+
   constructor(props) {
     super(props)
     this.state = {
+      gameStarted: false,
+      countDownTimer:0,
+      gameTimer:0,
       currLeft: false,
       currRight: false,
       currUp: false,
@@ -1232,7 +1236,7 @@ class Canvas extends Component {
         <canvas ref='canv'
           className="canvas"
           key="canv"
-          style={{ backgroundImage: `url(${background})` }}
+          style={{ backgroundImage: `url(${background})`,marginTop:50,marginLeft:450 }}
           width={640}
           height={425}
         />
@@ -1682,6 +1686,7 @@ class Canvas extends Component {
   }
   
   render() {
+    console.log(this.props.screenWidth)
     return (
       <div>
         {this.renderComponents()}

@@ -1,9 +1,10 @@
+
 .canvas {
     background-color: cornsilk;
-    margin-top: 50px;
-    margin-left: 450px;
+   
     z-index: 0;
 }
+
 input{
     cursor: none;
 }
@@ -23,12 +24,7 @@ button{
     text-Align: 'center';
     cursor: none;
 }
-#windowBox {
-    position: absolute;
-    background: rgba(128, 0, 0, 0);
-    height: 40px;
-    width: 60px
-}
+
 #circleCursor {
     position: absolute;
     pointer-events: none;
