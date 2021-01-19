@@ -3,12 +3,13 @@ import Canvas from '../Canvases/Canvas'
 import React, { Component } from 'react'
 
 class App extends Component {
-  state = { width: 0, height: 0 };
+  state = { width: window.innerWidth, height: window.innerHeight };
 
   render() {
     return (
       <div className="App">
-        <Canvas key='canvas' screenWidth={this.state.width} screenheight={this.state.height}/>
+        <Canvas key='canvas' className="canvas" screenWidth={this.state.width} screenheight={this.state.height} />
+        <div style={{ color: 'white' }}>{this.state.width}</div>
       </div>
     )
 

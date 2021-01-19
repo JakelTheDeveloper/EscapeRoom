@@ -1,22 +1,27 @@
-
 .canvas {
     background-color: cornsilk;
-   
-    z-index: 0;
+    margin-top:50px;
 }
-
-input{
+.Absolute-Center {
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
+  
+input {
     cursor: none;
 }
 
-label{
+label {
     cursor: none;
     color: white;
 }
-button{
+
+button {
     cursor: none;
 }
-#incDecBtn{
+
+#incDecBtn {
     margin-top: 10px;
     margin-bottom: 5px;
     width: 28px;
@@ -41,8 +46,13 @@ button{
     font-family: 'Turret Road', cursive;
 }
 
-.btnPanel {
-    text-align: center;
-    position: absolute;
-    margin-left: 660px;
+/* If screen is bigger than min-width  */
+
+@media only screen and (min-width: 70.25em) {
+    .canvas {
+        background-color: cornsilk;
+        margin-top:50px;
+        margin-left:450px;
+        z-index: 0;
+    }
 }

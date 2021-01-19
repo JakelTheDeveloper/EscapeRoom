@@ -42,6 +42,7 @@ import screwDriver01 from '../Inventory/ScrewDriver/ScrewDriver0001.png'
 import screwDriver02 from '../Inventory/ScrewDriver/ScrewDriver0002.png'
 import bulb01 from '../Inventory/LightBulb/Bulb0001.png'
 import bulb02 from '../Inventory/LightBulb/Bulb0002.png'
+import hitBox from '../Assets/HitBox.png'
 import inventoryHolder from '../Inventory/InventoryHolder.png'
 import StyleHelper from '../StyleHelper/StyleHelper'
 
@@ -52,8 +53,8 @@ class Canvas extends Component {
     super(props)
     this.state = {
       gameStarted: false,
-      countDownTimer:0,
-      gameTimer:0,
+      countDownTimer: 0,
+      gameTimer: 0,
       currLeft: false,
       currRight: false,
       currUp: false,
@@ -75,12 +76,12 @@ class Canvas extends Component {
       infoMessage: null,
       itemsSelected: 0,
       safePuzzle: false,
-      combinationPuzzle:false,
+      combinationPuzzle: false,
       safeAnswer: 0,
       safeAnswer2: 0,
       safeAnswer3: 0,
-      safeAnswer4:0,
-      safeAnswer5:0,
+      safeAnswer4: 0,
+      safeAnswer5: 0,
       screws: {
         currState: 0,
         selected: false,
@@ -134,32 +135,32 @@ class Canvas extends Component {
     this.handleParams(infoMessage)
   }
   handleIncrement = (id) => {
-    let { safeAnswer, safeAnswer2, safeAnswer3,safeAnswer4,safeAnswer5 } = this.state
+    let { safeAnswer, safeAnswer2, safeAnswer3, safeAnswer4, safeAnswer5 } = this.state
     if (id === 1) {
       if (safeAnswer < 9) {
         this.setState({ safeAnswer: safeAnswer += 1 })
       } else if (safeAnswer === 9) {
         this.setState({ safeAnswer: safeAnswer = 0 })
       }
-    }else if (id === 2) {
+    } else if (id === 2) {
       if (safeAnswer2 < 9) {
         this.setState({ safeAnswer2: safeAnswer2 += 1 })
       } else if (safeAnswer2 === 9) {
         this.setState({ safeAnswer2: safeAnswer2 = 0 })
       }
-    }else if (id === 3) {
+    } else if (id === 3) {
       if (safeAnswer3 < 9) {
         this.setState({ safeAnswer3: safeAnswer3 += 1 })
       } else if (safeAnswer3 === 9) {
         this.setState({ safeAnswer3: safeAnswer3 = 0 })
       }
-    }else if (id === 4) {
+    } else if (id === 4) {
       if (safeAnswer4 < 9) {
         this.setState({ safeAnswer4: safeAnswer4 += 1 })
       } else if (safeAnswer4 === 9) {
         this.setState({ safeAnswer4: safeAnswer4 = 0 })
       }
-    }else if (id === 5) {
+    } else if (id === 5) {
       if (safeAnswer5 < 9) {
         this.setState({ safeAnswer5: safeAnswer5 += 1 })
       } else if (safeAnswer5 === 9) {
@@ -168,32 +169,32 @@ class Canvas extends Component {
     }
   }
   handleDecrement = (id) => {
-    let { safeAnswer, safeAnswer2, safeAnswer3,safeAnswer4,safeAnswer5 } = this.state
+    let { safeAnswer, safeAnswer2, safeAnswer3, safeAnswer4, safeAnswer5 } = this.state
     if (id === 1) {
       if (safeAnswer > 0) {
         this.setState({ safeAnswer: safeAnswer -= 1 })
       } else if (safeAnswer === 0) {
         this.setState({ safeAnswer: safeAnswer = 9 })
       }
-    }else if (id === 2) {
+    } else if (id === 2) {
       if (safeAnswer2 > 0) {
         this.setState({ safeAnswer2: safeAnswer2 -= 1 })
       } else if (safeAnswer2 === 0) {
         this.setState({ safeAnswer2: safeAnswer2 = 9 })
       }
-    }else if (id === 3) {
+    } else if (id === 3) {
       if (safeAnswer3 > 0) {
         this.setState({ safeAnswer3: safeAnswer3 -= 1 })
       } else if (safeAnswer3 === 0) {
         this.setState({ safeAnswer3: safeAnswer3 = 9 })
       }
-    }else if (id === 4) {
+    } else if (id === 4) {
       if (safeAnswer4 > 0) {
         this.setState({ safeAnswer4: safeAnswer4 -= 1 })
       } else if (safeAnswer4 === 0) {
         this.setState({ safeAnswer4: safeAnswer4 = 9 })
       }
-    }else if (id === 5) {
+    } else if (id === 5) {
       if (safeAnswer5 > 0) {
         this.setState({ safeAnswer5: safeAnswer5 -= 1 })
       } else if (safeAnswer5 === 0) {
@@ -204,7 +205,9 @@ class Canvas extends Component {
   handleParams(params) {
     return
   }
-
+  componentWillUnmount() {
+    clearInterval(this.intervalId)
+  }
   componentDidMount() {
     // var filler = document.getElementById("filler");
     // const fill = e => {
@@ -213,6 +216,7 @@ class Canvas extends Component {
     //   console.log(filler.style.width);
     // };
     // document.addEventListener("mousemove", fill);
+    // let canvLeft
     let circleCursor = this.refs.circleCursor
     const onMouseMove = (e) => {
       circleCursor.style.left = e.pageX + 'px';
@@ -222,6 +226,17 @@ class Canvas extends Component {
     this.intervalId = setInterval(() => {
       let circle = this.refs.char
       let moveSpeed = 8;
+      let canvLeft
+      if (this.props.screenWidth <= 1085) {
+        canvLeft = 0
+        this.setState({ left: this.state.borders.left = canvLeft + 140, right: this.state.borders.right = canvLeft + 460 })
+      } else if (this.props.screenWidth > 1085 && this.props.screenWidth <= 1366) {
+        canvLeft = 350
+        this.setState({ left: this.state.borders.left = canvLeft + 140, right: this.state.borders.right = canvLeft + 460 })
+      } else {
+        canvLeft = 450
+        this.setState({ left: this.state.borders.left = canvLeft + 140, right: this.state.borders.right = canvLeft + 460 })
+      }
       if (this.state.currLeft) {
         let x = parseInt(circle.style.left)
         if (x > this.state.borders.left) {
@@ -415,16 +430,27 @@ class Canvas extends Component {
           }
   }
   handlePictureClick = () => {
+    let touch = false
     let circle = this.refs.char
-    let picture = this.refs.picture
+    let hitBox = this.refs.hitBox1
+    let pic = this.refs.picture
+    let picY = parseInt(pic.style.top)
+
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2Y = parseInt(picture.style.top)
-    if (obj1Y >= 260 && obj1X >= 916 && obj2Y < 300) {
-      picture.style.top = 320 + 'px';
+    let obj2X = parseInt(hitBox.style.left)
+    let obj2Y = parseInt(hitBox.style.top)
+
+    if (obj1X < obj2X + hitBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
+      obj1Y < obj2Y + hitBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+      touch = true
+    }
+
+    if (touch && picY < 300) {
+      pic.style.top = 320 + 'px';
     } else
-      if (obj1Y >= 260 && obj1X >= 916 && obj2Y >= 320) {
-        picture.style.top = 250 + 'px';
+      if (touch && picY >= 320) {
+        pic.style.top = 250 + 'px';
       }
   }
   handlePaperClick = () => {
@@ -522,10 +548,20 @@ class Canvas extends Component {
   }
   handleSafeClick = () => {
     let { safePuzzle } = this.state
+    let touch = false
     let circle = this.refs.char
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    if (obj1Y >= 260 && obj1X >= 916) {
+    let hitBox = this.refs.hitBox1
+    let obj2X = parseInt(hitBox.style.left)
+    let obj2Y = parseInt(hitBox.style.top)
+
+    if (obj1X < obj2X + hitBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
+      obj1Y < obj2Y + hitBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+      touch = true
+    }
+    
+    if (touch) {
       this.setState({ safePuzzle: safePuzzle = !safePuzzle })
     }
   }
@@ -543,23 +579,23 @@ class Canvas extends Component {
       touch = true
     }
 
-    let { currCombLock, combinationPuzzle, safeAnswer,safeAnswer2,safeAnswer3,safeAnswer4,safeAnswer5 } = this.state
+    let { currCombLock, combinationPuzzle, safeAnswer, safeAnswer2, safeAnswer3, safeAnswer4, safeAnswer5 } = this.state
     if (currCombLock === combinationLock01 && touch && !combinationPuzzle) {
-        this.setState({
-          safeAnswer:safeAnswer = 0,
-          safeAnswer2:safeAnswer2 = 0,
-          safeAnswer3:safeAnswer3 = 0,
-          safeAnswer4:safeAnswer4 = 0,
-          safeAnswer5:safeAnswer5 = 0,
-          combinationPuzzle:combinationPuzzle = true
-        })
-        this.handleParams(safeAnswer,safeAnswer2,safeAnswer3,safeAnswer4,safeAnswer5)
-      }else if (currCombLock === combinationLock01 && touch && combinationPuzzle) {
-        this.setState({
-          combinationPuzzle:combinationPuzzle = false
-        })
-      }
+      this.setState({
+        safeAnswer: safeAnswer = 0,
+        safeAnswer2: safeAnswer2 = 0,
+        safeAnswer3: safeAnswer3 = 0,
+        safeAnswer4: safeAnswer4 = 0,
+        safeAnswer5: safeAnswer5 = 0,
+        combinationPuzzle: combinationPuzzle = true
+      })
+      this.handleParams(safeAnswer, safeAnswer2, safeAnswer3, safeAnswer4, safeAnswer5)
+    } else if (currCombLock === combinationLock01 && touch && combinationPuzzle) {
+      this.setState({
+        combinationPuzzle: combinationPuzzle = false
+      })
     }
+  }
   handleBoltLockClick = () => {
     let circle = this.refs.char
     let door = this.refs.door
@@ -602,7 +638,7 @@ class Canvas extends Component {
           ]
           this.setState({ infoMessage: infoMessage = text })
         }
-        this.handleParams(currBoltLock, bobbyPin, itemsSelected, infoMessage, boltUnlocked)
+    this.handleParams(currBoltLock, bobbyPin, itemsSelected, infoMessage, boltUnlocked)
   }
   handleKeyLockClick = () => {
     let circle = this.refs.char
@@ -638,7 +674,7 @@ class Canvas extends Component {
           itemsSelected: itemsSelected = 0
         })
       }
-      this.handleParams(currKeyLock, itemsSelected, infoMessage, keyUnlocked, key)
+    this.handleParams(currKeyLock, itemsSelected, infoMessage, keyUnlocked, key)
   }
 
 
@@ -777,11 +813,16 @@ class Canvas extends Component {
   handleScrewClick = (id) => {
     let circle = this.refs.char
     let touch = false
+    let hitBox = this.refs.hitBox2
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
+    let obj2X = parseInt(hitBox.style.left)
+    let obj2Y = parseInt(hitBox.style.top)
     let { screws } = this.state
 
-    if (obj1X >= 850 && obj1Y <= 130) {
+
+    if (obj1X < obj2X + hitBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
+      obj1Y < obj2Y + hitBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
       touch = true
     }
 
@@ -830,10 +871,19 @@ class Canvas extends Component {
   }
   handleCrowBarClick = () => {
     let { crowBar } = this.state
+    let touch
     let circle = this.refs.char
+    let hitBox = this.refs.hitBox1
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    if (obj1Y >= 260 && obj1X >= 916) {
+    let obj2X = parseInt(hitBox.style.left)
+    let obj2Y = parseInt(hitBox.style.top)
+
+    if (obj1X < obj2X + hitBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
+      obj1Y < obj2Y + hitBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+      touch = true
+    }
+    if (touch) {
       this.setState({ crowBarState: crowBar.currState += 1 })
     }
   }
@@ -968,6 +1018,14 @@ class Canvas extends Component {
   }
 
   renderInventory = () => {
+    let canvLeft
+    if (this.props.screenWidth <= 1085) {
+      canvLeft = 0
+    } else if (this.props.screenWidth > 1085 && this.props.screenWidth <= 1366) {
+      canvLeft = 350
+    } else {
+      canvLeft = 450
+    }
     return (
       <div>
         {/* Inventory */}
@@ -976,7 +1034,11 @@ class Canvas extends Component {
           key="inventoryHolder"
           id='inventoryHolder'
           name='inventoryHolder'
-          style={StyleHelper.inventoryHolder}
+          style={{
+            position: 'absolute',
+            top: 420,
+            left: canvLeft + 10
+          }}
           alt='inventory'
         />
         {/* Screw_Inventory */}
@@ -989,7 +1051,11 @@ class Canvas extends Component {
               ref="screw_inventory"
               id='screw_inventory'
               name='screw_inventory'
-              style={StyleHelper.screw_inventory}
+              style={{
+                position: 'absolute',
+                top: 433,
+                left: canvLeft + 26
+              }}
               alt='screw_inventory'
             /> :
             this.state.screws.currState === 2 ?
@@ -999,7 +1065,11 @@ class Canvas extends Component {
                 ref="screw_inventory"
                 id='screw_inventory'
                 name='screw_inventory'
-                style={StyleHelper.screw_inventory}
+                style={{
+                  position: 'absolute',
+                  top: 433,
+                  left: canvLeft + 26
+                }}
                 alt='screw_inventory'
               /> :
               this.state.screws.currState === 3 ?
@@ -1009,7 +1079,11 @@ class Canvas extends Component {
                   ref="screw_inventory"
                   id='screw_inventory'
                   name='screw_inventory'
-                  style={StyleHelper.screw_inventory}
+                  style={{
+                    position: 'absolute',
+                    top: 433,
+                    left: canvLeft + 26
+                  }}
                   alt='screw_inventory'
                 /> :
                 this.state.screws.currState === 4 ?
@@ -1019,7 +1093,11 @@ class Canvas extends Component {
                     ref="screw_inventory"
                     id='screw_inventory'
                     name='screw_inventory'
-                    style={StyleHelper.screw_inventory}
+                    style={{
+                      position: 'absolute',
+                      top: 433,
+                      left: canvLeft + 26
+                    }}
                     alt='screw_inventory'
                   /> : null)}
 
@@ -1033,7 +1111,13 @@ class Canvas extends Component {
               ref="bobbyPin_inventory"
               id='bobbyPin_inventory'
               name='bobbyPin_inventory'
-              style={StyleHelper.bobbyPin_inventory}
+              style={{
+                position: 'absolute',
+                top: 433,
+                left: canvLeft + 68,
+                width: 16,
+                height: 16
+              }}
               alt='bobbyPin_inventory'
             /> :
             this.state.bobbyPin.currState === 2 ?
@@ -1043,7 +1127,13 @@ class Canvas extends Component {
                 ref="bobbyPin_inventory"
                 id='bobbyPin_inventory'
                 name='bobbyPin_inventory'
-                style={StyleHelper.bobbyPin_inventory}
+                style={{
+                  position: 'absolute',
+                  top: 433,
+                  left: canvLeft + 68,
+                  width: 16,
+                  height: 16
+                }}
                 alt='bobbyPin_inventory'
               /> : null)}
         {/* Bulb_Inventory */}
@@ -1056,7 +1146,11 @@ class Canvas extends Component {
               ref="bulb_inventory"
               id='bulb_inventory'
               name='bulb_inventory'
-              style={StyleHelper.bulb_inventory}
+              style={{
+                position: 'absolute',
+                top: 427,
+                left: canvLeft + 107,
+              }}
               alt='bulb_inventory'
             /> :
             this.state.bulb.currState === 2 ?
@@ -1066,7 +1160,11 @@ class Canvas extends Component {
                 ref="bulb_inventory"
                 id='bulb_inventory'
                 name='bulb_inventory'
-                style={StyleHelper.bulb_inventory}
+                style={{
+                  position: 'absolute',
+                  top: 427,
+                  left: canvLeft + 107,
+                }}
                 alt='bulb_inventory'
               /> : null)}
         {/* Glove_Inventory */}
@@ -1079,7 +1177,11 @@ class Canvas extends Component {
               ref="glove_inventory"
               id='glove_inventory'
               name='glove_inventory'
-              style={StyleHelper.glove_inventory}
+              style={{
+                position : 'absolute',
+                top: 430,
+                left:canvLeft+142,
+            }}
               alt='glove_inventory'
             /> :
             this.state.glove.currState === 2 ?
@@ -1089,7 +1191,11 @@ class Canvas extends Component {
                 ref="glove_inventory"
                 id='glove_inventory'
                 name='glove_inventory'
-                style={StyleHelper.glove_inventory}
+                style={{
+                  position : 'absolute',
+                  top: 430,
+                  left:canvLeft+142,
+              }}
                 alt='glove_inventory'
               /> : null)}
         {/* CrowBar_Inventory */}
@@ -1102,7 +1208,11 @@ class Canvas extends Component {
               ref="crowBar_inventory"
               id='crowBar_inventory'
               name='crowBar_inventory'
-              style={StyleHelper.crowBar_inventory}
+              style={{
+                position : 'absolute',
+                top: 427,
+                left:canvLeft+190,
+            }}
               alt='crowBar_inventory'
             /> : null)}
         {/* ScrewDriver_Inventory */}
@@ -1115,7 +1225,11 @@ class Canvas extends Component {
               ref="screwDriver_inventory"
               id='screwDriver_inventory'
               name='screwDriver_inventory'
-              style={StyleHelper.screwDriver_inventory}
+              style={{
+                position : 'absolute',
+                top: 437,
+                left:canvLeft+217,
+            }}
               alt='screwDriver_inventory'
             /> :
             this.state.screwDriver.currState === 2 ?
@@ -1125,7 +1239,11 @@ class Canvas extends Component {
                 ref="screwDriver_inventory"
                 id='screwDriver_inventory'
                 name='screwDriver_inventory'
-                style={StyleHelper.screwDriver_inventory}
+                style={{
+                  position : 'absolute',
+                  top: 437,
+                  left:canvLeft+217,
+              }}
                 alt='screwDriver_inventory'
               /> : null)}
         {/* Key_Inventory */}
@@ -1138,12 +1256,16 @@ class Canvas extends Component {
               ref="key_inventory"
               id='key_inventory'
               name='key_inventory'
-              style={StyleHelper.key_inventory}
+              style={{
+                position : 'absolute',
+                top: 432,
+                left:canvLeft+267,
+            }}
               alt='key_inventory'
             /> : null)}
         {(this.state.screws.selected === true ? <div style={{
           top: 425,
-          left: 468,
+          left: canvLeft+18,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1155,7 +1277,7 @@ class Canvas extends Component {
         }}></div> : null)}
         {(this.state.bobbyPin.selected === true ? <div style={{
           top: 425,
-          left: 508,
+          left: canvLeft+58,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1167,7 +1289,7 @@ class Canvas extends Component {
         }}></div> : null)}
         {(this.state.bulb.selected === true ? <div style={{
           top: 425,
-          left: 547,
+          left: canvLeft+97,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1179,7 +1301,7 @@ class Canvas extends Component {
         }}></div> : null)}
         {(this.state.glove.selected === true ? <div style={{
           top: 425,
-          left: 586,
+          left: canvLeft+136,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1191,7 +1313,7 @@ class Canvas extends Component {
         }}></div> : null)}
         {(this.state.crowBar.selected === true ? <div style={{
           top: 425,
-          left: 625,
+          left: canvLeft+175,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1203,7 +1325,7 @@ class Canvas extends Component {
         }}></div> : null)}
         {(this.state.screwDriver.selected === true ? <div style={{
           top: 425,
-          left: 664,
+          left: canvLeft+214,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1215,7 +1337,7 @@ class Canvas extends Component {
         }}></div> : null)}
         {(this.state.key.selected === true ? <div style={{
           top: 425,
-          left: 703,
+          left: canvLeft+253,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1229,14 +1351,22 @@ class Canvas extends Component {
     )
   }
   renderComponents = () => {
+    let canvLeft
+    if (this.props.screenWidth <= 1085) {
+      canvLeft = 0
+    } else if (this.props.screenWidth > 1085 && this.props.screenWidth <= 1366) {
+      canvLeft = 350
+    } else {
+      canvLeft = 450
+    }
     let { currDresser, currCouch, currDoor, currLamp, currRug, currToolBox, currStool, currCombLock, currBoltLock, currKeyLock } = this.state
     return (
       <div>
         {/* Canvas */}
         <canvas ref='canv'
-          className="canvas"
+          // className="Absolute-Center"
           key="canv"
-          style={{ backgroundImage: `url(${background})`,marginTop:50,marginLeft:450 }}
+          style={{ backgroundImage: `url(${background})`, position: 'absolute', left: canvLeft, top: 50 }}
           width={640}
           height={425}
         />
@@ -1247,12 +1377,16 @@ class Canvas extends Component {
           ref="door"
           id='door'
           name='door'
-          style={StyleHelper.door}
+          style={{
+            position: 'absolute',
+            top: 56,
+            left: canvLeft + 270
+          }}
           alt='door'
         />
 
         {/* CombinationLock */}
-        {(this.state.currDoor !== door02 ?<img src={currCombLock}
+        {(this.state.currDoor !== door02 ? <img src={currCombLock}
           onClick={this.handleCombLockClick}
           key="combLock"
           ref="combLock"
@@ -1260,7 +1394,7 @@ class Canvas extends Component {
           name='combLock'
           style={StyleHelper.combLock}
           alt='combLock'
-        />:null)}
+        /> : null)}
 
         {/* KeyLock */}
         {(this.state.currDoor !== door02 ? <img src={currKeyLock}
@@ -1271,7 +1405,7 @@ class Canvas extends Component {
           name='keyLock'
           style={StyleHelper.keyLock}
           alt='keyLock'
-        />:null)}
+        /> : null)}
 
         {/* BoltLock */}
         {(!this.state.boltUnlocked ? <img src={currBoltLock}
@@ -1291,7 +1425,11 @@ class Canvas extends Component {
           ref="rug"
           id='rug'
           name='rug'
-          style={StyleHelper.rug}
+          style={{
+            position: 'absolute',
+            top: 122,
+            left: canvLeft + 255
+          }}
           alt='rug'
         />
 
@@ -1306,7 +1444,7 @@ class Canvas extends Component {
             style={{
               position: 'absolute',
               top: 120,
-              left: 828
+              left: canvLeft + 378
             }}
             alt='screw1'
           /> : null)}
@@ -1318,7 +1456,11 @@ class Canvas extends Component {
           ref="lamp"
           id='lamp'
           name='lamp'
-          style={StyleHelper.lamp}
+          style={{
+            position: 'absolute',
+            top: 75,
+            left: canvLeft + 160
+          }}
           alt='lamp'
         />
 
@@ -1327,7 +1469,11 @@ class Canvas extends Component {
           key="table"
           id='table'
           name='table'
-          style={StyleHelper.table}
+          style={{
+            position: 'absolute',
+            top: 330,
+            left: canvLeft + 410
+          }}
           alt='table'
         />
 
@@ -1338,7 +1484,11 @@ class Canvas extends Component {
           ref='bobPin'
           id='bobPin'
           name='bobPin'
-          style={StyleHelper.bobbyPin}
+          style={{
+            position: 'absolute',
+            top: 350,
+            left: canvLeft + 440
+          }}
           alt='bobPin'
         /> : null)}
 
@@ -1349,7 +1499,11 @@ class Canvas extends Component {
           ref='papers'
           id='papers'
           name='papers'
-          style={StyleHelper.papers}
+          style={{
+            position: 'absolute',
+            top: 355,
+            left: canvLeft + 480
+          }}
           alt='papers'
         />
 
@@ -1360,10 +1514,26 @@ class Canvas extends Component {
           ref='book'
           id='book'
           name='book'
-          style={StyleHelper.book}
+          style={{
+            position: 'absolute',
+            top: 350,
+            left: canvLeft + 540
+          }}
           alt='book'
         />
-
+        {/* HitBox */}
+        <img src={hitBox}
+          key="hitBox2"
+          ref='hitBox2'
+          id='hitBox2'
+          name='hitBox2'
+          style={{
+            position: 'absolute',
+            top: 122,
+            left: canvLeft + 420
+          }}
+          alt='HitBox'
+        />
         {/* Dresser */}
         <img src={currDresser}
           onClick={this.handleDresserClick}
@@ -1371,7 +1541,11 @@ class Canvas extends Component {
           ref="dresser"
           id='dresser'
           name='dresser'
-          style={StyleHelper.dresser}
+          style={{
+            position: 'absolute',
+            top: 90,
+            left: canvLeft + 470
+          }}
           alt='dresser'
         />
 
@@ -1385,7 +1559,7 @@ class Canvas extends Component {
           style={{
             position: 'absolute',
             top: 180,
-            left: 935
+            left: canvLeft + 485
           }}
           alt='screw3'
         /> : null)
@@ -1397,7 +1571,11 @@ class Canvas extends Component {
           ref="cabinet"
           id='cabinet'
           name='cabinet'
-          style={StyleHelper.cabinet}
+          style={{
+            position: 'absolute',
+            top: 370,
+            left: canvLeft + 310
+          }}
           alt='cabinet'
         />
 
@@ -1408,7 +1586,11 @@ class Canvas extends Component {
           ref="toolBox"
           id='toolBox'
           name='toolBox'
-          style={StyleHelper.toolBox}
+          style={{
+            position: 'absolute',
+            top: 362,
+            left: canvLeft + 325
+          }}
           alt='toolBox'
         />
 
@@ -1420,7 +1602,11 @@ class Canvas extends Component {
             ref="screwDriver"
             id='screwDriver'
             name='screwDriver'
-            style={StyleHelper.screwDriver}
+            style={{
+              position: 'absolute',
+              top: 365,
+              left: canvLeft + 335
+            }}
             alt='screwDriver'
           /> : null)}
 
@@ -1430,7 +1616,11 @@ class Canvas extends Component {
           ref="shelf"
           id='shelf'
           name='shelf'
-          style={StyleHelper.shelf}
+          style={{
+            position: 'absolute',
+            top: 80,
+            left: canvLeft + 45
+          }}
           alt='shelf'
         />
 
@@ -1441,7 +1631,11 @@ class Canvas extends Component {
           ref="glove1"
           id='glove1'
           name='glove1'
-          style={StyleHelper.glove}
+          style={{
+            position: 'absolute',
+            top: 230,
+            left: canvLeft + 68
+          }}
           alt='glove1'
         /> : null)}
 
@@ -1452,7 +1646,11 @@ class Canvas extends Component {
           ref="couch"
           id='couch'
           name='couch'
-          style={StyleHelper.couch}
+          style={{
+            position: 'absolute',
+            top: 305,
+            left: canvLeft + 95
+          }}
           alt='couch'
         />
 
@@ -1466,7 +1664,7 @@ class Canvas extends Component {
           style={{
             position: 'absolute',
             top: 380,
-            left: 550
+            left: canvLeft + 100
           }}
           alt='screw4'
         /> : null)}
@@ -1481,7 +1679,7 @@ class Canvas extends Component {
           style={{
             position: 'absolute',
             top: 95,
-            left: 890
+            left: canvLeft + 440
           }}
           alt='screw2'
         /> : null)}
@@ -1492,7 +1690,11 @@ class Canvas extends Component {
           id='stool'
           ref='stool'
           name='stool'
-          style={StyleHelper.stool}
+          style={{
+            position: 'absolute',
+            top: 250,
+            left: canvLeft + 110
+          }}
           alt='stool'
         />
         {/* Trash */}
@@ -1501,7 +1703,11 @@ class Canvas extends Component {
           key="trash"
           id='trash'
           name='trash'
-          style={StyleHelper.trash}
+          style={{
+            position: 'absolute',
+            top: 250,
+            left: canvLeft + 510
+          }}
           alt='trash'
         />
         {/* Safe */}
@@ -1510,7 +1716,11 @@ class Canvas extends Component {
           key="safe"
           id='safe'
           name='safe'
-          style={StyleHelper.safe}
+          style={{
+            position: 'absolute',
+            top: 250,
+            left: canvLeft + 570
+          }}
           alt='safe'
         />
         {/* CrowBar */}
@@ -1519,7 +1729,11 @@ class Canvas extends Component {
           key="crowbar"
           id='crowBar'
           name='crowBar'
-          style={StyleHelper.crowBar}
+          style={{
+            position: 'absolute',
+            top: 285,
+            left: canvLeft + 580
+          }}
           alt='crowBar'
         /> : null)}
         {/* Picture */}
@@ -1529,15 +1743,42 @@ class Canvas extends Component {
           ref='picture'
           id='picture'
           name='picture'
-          style={StyleHelper.picture}
+          style={{
+            position: 'absolute',
+            top: 250,
+            left: canvLeft + 570
+          }}
           alt='sunny day'
+        />
+        {/*HitBoxes*/}
+        <img src={hitBox}
+          key="hitBox1"
+          ref='hitBox1'
+          id='hitBox1'
+          name='hitBox1'
+          style={{
+            position: 'absolute',
+            top: 250,
+            left: canvLeft + 450
+          }}
+          alt='HitBox'
         />
         {/* Character */}
         <div className="character"
           key="character"
           id="character"
           ref="char"
-          style={StyleHelper.redGuy}>
+          style={{
+            position: 'absolute',
+            left: canvLeft + 290,
+            top: 260,
+            width: 40,
+            height: 40,
+            fontSize: 20,
+            color: 'white',
+            borderRadius: 50,
+            backgroundColor: 'red'
+          }}>
         </div>
 
         {/* Lights Out */}
@@ -1550,7 +1791,7 @@ class Canvas extends Component {
               position: 'absolute',
               width: 640,
               height: 425,
-              left: 450,
+              left: canvLeft,
               top: 50
             }}>
           </div> :
@@ -1563,7 +1804,17 @@ class Canvas extends Component {
               onMouseDown={this.handleUpDown}
               onMouseUp={this.handleUpUp}
               onMouseOut={this.handleUpOut}
-              style={StyleHelper.moveBtn}
+              style={{
+                position: 'absolute',
+                top: 480,
+                left: canvLeft + 280,
+                width: 70,
+                height: 70,
+                borderRadius: 50,
+                color: 'white',
+                backgroundColor: 'red',
+                cursor: 'none'
+              }}
             >Move Up
           </button>
             <br />
@@ -1571,43 +1822,114 @@ class Canvas extends Component {
               onMouseDown={this.handleLeftDown}
               onMouseUp={this.handleLeftUp}
               onMouseOut={this.handleLeftOut}
-              style={StyleHelper.moveBtn}
+              style={{
+                position: 'absolute',
+                top: 550,
+                left: canvLeft + 210,
+                width: 70,
+                height: 70,
+                borderRadius: 50,
+                color: 'white',
+                backgroundColor: 'red',
+                cursor: 'none'
+              }}
             >Move Left
           </button>
             <button className="btn"
               onMouseDown={this.handleDownDown}
               onMouseUp={this.handleDownUp}
               onMouseOut={this.handleDownOut}
-              style={StyleHelper.moveBtn}
+              style={{
+                position: 'absolute',
+                top: 550,
+                left: canvLeft + 280,
+                width: 70,
+                height: 70,
+                borderRadius: 50,
+                color: 'white',
+                backgroundColor: 'red',
+                cursor: 'none'
+              }}
             >Move Down
           </button>
             <button className="btn"
               onMouseDown={this.handleRightDown}
               onMouseUp={this.handleRightUp}
               onMouseOut={this.handleRightOut}
-              style={StyleHelper.moveBtn}
+              style={{
+                position: 'absolute',
+                top: 550,
+                left: canvLeft + 350,
+                width: 70,
+                height: 70,
+                borderRadius: 50,
+                color: 'white',
+                backgroundColor: 'red',
+                cursor: 'none'
+              }}
             >Move Right
           </button>
             <br />
           </div>
           :
+          //Lights Off
           <div className="btnPanel">
             <button className="btn"
-              style={StyleHelper.moveBtn}
-            >TURN
+              style={{
+                position: 'absolute',
+                top: 480,
+                left: canvLeft + 280,
+                width: 70,
+                height: 70,
+                borderRadius: 50,
+                color: 'white',
+                backgroundColor: 'red',
+                cursor: 'none'
+              }}
+            >Move Up
           </button>
             <br />
             <button className="btn"
-              style={StyleHelper.moveBtn}
-            >ON
+              style={{
+                position: 'absolute',
+                top: 550,
+                left: canvLeft + 210,
+                width: 70,
+                height: 70,
+                borderRadius: 50,
+                color: 'white',
+                backgroundColor: 'red',
+                cursor: 'none'
+              }}
+            >Move Left
           </button>
             <button className="btn"
-              style={StyleHelper.moveBtn}
-            >THE
+              style={{
+                position: 'absolute',
+                top: 550,
+                left: canvLeft + 280,
+                width: 70,
+                height: 70,
+                borderRadius: 50,
+                color: 'white',
+                backgroundColor: 'red',
+                cursor: 'none'
+              }}
+            >Move Down
           </button>
             <button className="btn"
-              style={StyleHelper.moveBtn}
-            >LIGHT
+              style={{
+                position: 'absolute',
+                top: 550,
+                left: canvLeft + 350,
+                width: 70,
+                height: 70,
+                borderRadius: 50,
+                color: 'white',
+                backgroundColor: 'red',
+                cursor: 'none'
+              }}
+            >Move Right
           </button>
             <br />
           </div>
@@ -1624,12 +1946,22 @@ class Canvas extends Component {
                 position: 'absolute',
                 width: 250,
                 height: 150,
-                left: 650,
+                left: canvLeft + 200,
                 top: 150
               }}
             >{this.state.infoMessage}
             </div>
-            <button onClick={this.clearInfo} style={StyleHelper.backBtn}>Back</button>
+            <button onClick={this.clearInfo} style={{
+              position: 'absolute',
+              top: 262,
+              left: canvLeft + 205,
+              width: 40,
+              height: 40,
+              borderRadius: 50,
+              color: 'white',
+              backgroundColor: 'green',
+              cursor: 'none'
+            }}>Back</button>
           </section>
           : null
         )}
@@ -1646,7 +1978,7 @@ class Canvas extends Component {
         infoMessage: infoMessage = null,
         safePuzzle: safePuzzle = false,
       })
-      
+
     } else {
       text = [
         <br key="0" />,
@@ -1662,16 +1994,16 @@ class Canvas extends Component {
   }
 
   checkCombAnswer = () => {
-    let { infoMessage, keyUnlocked, key,currCombLock,combUnlocked, combinationPuzzle, safeAnswer, safeAnswer2, safeAnswer3,safeAnswer4,safeAnswer5 } = this.state
+    let { infoMessage, keyUnlocked, key, currCombLock, combUnlocked, combinationPuzzle, safeAnswer, safeAnswer2, safeAnswer3, safeAnswer4, safeAnswer5 } = this.state
     let text
     if (safeAnswer === 1 && safeAnswer2 === 1 && safeAnswer3 === 0 && safeAnswer4 === 0 && safeAnswer5 === 1) {
       this.setState({
         infoMessage: infoMessage = null,
-        combUnlocked:combUnlocked = true,
-        currCombLock:currCombLock = combinationLock02,
+        combUnlocked: combUnlocked = true,
+        currCombLock: currCombLock = combinationLock02,
         combinationPuzzle: combinationPuzzle = false,
       })
-    } else { 
+    } else {
       text = [
         <br key="0" />,
         <br key="1" />,
@@ -1682,23 +2014,30 @@ class Canvas extends Component {
         combinationPuzzle: combinationPuzzle = false
       })
     }
-    this.handleParams(infoMessage, keyUnlocked, key, combinationPuzzle,currCombLock,combUnlocked, safeAnswer, safeAnswer2, safeAnswer3)
+    this.handleParams(infoMessage, keyUnlocked, key, combinationPuzzle, currCombLock, combUnlocked, safeAnswer, safeAnswer2, safeAnswer3)
   }
-  
+
   render() {
-    console.log(this.props.screenWidth)
+    let canvLeft
+    if (this.props.screenWidth <= 1085) {
+      canvLeft = 0
+    } else if (this.props.screenWidth > 1085 && this.props.screenWidth <= 1366) {
+      canvLeft = 350
+    } else {
+      canvLeft = 450
+    }
     return (
       <div>
         {this.renderComponents()}
         {this.renderInventory()}
         {(this.state.combinationPuzzle ?
-        <div style={{
-          position: 'absolute', top: 200, left: 640, width: 250, height: 155, backgroundColor: 'black',
-          textAlign: 'center',
-          borderStyle: 'solid',
-          borderRadius: 20,
-        }}>
-          <label htmlFor="combGuess"
+          <div style={{
+            position: 'absolute', top: 200, left: canvLeft + 190, width: 250, height: 155, backgroundColor: 'black',
+            textAlign: 'center',
+            borderStyle: 'solid',
+            borderRadius: 20,
+          }}>
+            <label htmlFor="combGuess"
               className="combGuess_label"
             >Enter The Combination Code!</label> <br />
             <button type='button' id='incDecBtn' onClick={() => this.handleIncrement(1)} className='formBtn'>+</button>
@@ -1707,35 +2046,35 @@ class Canvas extends Component {
             <button type='button' id='incDecBtn' onClick={() => this.handleIncrement(4)} className='formBtn'>+</button>
             <button type='button' id='incDecBtn' onClick={() => this.handleIncrement(5)} className='formBtn'>+</button><br />
             <div
-              style={{ position:'absolute',marginRight:5, left:56, width: 26, height: 28, background:'white' }}
+              style={{ position: 'absolute', marginRight: 5, left: 56, width: 26, height: 28, background: 'white' }}
               type="text"
               id="combGuess_input"
               name="safeAnswer"
               required
             >{this.state.safeAnswer}</div>
             <div
-              style={{position:'absolute', marginRight:5, left:85, width: 26, height: 28, background:'white' }}
+              style={{ position: 'absolute', marginRight: 5, left: 85, width: 26, height: 28, background: 'white' }}
               type="text"
               id="guess_input"
               name="safeAnswer2"
               required
             >{this.state.safeAnswer2}</div>
             <div
-              style={{ position:'absolute', left:113, width: 25, height: 28, background:'white' }}
+              style={{ position: 'absolute', left: 113, width: 25, height: 28, background: 'white' }}
               type="text"
               id="guess_input"
               name="safeAnswer3"
               required
             >{this.state.safeAnswer3}</div>
             <div
-              style={{ position:'absolute', left:140, width: 26, height: 28, background:'white' }}
+              style={{ position: 'absolute', left: 140, width: 26, height: 28, background: 'white' }}
               type="text"
               id="guess_input"
               name="safeAnswer4"
               required
             >{this.state.safeAnswer4}</div>
             <div
-              style={{ position:'absolute', left:168, width: 26, height: 28, background:'white' }}
+              style={{ position: 'absolute', left: 168, width: 26, height: 28, background: 'white' }}
               type="text"
               id="guess_input"
               name="safeAnswer5"
@@ -1749,12 +2088,12 @@ class Canvas extends Component {
             <button type='button' id='incDecBtn' onClick={() => this.handleDecrement(5)} className='formBtn'>-</button>
             <br />
             <button type='button' onClick={this.checkCombAnswer} className='formBtn'>Enter</button>
-        </div>
-        :null)}
+          </div>
+          : null)}
 
         {(this.state.safePuzzle ?
           <div style={{
-            position: 'absolute', top: 200, left: 640, width: 250, height: 155, backgroundColor: 'black',
+            position: 'absolute', top: 200, left: canvLeft + 190, width: 250, height: 155, backgroundColor: 'black',
             textAlign: 'center',
             borderStyle: 'solid',
             borderRadius: 5,
@@ -1766,21 +2105,21 @@ class Canvas extends Component {
             <button type='button' id='incDecBtn' onClick={() => this.handleIncrement(2)} className='formBtn'>+</button>
             <button type='button' id='incDecBtn' onClick={() => this.handleIncrement(3)} className='formBtn'>+</button><br />
             <div
-              style={{ position:'absolute',marginRight:5, left:83, width: 26, height: 28, background:'white' }}
+              style={{ position: 'absolute', marginRight: 5, left: 83, width: 26, height: 28, background: 'white' }}
               type="text"
               id="guess_input"
               name="safeAnswer"
               required
             >{this.state.safeAnswer}</div>
             <div
-              style={{position:'absolute', marginRight:5, left:112, width: 26, height: 28, background:'white' }}
+              style={{ position: 'absolute', marginRight: 5, left: 112, width: 26, height: 28, background: 'white' }}
               type="text"
               id="guess_input"
               name="safeAnswer2"
               required
             >{this.state.safeAnswer2}</div>
             <div
-              style={{ position:'absolute', left:140, width: 26, height: 28, background:'white' }}
+              style={{ position: 'absolute', left: 140, width: 26, height: 28, background: 'white' }}
               type="text"
               id="guess_input"
               name="safeAnswer3"
@@ -1793,6 +2132,7 @@ class Canvas extends Component {
             <br />
             <button type='button' onClick={this.checkSafeAnswer} className='formBtn'>Enter</button>
           </div> : null)}
+
         <div id="circleCursor" ref="circleCursor"></div>
       </div>
     )
