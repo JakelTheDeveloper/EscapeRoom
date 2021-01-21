@@ -172,12 +172,15 @@ class Character extends Component {
                         backgroundColor: 'red'
                     }}>
                 </div>
-                <GamePad canvLeft={canvLeft} {...props}
-                    handleUU={this.handleUpUp} handleUD={this.handleUpDown} handleUO={this.handleUpOut}
-                    handleLU={this.handleLeftUp} handleLD={this.handleLeftDown} handleLO={this.handleLeftOut}
-                    handleDU={this.handleDownUp} handleDD={this.handleDownDown} handleDO={this.handleDownOut}
-                    handleRU={this.handleRightUp} handleRD={this.handleRightDown} handleRO={this.handleRightOut}
-                />
+                {(this.props.canMove ?
+                    <GamePad canvLeft={canvLeft} {...props}
+                        handleUU={this.handleUpUp} handleUD={this.handleUpDown} handleUO={this.handleUpOut}
+                        handleLU={this.handleLeftUp} handleLD={this.handleLeftDown} handleLO={this.handleLeftOut}
+                        handleDU={this.handleDownUp} handleDD={this.handleDownDown} handleDO={this.handleDownOut}
+                        handleRU={this.handleRightUp} handleRD={this.handleRightDown} handleRO={this.handleRightOut}
+                    />
+                    :
+                    <GamePad canvLeft={canvLeft} {...props} noMove={this.props.noMove} />)}
             </div>
         )
     }

@@ -9,6 +9,7 @@ class GamePad extends Component {
               onMouseDown={this.props.handleUD}
               onMouseUp={this.props.handleUU}
               onMouseOut={this.props.handleUO}
+              onClick = {this.props.noMove}
               id='btnUp'
               style={{
                 position: 'absolute',
@@ -29,6 +30,7 @@ class GamePad extends Component {
               onMouseDown={this.props.handleLD}
               onMouseUp={this.props.handleLU}
               onMouseOut={this.props.handleLO}
+              onClick = {this.props.noMove}
               style={{
                 position: 'absolute',
                 top: 550,
@@ -47,6 +49,7 @@ class GamePad extends Component {
               onMouseDown={this.props.handleDD}
               onMouseUp={this.props.handleDU}
               onMouseOut={this.props.handleDO}
+              onClick = {this.props.noMove}
               style={{
                 position: 'absolute',
                 top: 550,
@@ -65,6 +68,7 @@ class GamePad extends Component {
               onMouseDown={this.props.handleRD}
               onMouseUp={this.props.handleRU}
               onMouseOut={this.props.handleRO}
+              onClick = {this.props.noMove}
               style={{
                 position: 'absolute',
                 top: 550,

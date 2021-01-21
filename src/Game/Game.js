@@ -37,6 +37,7 @@ import LightOffFilter from '../Components/LightOffFilter/LightOffFilter'
 import InfoMessage from '../Components/InfoMessage/InfoMessage'
 import CombinationPuzzle from '../Components/Puzzles/CombinationPuzzle'
 import SafePuzzle from '../Components/Puzzles/SafePuzzle'
+
 class Game extends Component {
   constructor(props) {
     super(props)
@@ -93,7 +94,18 @@ class Game extends Component {
     const value = event.target.value
     this.setState({ ...this.state, [event.target.name]: value })
   }
-
+  handleNoMove = () => {
+    let { infoMessage } = this.state
+    let text = [
+      <br key="0" />,
+      <br key="1" />,
+      <br key="2" />,
+      `Turn On The Light, I can't see where I'm walking!`]
+    this.setState({
+      infoMessage: infoMessage = text
+    })
+    this.handleParams(infoMessage)
+  }
   clearInfo = () => {
     let { infoMessage } = this.state
     this.setState({ infoMessage: infoMessage = null })
@@ -222,7 +234,6 @@ class Game extends Component {
     return
   }
 
-  //Object Clicks
   handleDresserClick = () => {
     let circle = this.char.current.returnData()
     let dresser = this.dresser.current.returnData()
@@ -672,7 +683,6 @@ class Game extends Component {
   }
 
 
-  //Inventory Item Clicks
   handleInventoryClick = (id) => {
     let { itemsSelected, screws, bobbyPin, bulb, glove, screwDriver, crowBar, key } = this.state
     if (id === 'screws') {
@@ -921,18 +931,6 @@ class Game extends Component {
     }
   }
 
-  handleNoMove = () => {
-    let { infoMessage } = this.state
-    let text = [
-      <br key="0" />,
-      <br key="1" />,
-      <br key="2" />,
-      `Turn On The Light, I can't see where I'm walking!`]
-    this.setState({
-      infoMessage: infoMessage = text
-    })
-    this.handleParams(infoMessage)
-  }
 
   renderInventory = () => {
     let canvLeft
@@ -1317,7 +1315,8 @@ class Game extends Component {
         <HitBox ref={this.hitBox1} hitBox={AssetOBJ.hitBox} canvLeft={canvLeft} />
        
         <Character ref={this.char} canvLeft={canvLeft} canMove={(currLamp === AssetOBJ.lamp01 ? true : false)}
-          borders={this.state.borders} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} />
+          borders={this.state.borders} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight}
+          noMove = {this.handleNoMove} />
         
         {/* Lights Out */}
         {(currLamp === AssetOBJ.lamp02 || currLamp === AssetOBJ.lamp03 ?
@@ -1329,10 +1328,9 @@ class Game extends Component {
       </div>
     )
   }
-
-  render() {
-    let {answer,answer2,answer3,answer4,answer5} = this.state
+  renderPuzzles=()=>{
     let canvLeft
+    let {answer,answer2,answer3,answer4,answer5} = this.state
     if (this.props.screenWidth <= 1085) {
       canvLeft = 0
     } else if (this.props.screenWidth > 1085 && this.props.screenWidth <= 1366) {
@@ -1340,16 +1338,24 @@ class Game extends Component {
     } else {
       canvLeft = 450
     }
+    return(
+      <div>
+    {(this.state.combinationPuzzle ?
+      <CombinationPuzzle  handleIncClick = {this.handleIncrement} handleDecClick = {this.handleDecrement} check = {this.checkCombAnswer}
+       canvLeft = {canvLeft} ans = {answer} ans2 = {answer2} ans3 = {answer3} ans4 = {answer4} ans5 = {answer5} />: null)}
+     {(this.state.safePuzzle ?
+     <SafePuzzle  handleIncClick = {this.handleIncrement} handleDecClick = {this.handleDecrement} check = {this.checkSafeAnswer}
+     canvLeft = {canvLeft} ans = {answer} ans2 = {answer2} ans3 = {answer3} />: null)}
+     </div>
+    )
+  }
+
+  render() {
     return (
       <div>
         {this.renderComponents()}
         {this.renderInventory()}
-        {(this.state.combinationPuzzle ?
-         <CombinationPuzzle  handleIncClick = {this.handleIncrement} handleDecClick = {this.handleDecrement} check = {this.checkCombAnswer}
-          canvLeft = {canvLeft} ans = {answer} ans2 = {answer2} ans3 = {answer3} ans4 = {answer4} ans5 = {answer5} />: null)}
-        {(this.state.safePuzzle ?
-        <SafePuzzle  handleIncClick = {this.handleIncrement} handleDecClick = {this.handleDecrement} check = {this.checkSafeAnswer}
-        canvLeft = {canvLeft} ans = {answer} ans2 = {answer2} ans3 = {answer3} />: null)}
+        {this.renderPuzzles()}
         <CircleCursor id="circleCursor" />
       </div>
     )
