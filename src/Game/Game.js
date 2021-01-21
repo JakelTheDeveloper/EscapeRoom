@@ -1,16 +1,37 @@
 import React, { Component } from 'react'
 import AssetOBJ from '../AssetHelper/AssetHelper'
 import soundSFX from '../soundFileHelper/SoundFile'
-import './Canvas.css'
-
-class Canvas extends Component {
+import './Game.css'
+import Door from '../Components/Door/Door'
+import CombinationLock from '../Components/CombinationLock/CombinationLock'
+import KeyLock from '../Components/KeyLock/KeyLock'
+import CircleCursor from '../Components/CircleCursor/CircleCursor'
+import BoltLock from '../Components/BoltLock/BoltLock'
+import Rug from '../Components/Rug/Rug'
+import Screw1 from '../Components/Screws/Screw1'
+import Screw2 from '../Components/Screws/Screw2'
+import Screw3 from '../Components/Screws/Screw3'
+import Screw4 from '../Components/Screws/Screw4'
+import Shelf from '../Components/Shelf/Shelf'
+import Glove from '../Components/Glove/Glove'
+import Stool from '../Components/Stool/Stool'
+import Papers from '../Components/Papers/Papers'
+import Book from '../Components/Book/Book'
+import Table from '../Components/Table/Table'
+import Couch from '../Components/Couch/Couch'
+import Cabinet from '../Components/Cabinet/Cabinet'
+import ToolBox from '../Components/ToolBox/ToolBox'
+import ScrewDriver from '../Components/ScrewDriver/ScrewDriver'
+import Trash from '../Components/Trash/Trash'
+import HitBox from '../Components/HitBox/HitBox'
+import HitBox2 from '../Components/HitBox/HitBox2'
+class Game extends Component {
   constructor(props) {
     super(props)
-    this.circleCursor = React.createRef();
     this.canv = React.createRef();
     this.char = React.createRef();
-    this.door = React.createRef();
     this.dresser = React.createRef();
+    this.door = React.createRef();
     this.couch = React.createRef();
     this.rug = React.createRef();
     this.lamp = React.createRef();
@@ -21,11 +42,7 @@ class Canvas extends Component {
     this.toolBox = React.createRef();
     this.hitBox1 = React.createRef();
     this.hitBox2 = React.createRef();
-    this.timer = 0
     this.state = {
-      gameStarted: false,
-      time:{},
-      seconds:5,
       currLeft: false,
       currRight: false,
       currUp: false,
@@ -178,16 +195,11 @@ class Canvas extends Component {
   }
   componentWillUnmount() {
     clearInterval(this.intervalId)
+
   }
   componentDidMount() {
-    let circleCursor = this.circleCursor.current
-    const onMouseMove = (e) => {
-      circleCursor.style.left = e.pageX + 'px';
-      circleCursor.style.top = e.pageY + 'px';
-    }
-    window.addEventListener('mousemove', onMouseMove);
     this.intervalId = setInterval(() => {
-      let {borders} = this.state
+      let { borders } = this.state
       let circle = this.char.current
       let moveSpeed = 8;
       let canvLeft
@@ -247,18 +259,18 @@ class Canvas extends Component {
       this.setState({ currDresser: currDresser = AssetOBJ.dresser02 })
     } else {
       if (touch)
-      soundSFX.dresserSFX.play()
-        this.setState({ currDresser: currDresser = AssetOBJ.dresser01 })
+        soundSFX.dresserSFX.play()
+      this.setState({ currDresser: currDresser = AssetOBJ.dresser01 })
     }
   }
   handleCouchClick = () => {
     let circle = this.char.current
-    let couch = this.couch.current
+    let couch = this.couch.current.returnData()
     let touch = false
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(couch.style.left)
-    let obj2Y = parseInt(couch.style.top)
+    let obj2X = parseInt(couch.left)
+    let obj2Y = parseInt(couch.top)
 
     if (obj1X < obj2X + couch.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + couch.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -275,12 +287,12 @@ class Canvas extends Component {
   }
   handleDoorClick = () => {
     let circle = this.char.current
-    let door = this.door.current
     let touch = false
+    let door = this.door.current.returnData()
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(door.style.left)
-    let obj2Y = parseInt(door.style.top)
+    let obj2X = door.left
+    let obj2Y = door.top
 
     if (obj1X < obj2X + door.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + door.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -291,20 +303,20 @@ class Canvas extends Component {
     if (currDoor === AssetOBJ.door01 && touch && currKeyLock === AssetOBJ.keyLock02 && boltUnlocked && combUnlocked) {
       soundSFX.doorOpenSFX.play()
       this.setState({ currDoor: currDoor = AssetOBJ.door02 })
-    }else
-    if(currDoor === AssetOBJ.door01 && touch){
-      if(currKeyLock !== AssetOBJ.keyLock02||!boltUnlocked||!combUnlocked)
-      soundSFX.doorLockSFX.play()
-    }
+    } else
+      if (currDoor === AssetOBJ.door01 && touch) {
+        if (currKeyLock !== AssetOBJ.keyLock02 || !boltUnlocked || !combUnlocked)
+          soundSFX.doorLockSFX.play()
+      }
   }
   handleRugClick = () => {
     let circle = this.char.current
-    let rug = this.rug.current
+    let rug = this.rug.current.returnData()
     let touch = false
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(rug.style.left)
-    let obj2Y = parseInt(rug.style.top)
+    let obj2X = parseInt(rug.left)
+    let obj2Y = parseInt(rug.top)
 
     if (obj1X < obj2X + rug.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + rug.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -315,7 +327,7 @@ class Canvas extends Component {
     if (currRug === AssetOBJ.rug01 && touch) {
       this.setState({ currRug: currRug = AssetOBJ.rug02 })
     } else
-      if (touch) {
+      if (currRug === AssetOBJ.rug02 && touch) {
         this.setState({ currRug: currRug = AssetOBJ.rug01 })
       }
   }
@@ -360,12 +372,12 @@ class Canvas extends Component {
   }
   handleToolBoxClick = () => {
     let circle = this.char.current
-    let toolBox = this.toolBox.current
+    let toolBox = this.toolBox.current.returnData()
     let touch = false
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(toolBox.style.left)
-    let obj2Y = parseInt(toolBox.style.top)
+    let obj2X = parseInt(toolBox.left)
+    let obj2Y = parseInt(toolBox.top)
 
     if (obj1X < obj2X + toolBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + toolBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -408,14 +420,14 @@ class Canvas extends Component {
   handlePictureClick = () => {
     let touch = false
     let circle = this.char.current
-    let hitBox = this.hitBox1.current
+    let hitBox = this.hitBox1.current.returnData()
     let pic = this.picture.current
     let picY = parseInt(pic.style.top)
 
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(hitBox.style.left)
-    let obj2Y = parseInt(hitBox.style.top)
+    let obj2X = parseInt(hitBox.left)
+    let obj2Y = parseInt(hitBox.top)
 
     if (obj1X < obj2X + hitBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + hitBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -433,12 +445,12 @@ class Canvas extends Component {
   }
   handlePaperClick = () => {
     let circle = this.char.current
-    let tableB = this.table.current
+    let tableB = this.table.current.returnData()
     let touch
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(tableB.style.left)
-    let obj2Y = parseInt(tableB.style.top)
+    let obj2X = parseInt(tableB.left)
+    let obj2Y = parseInt(tableB.top)
 
     if (obj1X < obj2X + tableB.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + tableB.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -473,10 +485,10 @@ class Canvas extends Component {
     let circle = this.char.current
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let tableB = this.table.current
+    let tableB = this.table.current.returnData()
     let touch
-    let obj2X = parseInt(tableB.style.left)
-    let obj2Y = parseInt(tableB.style.top)
+    let obj2X = parseInt(tableB.left)
+    let obj2Y = parseInt(tableB.top)
 
     if (obj1X < obj2X + tableB.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + tableB.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -498,9 +510,9 @@ class Canvas extends Component {
     let circle = this.char.current
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let hitBox = this.hitBox1.current
-    let obj2X = parseInt(hitBox.style.left)
-    let obj2Y = parseInt(hitBox.style.top)
+    let hitBox = this.hitBox1.current.returnData()
+    let obj2X = parseInt(hitBox.left)
+    let obj2Y = parseInt(hitBox.top)
 
     if (obj1X < obj2X + hitBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + hitBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -519,12 +531,12 @@ class Canvas extends Component {
   }
   handleStoolClick = () => {
     let circle = this.char.current
-    let stool = this.stool.current
+    let stool = this.stool.current.returnData()
     let touch = false
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(stool.style.left)
-    let obj2Y = parseInt(stool.style.top)
+    let obj2X = stool.left
+    let obj2Y = stool.top
 
     if (obj1X < obj2X + stool.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + stool.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -573,12 +585,12 @@ class Canvas extends Component {
   }
   handleCombLockClick = () => {
     let circle = this.char.current
-    let door = this.door.current
+    let door = this.door.current.returnData()
     let touch = false
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(door.style.left)
-    let obj2Y = parseInt(door.style.top)
+    let obj2X = door.left
+    let obj2Y = door.top
 
     if (obj1X < obj2X + door.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + door.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -604,12 +616,12 @@ class Canvas extends Component {
   }
   handleBoltLockClick = () => {
     let circle = this.char.current
-    let door = this.door.current
+    let door = this.door.current.returnData()
     let touch = false
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(door.style.left)
-    let obj2Y = parseInt(door.style.top)
+    let obj2X = door.left
+    let obj2Y = door.top
 
     if (obj1X < obj2X + door.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + door.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -649,12 +661,12 @@ class Canvas extends Component {
   }
   handleKeyLockClick = () => {
     let circle = this.char.current
-    let door = this.door.current
+    let door = this.door.current.returnData()
     let touch = false
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(door.style.left)
-    let obj2Y = parseInt(door.style.top)
+    let obj2X = door.left
+    let obj2Y = door.top
 
     if (obj1X < obj2X + door.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + door.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -822,11 +834,11 @@ class Canvas extends Component {
   handleScrewClick = (id) => {
     let circle = this.char.current
     let touch = false
-    let hitBox = this.hitBox2.current
+    let hitBox = this.hitBox2.current.returnData()
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(hitBox.style.left)
-    let obj2Y = parseInt(hitBox.style.top)
+    let obj2X = parseInt(hitBox.left)
+    let obj2Y = parseInt(hitBox.top)
     let { screws } = this.state
 
 
@@ -851,13 +863,13 @@ class Canvas extends Component {
   handleGloveClick = () => {
     let { infoMessage, glove } = this.state
     let circle = this.char.current
-    let stool = this.stool.current
+    let stool = this.stool.current.returnData()
     let touch
     let text
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(stool.style.left)
-    let obj2Y = parseInt(stool.style.top)
+    let obj2X = stool.left
+    let obj2Y = stool.top
 
     if (obj1X < obj2X + stool.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + stool.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -882,11 +894,11 @@ class Canvas extends Component {
     let { crowBar } = this.state
     let touch
     let circle = this.char.current
-    let hitBox = this.hitBox1.current
+    let hitBox = this.hitBox1.current.returnData()
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(hitBox.style.left)
-    let obj2Y = parseInt(hitBox.style.top)
+    let obj2X = parseInt(hitBox.left)
+    let obj2Y = parseInt(hitBox.top)
 
     if (obj1X < obj2X + hitBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + hitBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -898,12 +910,12 @@ class Canvas extends Component {
   }
   handleScrewDriverClick = () => {
     let circle = this.char.current
-    let toolBox = this.toolBox.current
+    let toolBox = this.toolBox.current.returnData()
     let touch = false
     let obj1X = parseInt(circle.style.left)
     let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(toolBox.style.left)
-    let obj2Y = parseInt(toolBox.style.top)
+    let obj2X = parseInt(toolBox.left)
+    let obj2Y = parseInt(toolBox.top)
 
     if (obj1X < obj2X + toolBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
       obj1Y < obj2Y + toolBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
@@ -935,8 +947,6 @@ class Canvas extends Component {
       this.setState({ bobbyPinState: bobbyPin.currState += 1 })
     }
   }
-
-
 
   handleLeftDown = (event) => {
     let { currLeft } = this.state
@@ -1026,8 +1036,8 @@ class Canvas extends Component {
     this.handleParams(currDown)
   }
 
-  handleNoMove =()=>{
-    let {infoMessage} = this.state
+  handleNoMove = () => {
+    let { infoMessage } = this.state
     let text = [
       <br key="0" />,
       <br key="1" />,
@@ -1035,9 +1045,9 @@ class Canvas extends Component {
       `Turn On The Light, I can't see where I'm walking!`]
     this.setState({
       infoMessage: infoMessage = text
-  })
-  this.handleParams(infoMessage)
-}
+    })
+    this.handleParams(infoMessage)
+  }
 
   renderInventory = () => {
     let canvLeft
@@ -1180,10 +1190,10 @@ class Canvas extends Component {
               id='glove_inventory'
               name='glove_inventory'
               style={{
-                position : 'absolute',
+                position: 'absolute',
                 top: 430,
-                left:canvLeft+142,
-            }}
+                left: canvLeft + 142,
+              }}
               alt='glove_inventory'
             /> :
             this.state.glove.currState === 2 ?
@@ -1192,10 +1202,10 @@ class Canvas extends Component {
                 id='glove_inventory'
                 name='glove_inventory'
                 style={{
-                  position : 'absolute',
+                  position: 'absolute',
                   top: 430,
-                  left:canvLeft+142,
-              }}
+                  left: canvLeft + 142,
+                }}
                 alt='glove_inventory'
               /> : null)}
         {/* CrowBar_Inventory */}
@@ -1207,10 +1217,10 @@ class Canvas extends Component {
               id='crowBar_inventory'
               name='crowBar_inventory'
               style={{
-                position : 'absolute',
+                position: 'absolute',
                 top: 427,
-                left:canvLeft+190,
-            }}
+                left: canvLeft + 190,
+              }}
               alt='crowBar_inventory'
             /> : null)}
         {/* ScrewDriver_Inventory */}
@@ -1222,10 +1232,10 @@ class Canvas extends Component {
               id='screwDriver_inventory'
               name='screwDriver_inventory'
               style={{
-                position : 'absolute',
+                position: 'absolute',
                 top: 437,
-                left:canvLeft+217,
-            }}
+                left: canvLeft + 217,
+              }}
               alt='screwDriver_inventory'
             /> :
             this.state.screwDriver.currState === 2 ?
@@ -1234,10 +1244,10 @@ class Canvas extends Component {
                 id='screwDriver_inventory'
                 name='screwDriver_inventory'
                 style={{
-                  position : 'absolute',
+                  position: 'absolute',
                   top: 437,
-                  left:canvLeft+217,
-              }}
+                  left: canvLeft + 217,
+                }}
                 alt='screwDriver_inventory'
               /> : null)}
         {/* Key_Inventory */}
@@ -1249,16 +1259,16 @@ class Canvas extends Component {
               id='key_inventory'
               name='key_inventory'
               style={{
-                position : 'absolute',
+                position: 'absolute',
                 top: 432,
-                left:canvLeft+267,
-            }}
+                left: canvLeft + 267,
+              }}
               alt='key_inventory'
             /> : null)}
 
         {(this.state.screws.selected === true ? <div style={{
           top: 425,
-          left: canvLeft+18,
+          left: canvLeft + 18,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1270,7 +1280,7 @@ class Canvas extends Component {
         }}></div> : null)}
         {(this.state.bobbyPin.selected === true ? <div style={{
           top: 425,
-          left: canvLeft+58,
+          left: canvLeft + 58,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1282,7 +1292,7 @@ class Canvas extends Component {
         }}></div> : null)}
         {(this.state.bulb.selected === true ? <div style={{
           top: 425,
-          left: canvLeft+97,
+          left: canvLeft + 97,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1294,7 +1304,7 @@ class Canvas extends Component {
         }}></div> : null)}
         {(this.state.glove.selected === true ? <div style={{
           top: 425,
-          left: canvLeft+136,
+          left: canvLeft + 136,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1306,7 +1316,7 @@ class Canvas extends Component {
         }}></div> : null)}
         {(this.state.crowBar.selected === true ? <div style={{
           top: 425,
-          left: canvLeft+175,
+          left: canvLeft + 175,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1318,7 +1328,7 @@ class Canvas extends Component {
         }}></div> : null)}
         {(this.state.screwDriver.selected === true ? <div style={{
           top: 425,
-          left: canvLeft+214,
+          left: canvLeft + 214,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1330,7 +1340,7 @@ class Canvas extends Component {
         }}></div> : null)}
         {(this.state.key.selected === true ? <div style={{
           top: 425,
-          left: canvLeft+253,
+          left: canvLeft + 253,
           height: 28,
           width: 33,
           position: 'absolute',
@@ -1353,7 +1363,7 @@ class Canvas extends Component {
       canvLeft = 450
     }
     let { currDresser, currCouch, currDoor, currLamp, currRug, currToolBox, currStool, currCombLock, currBoltLock, currKeyLock } = this.state
-    
+
     return (
       <div>
         {/* Canvas */}
@@ -1363,86 +1373,28 @@ class Canvas extends Component {
           height={425}
         />
         {/* Door */}
-        <img src={currDoor}
-          onClick={this.handleDoorClick}
+        <Door
           ref={this.door}
-          id='door'
-          name='door'
-          style={{
-            position: 'absolute',
-            top: 56,
-            left: canvLeft + 270
-          }}
-          alt='door'
-        />
-
+          currDoor={currDoor} canvLeft={canvLeft}
+          handleClick={this.handleDoorClick} />
         {/* CombinationLock */}
-        {(this.state.currDoor !== AssetOBJ.door02 ? <img src={currCombLock}
-          onClick={this.handleCombLockClick}
-          id='combLock'
-          name='combLock'
-          style={{
-            position : 'absolute',
-            top: 90,
-            left:canvLeft+346
-        }}
-          alt='combLock'
-        /> : null)}
-
+        {(this.state.currDoor !== AssetOBJ.door02 ?
+          <CombinationLock
+            currCombLock={currCombLock} canvLeft={canvLeft}
+            handleClick={this.handleCombLockClick} /> : null)}
         {/* KeyLock */}
-        {(this.state.currDoor !== AssetOBJ.door02 ? <img src={currKeyLock}
-          onClick={this.handleKeyLockClick}
-          id='keyLock'
-          name='keyLock'
-          style={{
-            position : 'absolute',
-            top: 105,
-            left:canvLeft+344
-        }}
-          alt='keyLock'
-        /> : null)}
-
+        {(this.state.currDoor !== AssetOBJ.door02 ?
+          <KeyLock currKeyLock={currKeyLock} canvLeft={canvLeft}
+            handleClick={this.handleKeyLockClick} /> : null)}
         {/* BoltLock */}
-        {(!this.state.boltUnlocked ? <img src={currBoltLock}
-          onClick={this.handleBoltLockClick}
-          id='boltLock'
-          name='boltLock'
-          style={{
-            position : 'absolute',
-            top: 105,
-            left:canvLeft+346
-        }}
-          alt='boltLock'
-        /> : null)}
-
+        {(!this.state.boltUnlocked ?
+          <BoltLock currBoltLock={currBoltLock} canvLeft={canvLeft}
+            handleClick={this.handleBoltLockClick} /> : null)}
         {/* Rug */}
-        <img src={currRug}
-          onClick={this.handleRugClick}
-          ref={this.rug}
-          id='rug'
-          name='rug'
-          style={{
-            position: 'absolute',
-            top: 122,
-            left: canvLeft + 255
-          }}
-          alt='rug'
-        />
-
+        <Rug ref={this.rug} currRug = {currRug} canvLeft = {canvLeft} handleClick={this.handleRugClick}/>
         {/* Screw(Rug) */}
         {(this.state.currRug === AssetOBJ.rug02 && !this.state.screws.screw1 ?
-          <img src={AssetOBJ.screw01}
-            onClick={() => this.handleScrewClick('screw1')}
-            id='screw1'
-            name='screw1'
-            style={{
-              position: 'absolute',
-              top: 120,
-              left: canvLeft + 378
-            }}
-            alt='screw1'
-          /> : null)}
-
+        <Screw1 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick ={this.handleScrewClick}/> : null)}
         {/* Lamp */}
         <img src={currLamp}
           onClick={this.handleLightClick}
@@ -1456,20 +1408,8 @@ class Canvas extends Component {
           }}
           alt='lamp'
         />
-
         {/* Table */}
-        <img src={AssetOBJ.table}
-          ref={this.table}
-          id='table'
-          name='table'
-          style={{
-            position: 'absolute',
-            top: 330,
-            left: canvLeft + 410
-          }}
-          alt='tableWithItems'
-        />
-
+        <Table ref={this.table} table = {AssetOBJ.table} canvLeft = {canvLeft}/>
         {/* BobbyPin */}
         {(this.state.bobbyPin.currState === 0 ? <img src={AssetOBJ.bobbyPin01}
           onClick={this.handleBobbyPinClick}
@@ -1483,44 +1423,12 @@ class Canvas extends Component {
           }}
           alt='bobPin'
         /> : null)}
-
         {/* Papers */}
-        <img src={AssetOBJ.papers}
-          onClick={this.handlePaperClick}
-          id='papers'
-          name='papers'
-          style={{
-            position: 'absolute',
-            top: 355,
-            left: canvLeft + 480
-          }}
-          alt='papers'
-        />
-
+        <Papers papers = {AssetOBJ.papers} canvLeft = {canvLeft} handleClick={this.handlePaperClick}/>
         {/* Book */}
-        <img src={AssetOBJ.book}
-          onClick={this.handleBookClick}
-          id='book'
-          name='book'
-          style={{
-            position: 'absolute',
-            top: 350,
-            left: canvLeft + 540
-          }}
-          alt='book'
-        />
+        <Book book = {AssetOBJ.book} canvLeft = {canvLeft} handleClick={this.handleBookClick} />
         {/* HitBox */}
-        <img src={AssetOBJ.hitBox}
-          ref={this.hitBox2}
-          id='hitBox2'
-          name='hitBox2'
-          style={{
-            position: 'absolute',
-            top: 122,
-            left: canvLeft + 420
-          }}
-          alt='HitBox'
-        />
+        <HitBox2 ref={this.hitBox2} hitBox ={AssetOBJ.hitBox} canvLeft = {canvLeft}/>
         {/* Dresser */}
         <img src={currDresser}
           onClick={this.handleDresserClick}
@@ -1534,150 +1442,33 @@ class Canvas extends Component {
           }}
           alt='dresser'
         />
-
         {/* Screw(Dresser) */}
-        {(this.state.currDresser === AssetOBJ.dresser02 && !this.state.screws.screw3 ? <img src={AssetOBJ.screw01}
-          onClick={() => this.handleScrewClick('screw3')}
-          id='screw3'
-          name='screw3'
-          style={{
-            position: 'absolute',
-            top: 180,
-            left: canvLeft + 485
-          }}
-          alt='screw3'
-        /> : null)
-        }
-
+        {(this.state.currDresser === AssetOBJ.dresser02 && !this.state.screws.screw3 ? 
+          <Screw3 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick ={this.handleScrewClick}/> : null)}
         {/* Cabinet */}
-        <img src={AssetOBJ.cabinet}
-          id='cabinet'
-          name='cabinet'
-          style={{
-            position: 'absolute',
-            top: 370,
-            left: canvLeft + 310
-          }}
-          alt='cabinet'
-        />
-
+        <Cabinet cabinet={AssetOBJ.cabinet} canvLeft={canvLeft}/>
         {/* ToolBox */}
-        <img src={currToolBox}
-          onClick={this.handleToolBoxClick}
-          ref={this.toolBox}
-          id='toolBox'
-          name='toolBox'
-          style={{
-            position: 'absolute',
-            top: 362,
-            left: canvLeft + 325
-          }}
-          alt='toolBox'
-        />
-
+        <ToolBox ref ={this.toolBox} toolBox={currToolBox} canvLeft={canvLeft} handleClick={this.handleToolBoxClick}/>
         {/* ScrewDriver */}
         {(this.state.currToolBox === AssetOBJ.toolBox02 && this.state.screwDriver.currState === 0 ?
-          <img src={AssetOBJ.screwDriver01}
-            onClick={this.handleScrewDriverClick}
-            id='screwDriver'
-            name='screwDriver'
-            style={{
-              position: 'absolute',
-              top: 365,
-              left: canvLeft + 335
-            }}
-            alt='screwDriver'
-          /> : null)}
-
+        <ScrewDriver screwDriver={AssetOBJ.screwDriver01} canvLeft={canvLeft} handleClick={this.handleScrewDriverClick}/>: null)}
         {/* Shelf */}
-        <img src={AssetOBJ.shelf}
-          id='shelf'
-          name='shelf'
-          style={{
-            position: 'absolute',
-            top: 80,
-            left: canvLeft + 45
-          }}
-          alt='shelf'
-        />
-
+        <Shelf shelf={AssetOBJ.shelf} canvLeft={canvLeft} />
         {/* Glove */}
-        {(this.state.glove.currState === 0 ? <img src={AssetOBJ.glove01}
-          onClick={this.handleGloveClick}
-          id='glove1'
-          name='glove1'
-          style={{
-            position: 'absolute',
-            top: 230,
-            left: canvLeft + 68
-          }}
-          alt='glove1'
-        /> : null)}
-
+        {(this.state.glove.currState === 0 ? 
+        <Glove glove={AssetOBJ.glove01} canvLeft={canvLeft} handleClick={this.handleGloveClick} />: null)}
         {/* Couch */}
-        <img src={currCouch}
-          onClick={this.handleCouchClick}
-          ref={this.couch}
-          id='couch'
-          name='couch'
-          style={{
-            position: 'absolute',
-            top: 305,
-            left: canvLeft + 95
-          }}
-          alt='couch'
-        />
-
+        <Couch ref ={this.couch} currCouch={currCouch} canvLeft={canvLeft} handleClick={this.handleCouchClick} />
         {/* Screw(Couch) */}
-        {(this.state.currCouch === AssetOBJ.couch02 && !this.state.screws.screw4 ? <img src={AssetOBJ.screw01}
-          onClick={() => this.handleScrewClick('screw4')}
-          id='screw4'
-          name='screw4'
-          style={{
-            position: 'absolute',
-            top: 380,
-            left: canvLeft + 100
-          }}
-          alt='screw4'
-        /> : null)}
-
+        {(this.state.currCouch === AssetOBJ.couch02 && !this.state.screws.screw4 ? 
+          <Screw4 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick ={this.handleScrewClick}/> : null)}
         {/* Screw(Window) */}
-        {(!this.state.screws.screw2 ? <img src={AssetOBJ.screw01}
-          onClick={() => this.handleScrewClick('screw2')}
-          id='screw2'
-          name='screw2'
-          style={{
-            position: 'absolute',
-            top: 95,
-            left: canvLeft + 440
-          }}
-          alt='screw2'
-        /> : null)}
+        {(!this.state.screws.screw2 ? 
+        <Screw2 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick ={this.handleScrewClick}/> : null)}
         {/* Stool */}
-        <img src={currStool}
-          onClick={this.handleStoolClick}
-          id='stool'
-          ref={this.stool}
-          name='stool'
-          style={{
-            position: 'absolute',
-            top: 250,
-            left: canvLeft + 110
-          }}
-          alt='stool'
-        />
+        <Stool ref ={this.stool} currStool={currStool} canvLeft={canvLeft} handleClick ={this.handleStoolClick}/>
         {/* Trash */}
-        <img src={AssetOBJ.trash}
-          onClick={this.handleTrashClick}
-          id='trash'
-          name='trash'
-          style={{
-            position: 'absolute',
-            top: 250,
-            left: canvLeft + 510
-          }}
-          alt='trash'
-        />
+        <Trash trash={AssetOBJ.trash} canvLeft={canvLeft} handleClick ={this.handleTrashClick}/>
         {/* Safe */}
         <img src={AssetOBJ.safe}
           onClick={this.handleSafeClick}
@@ -1715,18 +1506,8 @@ class Canvas extends Component {
           }}
           alt='sunny day'
         />
-        {/*HitBoxes*/}
-        <img src={AssetOBJ.hitBox}
-          ref={this.hitBox1}
-          id='hitBox1'
-          name='hitBox1'
-          style={{
-            position: 'absolute',
-            top: 250,
-            left: canvLeft + 450
-          }}
-          alt='HitBox'
-        />
+        {/*HitBox*/}
+        <HitBox ref={this.hitBox1} hitBox ={AssetOBJ.hitBox} canvLeft = {canvLeft}/>
         {/* Character */}
         <div className="character"
           key="character"
@@ -1758,18 +1539,15 @@ class Canvas extends Component {
               left: canvLeft,
               top: 50
             }}>
-          </div> :
-          <div>
-          </div>
-        )}
+          </div> :null)}
         {(currLamp === AssetOBJ.lamp01 ?
           <div className="btnPanel">
             <button className="btn"
-              onPointerDown = {this.handleUpDown}
+              onPointerDown={this.handleUpDown}
               onMouseDown={this.handleUpDown}
               onMouseUp={this.handleUpUp}
               onMouseOut={this.handleUpOut}
-              id = 'btnUp'
+              id='btnUp'
               style={{
                 position: 'absolute',
                 top: 480,
@@ -1777,7 +1555,7 @@ class Canvas extends Component {
                 width: 70,
                 height: 70,
                 borderRadius: 50,
-                fontSize:20,
+                fontSize: 20,
                 color: 'white',
                 backgroundColor: '#DC0000',
                 cursor: 'none'
@@ -1796,7 +1574,7 @@ class Canvas extends Component {
                 width: 70,
                 height: 70,
                 borderRadius: 50,
-                fontSize:20,
+                fontSize: 20,
                 color: 'white',
                 backgroundColor: '#DC0000',
                 cursor: 'none'
@@ -1814,7 +1592,7 @@ class Canvas extends Component {
                 width: 70,
                 height: 70,
                 borderRadius: 50,
-                fontSize:20,
+                fontSize: 20,
                 color: 'white',
                 backgroundColor: '#DC0000',
                 cursor: 'none'
@@ -1832,7 +1610,7 @@ class Canvas extends Component {
                 width: 70,
                 height: 70,
                 borderRadius: 50,
-                fontSize:20,
+                fontSize: 20,
                 color: 'white',
                 backgroundColor: '#DC0000',
                 cursor: 'none'
@@ -1845,7 +1623,7 @@ class Canvas extends Component {
           //Lights Off
           <div className="btnPanel">
             <button className="btn"
-              onClick = {this.handleNoMove}
+              onClick={this.handleNoMove}
               style={{
                 position: 'absolute',
                 top: 480,
@@ -1853,7 +1631,7 @@ class Canvas extends Component {
                 width: 70,
                 height: 70,
                 borderRadius: 50,
-                fontSize:20,
+                fontSize: 20,
                 color: 'white',
                 backgroundColor: '#DC0000',
                 cursor: 'none'
@@ -1862,7 +1640,7 @@ class Canvas extends Component {
           </button>
             <br />
             <button className="btn"
-            onClick = {this.handleNoMove}
+              onClick={this.handleNoMove}
               style={{
                 position: 'absolute',
                 top: 550,
@@ -1870,7 +1648,7 @@ class Canvas extends Component {
                 width: 70,
                 height: 70,
                 borderRadius: 50,
-                fontSize:20,
+                fontSize: 20,
                 color: 'white',
                 backgroundColor: '#DC0000',
                 cursor: 'none'
@@ -1878,7 +1656,7 @@ class Canvas extends Component {
             >&#8592;
           </button>
             <button className="btn"
-            onClick = {this.handleNoMove}
+              onClick={this.handleNoMove}
               style={{
                 position: 'absolute',
                 top: 550,
@@ -1886,7 +1664,7 @@ class Canvas extends Component {
                 width: 70,
                 height: 70,
                 borderRadius: 50,
-                fontSize:20,
+                fontSize: 20,
                 color: 'white',
                 backgroundColor: '#DC0000',
                 cursor: 'none'
@@ -1894,7 +1672,7 @@ class Canvas extends Component {
             >&#8595;
           </button>
             <button className="btn"
-            onClick = {this.handleNoMove}
+              onClick={this.handleNoMove}
               style={{
                 position: 'absolute',
                 top: 550,
@@ -1902,7 +1680,7 @@ class Canvas extends Component {
                 width: 70,
                 height: 70,
                 borderRadius: 50,
-                fontSize:20,
+                fontSize: 20,
                 color: 'white',
                 backgroundColor: '#DC0000',
                 cursor: 'none'
@@ -1972,7 +1750,6 @@ class Canvas extends Component {
     }
     this.handleParams(infoMessage, keyUnlocked, key, safePuzzle, safeAnswer, safeAnswer2, safeAnswer3)
   }
-
   checkCombAnswer = () => {
     let { infoMessage, keyUnlocked, key, currCombLock, combUnlocked, combinationPuzzle, safeAnswer, safeAnswer2, safeAnswer3, safeAnswer4, safeAnswer5 } = this.state
     let text
@@ -2114,10 +1891,9 @@ class Canvas extends Component {
             <br />
             <button type='button' onClick={this.checkSafeAnswer} className='formBtn'>Enter</button>
           </div> : null)}
-
-        <div id="circleCursor" ref={this.circleCursor}></div>
+        <CircleCursor id="circleCursor" />
       </div>
     )
   }
 }
-export default Canvas
+export default Game
