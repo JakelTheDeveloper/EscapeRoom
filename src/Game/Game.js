@@ -25,10 +25,18 @@ import ScrewDriver from '../Components/ScrewDriver/ScrewDriver'
 import Trash from '../Components/Trash/Trash'
 import HitBox from '../Components/HitBox/HitBox'
 import HitBox2 from '../Components/HitBox/HitBox2'
+import Canvas from '../Components/Canvas/Canvas'
+import Character from '../Components/Character/Character'
+import Lamp from '../Components/Lamp/Lamp'
+import BobbyPin from '../Components/BobbyPin/BobbyPin'
+import Dresser from '../Components/Dresser/Dresser'
+import Picture from '../Components/Picture/Picture'
+import Safe from '../Components/Safe/Safe'
+import CrowBar from '../Components/CrowBar/CrowBar'
+import LightOffFilter from '../Components/LightOffFilter/LightOffFilter'
 class Game extends Component {
   constructor(props) {
     super(props)
-    this.canv = React.createRef();
     this.char = React.createRef();
     this.dresser = React.createRef();
     this.door = React.createRef();
@@ -43,10 +51,6 @@ class Game extends Component {
     this.hitBox1 = React.createRef();
     this.hitBox2 = React.createRef();
     this.state = {
-      currLeft: false,
-      currRight: false,
-      currUp: false,
-      currDown: false,
       currDoor: AssetOBJ.door01,
       currLamp: AssetOBJ.lamp01,
       currRug: AssetOBJ.rug01,
@@ -70,44 +74,14 @@ class Game extends Component {
       safeAnswer3: 0,
       safeAnswer4: 0,
       safeAnswer5: 0,
-      screws: {
-        currState: 0,
-        selected: false,
-        screw1: false,
-        screw2: false,
-        screw3: false,
-        screw4: false
-      },
-      bobbyPin: {
-        currState: 0,
-        selected: false
-      },
-      bulb: {
-        currState: 0,
-        selected: false
-      },
-      glove: {
-        currState: 0,
-        selected: false,
-      },
-      crowBar: {
-        currState: 0,
-        selected: false
-      },
-      screwDriver: {
-        currState: 0,
-        selected: false
-      },
-      key: {
-        currState: 0,
-        selected: false
-      },
-      borders: {
-        left: 590,
-        right: 910,
-        top: 123,
-        bottom: 340
-      }
+      screws: { currState: 0, selected: false, screw1: false, screw2: false, screw3: false, screw4: false },
+      bobbyPin: { currState: 0, selected: false },
+      bulb: { currState: 0, selected: false },
+      glove: { currState: 0, selected: false },
+      crowBar: { currState: 0, selected: false },
+      screwDriver: { currState: 0, selected: false },
+      key: { currState: 0, selected: false },
+      borders: { left: 590, right: 910, top: 123, bottom: 340 }
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -193,66 +167,20 @@ class Game extends Component {
   handleParams(params) {
     return
   }
-  componentWillUnmount() {
-    clearInterval(this.intervalId)
-
-  }
-  componentDidMount() {
-    this.intervalId = setInterval(() => {
-      let { borders } = this.state
-      let circle = this.char.current
-      let moveSpeed = 8;
-      let canvLeft
-      if (this.props.screenWidth <= 1085) {
-        canvLeft = 0
-        this.setState({ left: borders.left = canvLeft + 140, right: borders.right = canvLeft + 460 })
-      } else if (this.props.screenWidth > 1085 && this.props.screenWidth <= 1366) {
-        canvLeft = 350
-        this.setState({ left: borders.left = canvLeft + 140, right: borders.right = canvLeft + 460 })
-      } else {
-        canvLeft = 450
-        this.setState({ left: borders.left = canvLeft + 140, right: borders.right = canvLeft + 460 })
-      }
-      if (this.state.currLeft) {
-        let x = parseInt(circle.style.left)
-        if (x > this.state.borders.left) {
-          circle.style.left = x - moveSpeed + 'px';
-        }
-      } if (this.state.currRight) {
-        let x = parseInt(circle.style.left)
-        if (x < this.state.borders.right) {
-          circle.style.left = x + moveSpeed + 'px';
-        }
-      } if (this.state.currUp) {
-        let y = parseInt(circle.style.top)
-        if (y > this.state.borders.top) {
-          circle.style.top = y - moveSpeed + 'px';
-        }
-      } if (this.state.currDown) {
-        let y = parseInt(circle.style.top)
-        if (y < this.state.borders.bottom) {
-          circle.style.top = y + moveSpeed + 'px';
-        }
-      }
-    }, 30)
-  }
-
 
   //Object Clicks
   handleDresserClick = () => {
-    let circle = this.char.current
-    let dresser = this.dresser.current
+    let circle = this.char.current.returnData()
+    let dresser = this.dresser.current.returnData()
     let touch = false
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(dresser.style.left)
-    let obj2Y = parseInt(dresser.style.top)
-
-    if (obj1X < obj2X + dresser.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + dresser.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = dresser.left
+    let obj2Y = dresser.top
+    if (obj1X < obj2X + dresser.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + dresser.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
-
     let { currDresser } = this.state
     if (currDresser === AssetOBJ.dresser01 && touch) {
       soundSFX.dresserSFX.play()
@@ -264,16 +192,16 @@ class Game extends Component {
     }
   }
   handleCouchClick = () => {
-    let circle = this.char.current
+    let circle = this.char.current.returnData()
     let couch = this.couch.current.returnData()
     let touch = false
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(couch.left)
-    let obj2Y = parseInt(couch.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = couch.left
+    let obj2Y = couch.top
 
-    if (obj1X < obj2X + couch.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + couch.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + couch.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + couch.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
 
@@ -286,19 +214,17 @@ class Game extends Component {
       }
   }
   handleDoorClick = () => {
-    let circle = this.char.current
-    let touch = false
+    let circle = this.char.current.returnData()
     let door = this.door.current.returnData()
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
+    let touch = false
+    let obj1X = circle.left
+    let obj1Y = circle.top
     let obj2X = door.left
     let obj2Y = door.top
-
-    if (obj1X < obj2X + door.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + door.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + door.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + door.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
-
     let { currDoor, currKeyLock, boltUnlocked, combUnlocked } = this.state
     if (currDoor === AssetOBJ.door01 && touch && currKeyLock === AssetOBJ.keyLock02 && boltUnlocked && combUnlocked) {
       soundSFX.doorOpenSFX.play()
@@ -310,16 +236,16 @@ class Game extends Component {
       }
   }
   handleRugClick = () => {
-    let circle = this.char.current
+    let circle = this.char.current.returnData()
     let rug = this.rug.current.returnData()
     let touch = false
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(rug.left)
-    let obj2Y = parseInt(rug.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = rug.left
+    let obj2Y = rug.top
 
-    if (obj1X < obj2X + rug.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + rug.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + rug.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + rug.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
 
@@ -332,19 +258,17 @@ class Game extends Component {
       }
   }
   handleLightClick = () => {
-    let circle = this.char.current
-    let lamp = this.lamp.current
+    let circle = this.char.current.returnData()
+    let lamp = this.lamp.current.returnData()
     let touch = false
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(lamp.style.left)
-    let obj2Y = parseInt(lamp.style.top)
-
-    if (obj1X < obj2X + lamp.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + lamp.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = lamp.left
+    let obj2Y = lamp.top
+    if (obj1X < obj2X + lamp.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + lamp.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
-
     let { currLamp, glove, bulb, itemsSelected } = this.state
     if (currLamp === AssetOBJ.lamp01 && touch) {
       soundSFX.lightSFX.play()
@@ -371,19 +295,17 @@ class Game extends Component {
         }
   }
   handleToolBoxClick = () => {
-    let circle = this.char.current
+    let circle = this.char.current.returnData()
     let toolBox = this.toolBox.current.returnData()
     let touch = false
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(toolBox.left)
-    let obj2Y = parseInt(toolBox.top)
-
-    if (obj1X < obj2X + toolBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + toolBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = toolBox.left
+    let obj2Y = toolBox.top
+    if (obj1X < obj2X + toolBox.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + toolBox.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
-
     let { currToolBox, infoMessage, toolBoxUnlock, crowBar, itemsSelected } = this.state
     let text = [
       <br key='0' />,
@@ -391,7 +313,6 @@ class Game extends Component {
       <br key='2' />,
       `It's Stuck!!!`
     ]
-
     if (currToolBox === AssetOBJ.toolBox01 && touch && crowBar.selected) {
       soundSFX.boltSFX.play()
       this.setState({
@@ -418,42 +339,40 @@ class Game extends Component {
           }
   }
   handlePictureClick = () => {
-    let touch = false
-    let circle = this.char.current
+    let circle = this.char.current.returnData()
     let hitBox = this.hitBox1.current.returnData()
-    let pic = this.picture.current
-    let picY = parseInt(pic.style.top)
-
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(hitBox.left)
-    let obj2Y = parseInt(hitBox.top)
-
-    if (obj1X < obj2X + hitBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + hitBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    let pic = this.picture.current.returnData()
+    let picFunc = this.picture.current
+    let touch = false
+    let picY = pic.top
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = hitBox.left
+    let obj2Y = hitBox.top
+    if (obj1X < obj2X + hitBox.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + hitBox.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
-
     if (touch && picY < 300) {
+      picFunc.handleToggled()
       soundSFX.couchSFX.play()
-      pic.style.top = 320 + 'px';
     } else
       if (touch && picY >= 320) {
+        picFunc.handleToggled()
         soundSFX.couchSFX.play()
-        pic.style.top = 250 + 'px';
       }
   }
   handlePaperClick = () => {
-    let circle = this.char.current
+    let circle = this.char.current.returnData()
     let tableB = this.table.current.returnData()
     let touch
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(tableB.left)
-    let obj2Y = parseInt(tableB.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = tableB.left
+    let obj2Y = tableB.top
 
-    if (obj1X < obj2X + tableB.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + tableB.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + tableB.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + tableB.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
 
@@ -482,16 +401,16 @@ class Game extends Component {
       }
   }
   handleBookClick = () => {
-    let circle = this.char.current
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
+    let circle = this.char.current.returnData()
     let tableB = this.table.current.returnData()
     let touch
-    let obj2X = parseInt(tableB.left)
-    let obj2Y = parseInt(tableB.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = tableB.left
+    let obj2Y = tableB.top
 
-    if (obj1X < obj2X + tableB.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + tableB.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + tableB.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + tableB.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
     let { infoMessage } = this.state
@@ -507,15 +426,15 @@ class Game extends Component {
   }
   handleTrashClick = () => {
     let touch
-    let circle = this.char.current
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
+    let circle = this.char.current.returnData()
     let hitBox = this.hitBox1.current.returnData()
-    let obj2X = parseInt(hitBox.left)
-    let obj2Y = parseInt(hitBox.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = hitBox.left
+    let obj2Y = hitBox.top
 
-    if (obj1X < obj2X + hitBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + hitBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + hitBox.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + hitBox.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
     let { infoMessage } = this.state
@@ -530,16 +449,16 @@ class Game extends Component {
     }
   }
   handleStoolClick = () => {
-    let circle = this.char.current
+    let circle = this.char.current.returnData()
     let stool = this.stool.current.returnData()
     let touch = false
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
     let obj2X = stool.left
     let obj2Y = stool.top
 
-    if (obj1X < obj2X + stool.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + stool.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + stool.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + stool.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
 
@@ -566,16 +485,16 @@ class Game extends Component {
   }
   handleSafeClick = () => {
     let { safePuzzle } = this.state
+    let circle = this.char.current.returnData()
+    let hitBox = this.hitBox1.current.returnData()
     let touch = false
-    let circle = this.char.current
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
-    let hitBox = this.hitBox1.current
-    let obj2X = parseInt(hitBox.style.left)
-    let obj2Y = parseInt(hitBox.style.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = hitBox.left
+    let obj2Y = hitBox.top
 
-    if (obj1X < obj2X + hitBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + hitBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + hitBox.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + hitBox.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
 
@@ -584,16 +503,16 @@ class Game extends Component {
     }
   }
   handleCombLockClick = () => {
-    let circle = this.char.current
+    let circle = this.char.current.returnData()
     let door = this.door.current.returnData()
     let touch = false
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
     let obj2X = door.left
     let obj2Y = door.top
 
-    if (obj1X < obj2X + door.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + door.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + door.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + door.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
 
@@ -615,16 +534,16 @@ class Game extends Component {
     }
   }
   handleBoltLockClick = () => {
-    let circle = this.char.current
+    let circle = this.char.current.returnData()
     let door = this.door.current.returnData()
     let touch = false
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
     let obj2X = door.left
     let obj2Y = door.top
 
-    if (obj1X < obj2X + door.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + door.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + door.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + door.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
 
@@ -660,16 +579,16 @@ class Game extends Component {
     this.handleParams(currBoltLock, bobbyPin, itemsSelected, infoMessage, boltUnlocked)
   }
   handleKeyLockClick = () => {
-    let circle = this.char.current
+    let circle = this.char.current.returnData()
     let door = this.door.current.returnData()
     let touch = false
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
     let obj2X = door.left
     let obj2Y = door.top
 
-    if (obj1X < obj2X + door.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + door.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + door.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + door.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
 
@@ -832,18 +751,18 @@ class Game extends Component {
                 }
   }
   handleScrewClick = (id) => {
-    let circle = this.char.current
-    let touch = false
+    let circle = this.char.current.returnData()
     let hitBox = this.hitBox2.current.returnData()
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(hitBox.left)
-    let obj2Y = parseInt(hitBox.top)
+    let touch = false
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = hitBox.left
+    let obj2Y = hitBox.top
     let { screws } = this.state
 
 
-    if (obj1X < obj2X + hitBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + hitBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + hitBox.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + hitBox.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
 
@@ -862,17 +781,17 @@ class Game extends Component {
   }
   handleGloveClick = () => {
     let { infoMessage, glove } = this.state
-    let circle = this.char.current
+    let circle = this.char.current.returnData()
     let stool = this.stool.current.returnData()
     let touch
     let text
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
     let obj2X = stool.left
     let obj2Y = stool.top
 
-    if (obj1X < obj2X + stool.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + stool.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + stool.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + stool.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
 
@@ -893,15 +812,15 @@ class Game extends Component {
   handleCrowBarClick = () => {
     let { crowBar } = this.state
     let touch
-    let circle = this.char.current
+    let circle = this.char.current.returnData()
     let hitBox = this.hitBox1.current.returnData()
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(hitBox.left)
-    let obj2Y = parseInt(hitBox.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = hitBox.left
+    let obj2Y = hitBox.top
 
-    if (obj1X < obj2X + hitBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + hitBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + hitBox.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + hitBox.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
     if (touch) {
@@ -909,16 +828,16 @@ class Game extends Component {
     }
   }
   handleScrewDriverClick = () => {
-    let circle = this.char.current
+    let circle = this.char.current.returnData()
     let toolBox = this.toolBox.current.returnData()
     let touch = false
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(toolBox.left)
-    let obj2Y = parseInt(toolBox.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = toolBox.left
+    let obj2Y = toolBox.top
 
-    if (obj1X < obj2X + toolBox.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + toolBox.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + toolBox.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + toolBox.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
 
@@ -929,16 +848,16 @@ class Game extends Component {
     }
   }
   handleBobbyPinClick = () => {
-    let circle = this.char.current
-    let bobPin = this.bobPin.current
+    let circle = this.char.current.returnData()
+    let bobPin = this.bobPin.current.returnData()
     let touch = false
-    let obj1X = parseInt(circle.style.left)
-    let obj1Y = parseInt(circle.style.top)
-    let obj2X = parseInt(bobPin.style.left)
-    let obj2Y = parseInt(bobPin.style.top)
+    let obj1X = circle.left
+    let obj1Y = circle.top
+    let obj2X = bobPin.left
+    let obj2Y = bobPin.top
 
-    if (obj1X < obj2X + bobPin.width && obj1X + parseInt(circle.style.width) > obj2X &&
-      obj1Y < obj2Y + bobPin.height && obj1Y + parseInt(circle.style.height) > obj2Y) {
+    if (obj1X < obj2X + bobPin.width && obj1X + circle.width > obj2X &&
+      obj1Y < obj2Y + bobPin.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
 
@@ -946,94 +865,6 @@ class Game extends Component {
     if (touch) {
       this.setState({ bobbyPinState: bobbyPin.currState += 1 })
     }
-  }
-
-  handleLeftDown = (event) => {
-    let { currLeft } = this.state
-    if (event.type === "mousedown") {
-      this.setState({ currLeft: currLeft = true })
-    }
-    this.handleParams(currLeft)
-  }
-  handleLeftUp = (event) => {
-    let { currLeft } = this.state
-    if (event.type === "mouseup") {
-      this.setState({ currLeft: currLeft = false })
-    }
-    this.handleParams(currLeft)
-  }
-  handleLeftOut = (event) => {
-    let { currLeft } = this.state
-    if (event.type === "mouseout") {
-      this.setState({ currLeft: currLeft = false })
-    }
-    this.handleParams(currLeft)
-  }
-
-  handleRightDown = (event) => {
-    let { currRight } = this.state
-    if (event.type === "mousedown") {
-      this.setState({ currRight: currRight = true })
-    }
-    this.handleParams(currRight)
-  }
-  handleRightUp = (event) => {
-    let { currRight } = this.state
-    if (event.type === "mouseup") {
-      this.setState({ currRight: currRight = false })
-    }
-    this.handleParams(currRight)
-  }
-  handleRightOut = (event) => {
-    let { currRight } = this.state
-    if (event.type === "mouseout") {
-      this.setState({ currRight: currRight = false })
-    }
-    this.handleParams(currRight)
-  }
-
-  handleUpDown = (event) => {
-    let { currUp } = this.state
-    if (event.type === "mousedown") {
-      this.setState({ currUp: currUp = true })
-    }
-    this.handleParams(currUp)
-  }
-  handleUpUp = (event) => {
-    let { currUp } = this.state
-    if (event.type === "mouseup") {
-      this.setState({ currUp: currUp = false })
-    }
-    this.handleParams(currUp)
-  }
-  handleUpOut = (event) => {
-    let { currUp } = this.state
-    if (event.type === "mouseout") {
-      this.setState({ currUp: currUp = false })
-    }
-    this.handleParams(currUp)
-  }
-
-  handleDownDown = (event) => {
-    let { currDown } = this.state
-    if (event.type === "mousedown") {
-      this.setState({ currDown: currDown = true })
-    }
-    this.handleParams(currDown)
-  }
-  handleDownUp = (event) => {
-    let { currDown } = this.state
-    if (event.type === "mouseup") {
-      this.setState({ currDown: currDown = false })
-    }
-    this.handleParams(currDown)
-  }
-  handleDownOut = (event) => {
-    let { currDown } = this.state
-    if (event.type === "mouseout") {
-      this.setState({ currDown: currDown = false })
-    }
-    this.handleParams(currDown)
   }
 
   handleNoMove = () => {
@@ -1366,331 +1197,77 @@ class Game extends Component {
 
     return (
       <div>
-        {/* Canvas */}
-        <canvas ref={this.canv}
-          style={{ backgroundImage: `url(${AssetOBJ.background})`, position: 'absolute', left: canvLeft, top: 50 }}
-          width={640}
-          height={425}
-        />
-        {/* Door */}
-        <Door
-          ref={this.door}
-          currDoor={currDoor} canvLeft={canvLeft}
-          handleClick={this.handleDoorClick} />
-        {/* CombinationLock */}
+        <Canvas bg={AssetOBJ.background} canvLeft={canvLeft} />
+        <Door ref={this.door} currDoor={currDoor} canvLeft={canvLeft} handleClick={this.handleDoorClick} />
+
         {(this.state.currDoor !== AssetOBJ.door02 ?
           <CombinationLock
             currCombLock={currCombLock} canvLeft={canvLeft}
             handleClick={this.handleCombLockClick} /> : null)}
-        {/* KeyLock */}
+
         {(this.state.currDoor !== AssetOBJ.door02 ?
           <KeyLock currKeyLock={currKeyLock} canvLeft={canvLeft}
             handleClick={this.handleKeyLockClick} /> : null)}
-        {/* BoltLock */}
+
         {(!this.state.boltUnlocked ?
           <BoltLock currBoltLock={currBoltLock} canvLeft={canvLeft}
             handleClick={this.handleBoltLockClick} /> : null)}
-        {/* Rug */}
-        <Rug ref={this.rug} currRug = {currRug} canvLeft = {canvLeft} handleClick={this.handleRugClick}/>
-        {/* Screw(Rug) */}
-        {(this.state.currRug === AssetOBJ.rug02 && !this.state.screws.screw1 ?
-        <Screw1 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick ={this.handleScrewClick}/> : null)}
-        {/* Lamp */}
-        <img src={currLamp}
-          onClick={this.handleLightClick}
-          ref={this.lamp}
-          id='lamp'
-          name='lamp'
-          style={{
-            position: 'absolute',
-            top: 75,
-            left: canvLeft + 160
-          }}
-          alt='lamp'
-        />
-        {/* Table */}
-        <Table ref={this.table} table = {AssetOBJ.table} canvLeft = {canvLeft}/>
-        {/* BobbyPin */}
-        {(this.state.bobbyPin.currState === 0 ? <img src={AssetOBJ.bobbyPin01}
-          onClick={this.handleBobbyPinClick}
-          ref={this.bobPin}
-          id='bobPin'
-          name='bobPin'
-          style={{
-            position: 'absolute',
-            top: 350,
-            left: canvLeft + 440
-          }}
-          alt='bobPin'
-        /> : null)}
-        {/* Papers */}
-        <Papers papers = {AssetOBJ.papers} canvLeft = {canvLeft} handleClick={this.handlePaperClick}/>
-        {/* Book */}
-        <Book book = {AssetOBJ.book} canvLeft = {canvLeft} handleClick={this.handleBookClick} />
-        {/* HitBox */}
-        <HitBox2 ref={this.hitBox2} hitBox ={AssetOBJ.hitBox} canvLeft = {canvLeft}/>
-        {/* Dresser */}
-        <img src={currDresser}
-          onClick={this.handleDresserClick}
-          ref={this.dresser}
-          id='dresser'
-          name='dresser'
-          style={{
-            position: 'absolute',
-            top: 90,
-            left: canvLeft + 470
-          }}
-          alt='dresser'
-        />
-        {/* Screw(Dresser) */}
-        {(this.state.currDresser === AssetOBJ.dresser02 && !this.state.screws.screw3 ? 
-          <Screw3 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick ={this.handleScrewClick}/> : null)}
-        {/* Cabinet */}
-        <Cabinet cabinet={AssetOBJ.cabinet} canvLeft={canvLeft}/>
-        {/* ToolBox */}
-        <ToolBox ref ={this.toolBox} toolBox={currToolBox} canvLeft={canvLeft} handleClick={this.handleToolBoxClick}/>
-        {/* ScrewDriver */}
-        {(this.state.currToolBox === AssetOBJ.toolBox02 && this.state.screwDriver.currState === 0 ?
-        <ScrewDriver screwDriver={AssetOBJ.screwDriver01} canvLeft={canvLeft} handleClick={this.handleScrewDriverClick}/>: null)}
-        {/* Shelf */}
-        <Shelf shelf={AssetOBJ.shelf} canvLeft={canvLeft} />
-        {/* Glove */}
-        {(this.state.glove.currState === 0 ? 
-        <Glove glove={AssetOBJ.glove01} canvLeft={canvLeft} handleClick={this.handleGloveClick} />: null)}
-        {/* Couch */}
-        <Couch ref ={this.couch} currCouch={currCouch} canvLeft={canvLeft} handleClick={this.handleCouchClick} />
-        {/* Screw(Couch) */}
-        {(this.state.currCouch === AssetOBJ.couch02 && !this.state.screws.screw4 ? 
-          <Screw4 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick ={this.handleScrewClick}/> : null)}
-        {/* Screw(Window) */}
-        {(!this.state.screws.screw2 ? 
-        <Screw2 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick ={this.handleScrewClick}/> : null)}
-        {/* Stool */}
-        <Stool ref ={this.stool} currStool={currStool} canvLeft={canvLeft} handleClick ={this.handleStoolClick}/>
-        {/* Trash */}
-        <Trash trash={AssetOBJ.trash} canvLeft={canvLeft} handleClick ={this.handleTrashClick}/>
-        {/* Safe */}
-        <img src={AssetOBJ.safe}
-          onClick={this.handleSafeClick}
-          id='safe'
-          name='safe'
-          style={{
-            position: 'absolute',
-            top: 250,
-            left: canvLeft + 570
-          }}
-          alt='safe'
-        />
-        {/* CrowBar */}
-        {(this.state.crowBar.currState === 0 ? <img src={AssetOBJ.crowBar}
-          onClick={this.handleCrowBarClick}
-          id='crowBar'
-          name='crowBar'
-          style={{
-            position: 'absolute',
-            top: 285,
-            left: canvLeft + 580
-          }}
-          alt='crowBar'
-        /> : null)}
-        {/* Picture */}
-        <img src={AssetOBJ.picture}
-          onClick={this.handlePictureClick}
-          ref={this.picture}
-          id='picture'
-          name='picture'
-          style={{
-            position: 'absolute',
-            top: 250,
-            left: canvLeft + 570
-          }}
-          alt='sunny day'
-        />
-        {/*HitBox*/}
-        <HitBox ref={this.hitBox1} hitBox ={AssetOBJ.hitBox} canvLeft = {canvLeft}/>
-        {/* Character */}
-        <div className="character"
-          key="character"
-          id="character"
-          ref={this.char}
-          style={{
-            position: 'absolute',
-            left: canvLeft + 290,
-            top: 260,
-            width: 40,
-            height: 40,
-            fontSize: 20,
-            color: 'white',
-            borderRadius: 50,
-            backgroundColor: 'red'
-          }}>
-        </div>
 
+        <Rug ref={this.rug} currRug={currRug} canvLeft={canvLeft} handleClick={this.handleRugClick} />
+
+        {(this.state.currRug === AssetOBJ.rug02 && !this.state.screws.screw1 ?
+          <Screw1 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleScrewClick} /> : null)}
+
+        <Lamp ref={this.lamp} canvLeft={canvLeft} currLamp={currLamp} handleClick={this.handleLightClick} />
+        <Table ref={this.table} table={AssetOBJ.table} canvLeft={canvLeft} />
+
+        {(this.state.bobbyPin.currState === 0 ?
+          <BobbyPin ref={this.bobPin} canvLeft={canvLeft} bobPin={AssetOBJ.bobbyPin01} handleClick={this.handleBobbyPinClick} />
+          : null)}
+
+        <Papers papers={AssetOBJ.papers} canvLeft={canvLeft} handleClick={this.handlePaperClick} />
+        <Book book={AssetOBJ.book} canvLeft={canvLeft} handleClick={this.handleBookClick} />
+        <HitBox2 ref={this.hitBox2} hitBox={AssetOBJ.hitBox} canvLeft={canvLeft} />
+        <Dresser ref = {this.dresser} currDresser={currDresser} canvLeft={canvLeft} handleClick={this.handleDresserClick} />
+
+        {(this.state.currDresser === AssetOBJ.dresser02 && !this.state.screws.screw3 ?
+          <Screw3 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleScrewClick} /> : null)}
+
+        <Cabinet cabinet={AssetOBJ.cabinet} canvLeft={canvLeft} />
+        <ToolBox ref={this.toolBox} toolBox={currToolBox} canvLeft={canvLeft} handleClick={this.handleToolBoxClick} />
+
+        {(this.state.currToolBox === AssetOBJ.toolBox02 && this.state.screwDriver.currState === 0 ?
+          <ScrewDriver screwDriver={AssetOBJ.screwDriver01} canvLeft={canvLeft} handleClick={this.handleScrewDriverClick} /> : null)}
+
+        <Shelf shelf={AssetOBJ.shelf} canvLeft={canvLeft} />
+
+        {(this.state.glove.currState === 0 ?
+          <Glove glove={AssetOBJ.glove01} canvLeft={canvLeft} handleClick={this.handleGloveClick} /> : null)}
+
+        <Couch ref={this.couch} currCouch={currCouch} canvLeft={canvLeft} handleClick={this.handleCouchClick} />
+
+        {(this.state.currCouch === AssetOBJ.couch02 && !this.state.screws.screw4 ?
+          <Screw4 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleScrewClick} /> : null)}
+
+        {(!this.state.screws.screw2 ?
+          <Screw2 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleScrewClick} /> : null)}
+
+        <Stool ref={this.stool} currStool={currStool} canvLeft={canvLeft} handleClick={this.handleStoolClick} />
+        <Trash trash={AssetOBJ.trash} canvLeft={canvLeft} handleClick={this.handleTrashClick} />
+        <Safe safe = {AssetOBJ.safe} canvLeft = {canvLeft} handleClick = {this.handleSafeClick}/>
+        
+        {(this.state.crowBar.currState === 0 ? 
+        <CrowBar crowBar = {AssetOBJ.crowBar} canvLeft={canvLeft} handleClick={this.handleCrowBarClick}/> : null)}
+        
+        <Picture ref={this.picture} canvLeft={canvLeft} picture={AssetOBJ.picture} handleClick={this.handlePictureClick} />
+        <HitBox ref={this.hitBox1} hitBox={AssetOBJ.hitBox} canvLeft={canvLeft} />
+       
+        <Character ref={this.char} canvLeft={canvLeft} canMove={(currLamp === AssetOBJ.lamp01 ? true : false)}
+          borders={this.state.borders} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight} />
+        
         {/* Lights Out */}
         {(currLamp === AssetOBJ.lamp02 || currLamp === AssetOBJ.lamp03 ?
-          <div
-            style={{
-              backgroundColor: '#000000',
-              opacity: 0.9,
-              pointerEvents: 'none',
-              position: 'absolute',
-              width: 640,
-              height: 425,
-              left: canvLeft,
-              top: 50
-            }}>
-          </div> :null)}
-        {(currLamp === AssetOBJ.lamp01 ?
-          <div className="btnPanel">
-            <button className="btn"
-              onPointerDown={this.handleUpDown}
-              onMouseDown={this.handleUpDown}
-              onMouseUp={this.handleUpUp}
-              onMouseOut={this.handleUpOut}
-              id='btnUp'
-              style={{
-                position: 'absolute',
-                top: 480,
-                left: canvLeft + 280,
-                width: 70,
-                height: 70,
-                borderRadius: 50,
-                fontSize: 20,
-                color: 'white',
-                backgroundColor: '#DC0000',
-                cursor: 'none'
-              }}
-            >&#8593;
-          </button>
-            <br />
-            <button className="btn"
-              onMouseDown={this.handleLeftDown}
-              onMouseUp={this.handleLeftUp}
-              onMouseOut={this.handleLeftOut}
-              style={{
-                position: 'absolute',
-                top: 550,
-                left: canvLeft + 210,
-                width: 70,
-                height: 70,
-                borderRadius: 50,
-                fontSize: 20,
-                color: 'white',
-                backgroundColor: '#DC0000',
-                cursor: 'none'
-              }}
-            >&#8592;
-          </button>
-            <button className="btn"
-              onMouseDown={this.handleDownDown}
-              onMouseUp={this.handleDownUp}
-              onMouseOut={this.handleDownOut}
-              style={{
-                position: 'absolute',
-                top: 550,
-                left: canvLeft + 280,
-                width: 70,
-                height: 70,
-                borderRadius: 50,
-                fontSize: 20,
-                color: 'white',
-                backgroundColor: '#DC0000',
-                cursor: 'none'
-              }}
-            >&#8595;
-          </button>
-            <button className="btn"
-              onMouseDown={this.handleRightDown}
-              onMouseUp={this.handleRightUp}
-              onMouseOut={this.handleRightOut}
-              style={{
-                position: 'absolute',
-                top: 550,
-                left: canvLeft + 350,
-                width: 70,
-                height: 70,
-                borderRadius: 50,
-                fontSize: 20,
-                color: 'white',
-                backgroundColor: '#DC0000',
-                cursor: 'none'
-              }}
-            >&#8594;
-          </button>
-            <br />
-          </div>
-          :
-          //Lights Off
-          <div className="btnPanel">
-            <button className="btn"
-              onClick={this.handleNoMove}
-              style={{
-                position: 'absolute',
-                top: 480,
-                left: canvLeft + 280,
-                width: 70,
-                height: 70,
-                borderRadius: 50,
-                fontSize: 20,
-                color: 'white',
-                backgroundColor: '#DC0000',
-                cursor: 'none'
-              }}
-            >&#8593;
-          </button>
-            <br />
-            <button className="btn"
-              onClick={this.handleNoMove}
-              style={{
-                position: 'absolute',
-                top: 550,
-                left: canvLeft + 210,
-                width: 70,
-                height: 70,
-                borderRadius: 50,
-                fontSize: 20,
-                color: 'white',
-                backgroundColor: '#DC0000',
-                cursor: 'none'
-              }}
-            >&#8592;
-          </button>
-            <button className="btn"
-              onClick={this.handleNoMove}
-              style={{
-                position: 'absolute',
-                top: 550,
-                left: canvLeft + 280,
-                width: 70,
-                height: 70,
-                borderRadius: 50,
-                fontSize: 20,
-                color: 'white',
-                backgroundColor: '#DC0000',
-                cursor: 'none'
-              }}
-            >&#8595;
-          </button>
-            <button className="btn"
-              onClick={this.handleNoMove}
-              style={{
-                position: 'absolute',
-                top: 550,
-                left: canvLeft + 350,
-                width: 70,
-                height: 70,
-                borderRadius: 50,
-                fontSize: 20,
-                color: 'white',
-                backgroundColor: '#DC0000',
-                cursor: 'none'
-              }}
-            >&#8594;
-          </button>
-            <br />
-          </div>
-        )}
-
+        <LightOffFilter canvLeft = {canvLeft} />: null)}
         {/* InfoMessage */}
         {(this.state.infoMessage ?
           <section >

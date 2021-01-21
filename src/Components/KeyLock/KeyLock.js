@@ -1,16 +1,10 @@
 import React, { Component } from 'react'
 
 class KeyLock extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            currKeyLock: this.props.currKeyLock,
-        }
-    }
     render() {
         let canvLeft = this.props.canvLeft
         return (
-            <img src={this.state.currKeyLock}
+            <img src={this.props.currKeyLock}
                 onClick={this.props.handleClick}
                 id='keyLock'
                 name='keyLock'
