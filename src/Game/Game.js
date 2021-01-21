@@ -1,42 +1,43 @@
 import React, { Component } from 'react'
 import AssetOBJ from '../AssetHelper/AssetHelper'
+import BobbyPin from '../Components/GameComponents/BobbyPin/BobbyPin'
+import BoltLock from '../Components/GameComponents/BoltLock/BoltLock'
+import Book from '../Components/GameComponents/Book/Book'
+import Cabinet from '../Components/GameComponents/Cabinet/Cabinet'
+import Canvas from '../Components/GameComponents/Canvas/Canvas'
+import Character from '../Components/GameComponents/Character/Character'
+import CircleCursor from '../Components/GameComponents/CircleCursor/CircleCursor'
+import CombinationLock from '../Components/GameComponents/CombinationLock/CombinationLock'
+import Couch from '../Components/GameComponents/Couch/Couch'
+import CrowBar from '../Components/GameComponents/CrowBar/CrowBar'
+import Door from '../Components/GameComponents/Door/Door'
+import Dresser from '../Components/GameComponents/Dresser/Dresser'
+import Glove from '../Components/GameComponents/Glove/Glove'
+import HitBox from '../Components/GameComponents/HitBox/HitBox'
+import HitBox2 from '../Components/GameComponents/HitBox/HitBox2'
+import InfoMessage from '../Components/GameComponents/InfoMessage/InfoMessage'
+import KeyLock from '../Components/GameComponents/KeyLock/KeyLock'
+import Lamp from '../Components/GameComponents/Lamp/Lamp'
+import LightOffFilter from '../Components/GameComponents/LightOffFilter/LightOffFilter'
+import Papers from '../Components/GameComponents/Papers/Papers'
+import Picture from '../Components/GameComponents/Picture/Picture'
+import CombinationPuzzle from '../Components/GameComponents/Puzzles/CombinationPuzzle'
+import SafePuzzle from '../Components/GameComponents/Puzzles/SafePuzzle'
+import Rug from '../Components/GameComponents/Rug/Rug'
+import Safe from '../Components/GameComponents/Safe/Safe'
+import ScrewDriver from '../Components/GameComponents/ScrewDriver/ScrewDriver'
+import Screw1 from '../Components/GameComponents/Screws/Screw1'
+import Screw2 from '../Components/GameComponents/Screws/Screw2'
+import Screw3 from '../Components/GameComponents/Screws/Screw3'
+import Screw4 from '../Components/GameComponents/Screws/Screw4'
+import Shelf from '../Components/GameComponents/Shelf/Shelf'
+import Stool from '../Components/GameComponents/Stool/Stool'
+import Table from '../Components/GameComponents/Table/Table'
+import ToolBox from '../Components/GameComponents/ToolBox/ToolBox'
+import Trash from '../Components/GameComponents/Trash/Trash'
+import InventoryHolder from '../Components/InventoryComponents/InventoryHolder/InventoryHolder'
 import soundSFX from '../soundFileHelper/SoundFile'
 import './Game.css'
-import Door from '../Components/Door/Door'
-import CombinationLock from '../Components/CombinationLock/CombinationLock'
-import KeyLock from '../Components/KeyLock/KeyLock'
-import CircleCursor from '../Components/CircleCursor/CircleCursor'
-import BoltLock from '../Components/BoltLock/BoltLock'
-import Rug from '../Components/Rug/Rug'
-import Screw1 from '../Components/Screws/Screw1'
-import Screw2 from '../Components/Screws/Screw2'
-import Screw3 from '../Components/Screws/Screw3'
-import Screw4 from '../Components/Screws/Screw4'
-import Shelf from '../Components/Shelf/Shelf'
-import Glove from '../Components/Glove/Glove'
-import Stool from '../Components/Stool/Stool'
-import Papers from '../Components/Papers/Papers'
-import Book from '../Components/Book/Book'
-import Table from '../Components/Table/Table'
-import Couch from '../Components/Couch/Couch'
-import Cabinet from '../Components/Cabinet/Cabinet'
-import ToolBox from '../Components/ToolBox/ToolBox'
-import ScrewDriver from '../Components/ScrewDriver/ScrewDriver'
-import Trash from '../Components/Trash/Trash'
-import HitBox from '../Components/HitBox/HitBox'
-import HitBox2 from '../Components/HitBox/HitBox2'
-import Canvas from '../Components/Canvas/Canvas'
-import Character from '../Components/Character/Character'
-import Lamp from '../Components/Lamp/Lamp'
-import BobbyPin from '../Components/BobbyPin/BobbyPin'
-import Dresser from '../Components/Dresser/Dresser'
-import Picture from '../Components/Picture/Picture'
-import Safe from '../Components/Safe/Safe'
-import CrowBar from '../Components/CrowBar/CrowBar'
-import LightOffFilter from '../Components/LightOffFilter/LightOffFilter'
-import InfoMessage from '../Components/InfoMessage/InfoMessage'
-import CombinationPuzzle from '../Components/Puzzles/CombinationPuzzle'
-import SafePuzzle from '../Components/Puzzles/SafePuzzle'
 
 class Game extends Component {
   constructor(props) {
@@ -931,7 +932,6 @@ class Game extends Component {
     }
   }
 
-
   renderInventory = () => {
     let canvLeft
     if (this.props.screenWidth <= 1085) {
@@ -944,16 +944,7 @@ class Game extends Component {
     return (
       <div>
         {/* Inventory */}
-        <img src={AssetOBJ.inventoryHolder}
-          id='inventoryHolder'
-          name='inventoryHolder'
-          style={{
-            position: 'absolute',
-            top: 420,
-            left: canvLeft + 10
-          }}
-          alt='inventory'
-        />
+        <InventoryHolder inventoryHolder = {AssetOBJ.inventoryHolder} canvLeft = {canvLeft}/>
         {/* Screw_Inventory */}
         {(this.state.screws.currState === 0 ?
           null
