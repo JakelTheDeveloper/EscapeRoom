@@ -260,6 +260,7 @@ class Game extends Component {
     if (currDoor === AssetOBJ.door01 && touch && currKeyLock === AssetOBJ.keyLock02 && boltUnlocked && combUnlocked) {
       soundSFX.doorOpenSFX.play()
       this.setState({ currDoor: currDoor = AssetOBJ.door02 })
+      this.props.handleStop()
     } else
       if (currDoor === AssetOBJ.door01 && touch) {
         if (currKeyLock !== AssetOBJ.keyLock02 || !boltUnlocked || !combUnlocked)

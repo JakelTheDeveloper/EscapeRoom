@@ -39,7 +39,7 @@ import CrowBarInventory from '../Components/InventoryComponents/CrowBar/CrowBarI
 import GloveInventory from '../Components/InventoryComponents/Glove/GloveInventory'
 import HighLighter from '../Components/InventoryComponents/InventoryHighlighters/Highlighter'
 import InventoryHolder from '../Components/InventoryComponents/InventoryHolder/InventoryHolder'
-import ScrewInventory from './Screws/ScrewInventory'
+import ScrewInventory from './InventoryComponents/Screws/ScrewInventory'
 import KeyInventory from '../Components/InventoryComponents/Key/KeyInventory'
 import ScrewDriverInventory from '../Components/InventoryComponents/ScrewDriver/ScrewDriverInventory'
 import Timer from '../Timer/Timer'

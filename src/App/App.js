@@ -10,15 +10,23 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.timer = 0
-    this.startTimer = this.startTimer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
     this.countDown = this.countDown.bind(this);
     this.state = {
       width: window.innerWidth,
       height: window.innerHeight,
-      gameStarted: true,
+      gameStarted: false,
       time: {},
       seconds: 0,
     }
+  }
+  handleParams = (params) => {
+    return params
+  }
+  handleStart = () => {
+    let { gameStarted } = this.state
+    this.setState({ gameStarted: gameStarted = true })
+    this.handleParams(gameStarted)
   }
   
   render() {
@@ -36,23 +44,25 @@ class App extends Component {
           <div>
             {canvLeft}
             <Menu
-            className= "menu"
-            screenWidth={this.state.width} 
-            screenheight={this.state.height}
-            canvLeft={canvLeft} 
-            bg={AssetOBJ.background} />
+              handleStart={this.handleStart}
+              className="menu"
+              screenWidth={this.state.width}
+              screenheight={this.state.height}
+              canvLeft={canvLeft}
+              bg={AssetOBJ.background} />
             <CircleCursor id="circleCursor" />
           </div>
           :
           <div>
             <Game key='game'
-             className="canvas" 
-             screenWidth={this.state.width} 
-             screenheight={this.state.height}
-             hours={this.state.time.h} 
-             minutes={this.state.time.m} 
-             seconds={this.state.time.s}
-              />
+              className="canvas"
+              handleStop={this.stopTimer}
+              screenWidth={this.state.width}
+              screenheight={this.state.height}
+              hours={this.state.time.h}
+              minutes={this.state.time.m}
+              seconds={this.state.time.s}
+            />
             {/* <button onClick={this.startTimer}>Start</button><br /> */}
           </div>)}
       </div>
@@ -72,10 +82,8 @@ class App extends Component {
     return obj;
   }
 
-  startTimer() {
-    if (this.timer === 0 && this.state.seconds >= 0) {
-      this.timer = setInterval(this.countDown, 1000);
-    }
+  stopTimer() {
+    clearInterval(this.timer);
   }
 
   countDown() {
@@ -86,13 +94,15 @@ class App extends Component {
       seconds: seconds,
     });
 
-    if (seconds === 0) {
-      clearInterval(this.timer);
-    }
   }
   updateDimensions = () => {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   };
+  componentDidUpdate(){
+    if (this.timer === 0 && this.state.seconds >= 0 && this.state.gameStarted) {
+      this.timer = setInterval(this.countDown, 1000);
+    }
+  }
   componentDidMount() {
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
