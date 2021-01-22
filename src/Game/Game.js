@@ -960,7 +960,7 @@ class Game extends Component {
         {(this.state.key.currState === 0 ?
           null
           : this.state.key.currState === 1 ?
-            <ComponentOBJ.KeyInventory screwDriver={AssetOBJ.houseKey} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+            <ComponentOBJ.KeyInventory houseKey={AssetOBJ.houseKey} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
             : null)}
         {(this.state.screws.selected === true ? <ComponentOBJ.HighLighter top={425} left={18} canvLeft={canvLeft} /> : null)}
         {(this.state.bobbyPin.selected === true ? <ComponentOBJ.HighLighter top={425} left={58} canvLeft={canvLeft} /> : null)}
