@@ -1,41 +1,6 @@
 import React, { Component } from 'react'
 import AssetOBJ from '../AssetHelper/AssetHelper'
-import BobbyPin from '../Components/GameComponents/BobbyPin/BobbyPin'
-import BoltLock from '../Components/GameComponents/BoltLock/BoltLock'
-import Book from '../Components/GameComponents/Book/Book'
-import Cabinet from '../Components/GameComponents/Cabinet/Cabinet'
-import Canvas from '../Components/GameComponents/Canvas/Canvas'
-import Character from '../Components/GameComponents/Character/Character'
-import CircleCursor from '../Components/GameComponents/CircleCursor/CircleCursor'
-import CombinationLock from '../Components/GameComponents/CombinationLock/CombinationLock'
-import Couch from '../Components/GameComponents/Couch/Couch'
-import CrowBar from '../Components/GameComponents/CrowBar/CrowBar'
-import Door from '../Components/GameComponents/Door/Door'
-import Dresser from '../Components/GameComponents/Dresser/Dresser'
-import Glove from '../Components/GameComponents/Glove/Glove'
-import HitBox from '../Components/GameComponents/HitBox/HitBox'
-import HitBox2 from '../Components/GameComponents/HitBox/HitBox2'
-import InfoMessage from '../Components/GameComponents/InfoMessage/InfoMessage'
-import KeyLock from '../Components/GameComponents/KeyLock/KeyLock'
-import Lamp from '../Components/GameComponents/Lamp/Lamp'
-import LightOffFilter from '../Components/GameComponents/LightOffFilter/LightOffFilter'
-import Papers from '../Components/GameComponents/Papers/Papers'
-import Picture from '../Components/GameComponents/Picture/Picture'
-import CombinationPuzzle from '../Components/GameComponents/Puzzles/CombinationPuzzle'
-import SafePuzzle from '../Components/GameComponents/Puzzles/SafePuzzle'
-import Rug from '../Components/GameComponents/Rug/Rug'
-import Safe from '../Components/GameComponents/Safe/Safe'
-import ScrewDriver from '../Components/GameComponents/ScrewDriver/ScrewDriver'
-import Screw1 from '../Components/GameComponents/Screws/Screw1'
-import Screw2 from '../Components/GameComponents/Screws/Screw2'
-import Screw3 from '../Components/GameComponents/Screws/Screw3'
-import Screw4 from '../Components/GameComponents/Screws/Screw4'
-import Shelf from '../Components/GameComponents/Shelf/Shelf'
-import Stool from '../Components/GameComponents/Stool/Stool'
-import Table from '../Components/GameComponents/Table/Table'
-import ToolBox from '../Components/GameComponents/ToolBox/ToolBox'
-import Trash from '../Components/GameComponents/Trash/Trash'
-import InventoryHolder from '../Components/InventoryComponents/InventoryHolder/InventoryHolder'
+import ComponentOBJ from '../Components/ComponentHelper'
 import soundSFX from '../soundFileHelper/SoundFile'
 import './Game.css'
 
@@ -943,287 +908,67 @@ class Game extends Component {
     }
     return (
       <div>
-        {/* Inventory */}
-        <InventoryHolder inventoryHolder = {AssetOBJ.inventoryHolder} canvLeft = {canvLeft}/>
-        {/* Screw_Inventory */}
+        <ComponentOBJ.InventoryHolder inventoryHolder={AssetOBJ.inventoryHolder} canvLeft={canvLeft} />
         {(this.state.screws.currState === 0 ?
           null
           : this.state.screws.currState === 1 ?
-            <img src={AssetOBJ.screw01}
-              onClick={() => this.handleInventoryClick('screws')}
-              id='screw_inventory'
-              name='screw_inventory'
-              style={{
-                position: 'absolute',
-                top: 433,
-                left: canvLeft + 26
-              }}
-              alt='screw_inventory'
-            /> :
+            <ComponentOBJ.ScrewInventory screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+            :
             this.state.screws.currState === 2 ?
-              <img src={AssetOBJ.screw02}
-                onClick={() => this.handleInventoryClick('screws')}
-                id='screw_inventory'
-                name='screw_inventory'
-                style={{
-                  position: 'absolute',
-                  top: 433,
-                  left: canvLeft + 26
-                }}
-                alt='screw_inventory'
-              /> :
+              <ComponentOBJ.ScrewInventory screw={AssetOBJ.screw02} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+              :
               this.state.screws.currState === 3 ?
-                <img src={AssetOBJ.screw03}
-                  onClick={() => this.handleInventoryClick('screws')}
-                  id='screw_inventory'
-                  name='screw_inventory'
-                  style={{
-                    position: 'absolute',
-                    top: 433,
-                    left: canvLeft + 26
-                  }}
-                  alt='screw_inventory'
-                /> :
+                <ComponentOBJ.ScrewInventory screw={AssetOBJ.screw03} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+                :
                 this.state.screws.currState === 4 ?
-                  <img src={AssetOBJ.screw04}
-                    onClick={() => this.handleInventoryClick('screws')}
-                    id='screw_inventory'
-                    name='screw_inventory'
-                    style={{
-                      position: 'absolute',
-                      top: 433,
-                      left: canvLeft + 26
-                    }}
-                    alt='screw_inventory'
-                  /> : null)}
-
-        {/* BobbyPin_Inventory */}
+                  <ComponentOBJ.ScrewInventory screw={AssetOBJ.screw04} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+                  : null)}
         {(this.state.bobbyPin.currState === 0 ?
           null
           : this.state.bobbyPin.currState === 1 ?
-            <img src={AssetOBJ.bobbyPin01}
-              onClick={() => this.handleInventoryClick('bobbyPin')}
-              id='bobbyPin_inventory'
-              name='bobbyPin_inventory'
-              style={{
-                position: 'absolute',
-                top: 433,
-                left: canvLeft + 68,
-                width: 16,
-                height: 16
-              }}
-              alt='bobbyPin_inventory'
-            /> :
+            <ComponentOBJ.BobbyPinInventory bobbyPin={AssetOBJ.bobbyPin01} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+            :
             this.state.bobbyPin.currState === 2 ?
-              <img src={AssetOBJ.bobbyPin02}
-                onClick={() => this.handleInventoryClick('bobbyPin')}
-                id='bobbyPin_inventory'
-                name='bobbyPin_inventory'
-                style={{
-                  position: 'absolute',
-                  top: 433,
-                  left: canvLeft + 68,
-                  width: 16,
-                  height: 16
-                }}
-                alt='bobbyPin_inventory'
-              /> : null)}
-        {/* Bulb_Inventory */}
+              <ComponentOBJ.BobbyPinInventory bobbyPin={AssetOBJ.bobbyPin02} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+              : null)}
         {(this.state.bulb.currState === 0 ?
           null
           : this.state.bulb.currState === 1 ?
-            <img src={AssetOBJ.bulb01}
-              onClick={() => this.handleInventoryClick('bulb')}
-              id='bulb_inventory'
-              name='bulb_inventory'
-              style={{
-                position: 'absolute',
-                top: 427,
-                left: canvLeft + 107,
-              }}
-              alt='bulb_inventory'
-            /> :
-            this.state.bulb.currState === 2 ?
-              <img src={AssetOBJ.bulb02}
-                onClick={() => this.handleInventoryClick('bulb')}
-                id='bulb_inventory'
-                name='bulb_inventory'
-                style={{
-                  position: 'absolute',
-                  top: 427,
-                  left: canvLeft + 107,
-                }}
-                alt='bulb_inventory'
-              /> : null)}
-        {/* Glove_Inventory */}
+            <ComponentOBJ.BulbInventory bulb={AssetOBJ.bulb01} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+            :
+            <ComponentOBJ.BulbInventory bulb={AssetOBJ.bulb02} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+        )}
         {(this.state.glove.currState === 0 ?
           null
           : this.state.glove.currState === 1 ?
-            <img src={AssetOBJ.glove01}
-              onClick={() => this.handleInventoryClick('glove')}
-              id='glove_inventory'
-              name='glove_inventory'
-              style={{
-                position: 'absolute',
-                top: 430,
-                left: canvLeft + 142,
-              }}
-              alt='glove_inventory'
-            /> :
+            <ComponentOBJ.GloveInventory glove={AssetOBJ.glove01} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+            :
             this.state.glove.currState === 2 ?
-              <img src={AssetOBJ.glove02}
-                onClick={() => this.handleInventoryClick('glove')}
-                id='glove_inventory'
-                name='glove_inventory'
-                style={{
-                  position: 'absolute',
-                  top: 430,
-                  left: canvLeft + 142,
-                }}
-                alt='glove_inventory'
-              /> : null)}
-        {/* CrowBar_Inventory */}
+              <ComponentOBJ.GloveInventory glove={AssetOBJ.glove02} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+              : null)}
         {(this.state.crowBar.currState === 0 ?
           null
           : this.state.crowBar.currState === 1 ?
-            <img src={AssetOBJ.crowBar}
-              onClick={() => this.handleInventoryClick('crowBar')}
-              id='crowBar_inventory'
-              name='crowBar_inventory'
-              style={{
-                position: 'absolute',
-                top: 427,
-                left: canvLeft + 190,
-              }}
-              alt='crowBar_inventory'
-            /> : null)}
-        {/* ScrewDriver_Inventory */}
+            <ComponentOBJ.CrowBarInventory crowBar={AssetOBJ.crowBar} canvLeft={canvLeft} handleClick={this.handleInventoryClick} /> : null)}
         {(this.state.screwDriver.currState === 0 ?
           null
           : this.state.screwDriver.currState === 1 ?
-            <img src={AssetOBJ.screwDriver01}
-              onClick={() => this.handleInventoryClick('screwDriver')}
-              id='screwDriver_inventory'
-              name='screwDriver_inventory'
-              style={{
-                position: 'absolute',
-                top: 437,
-                left: canvLeft + 217,
-              }}
-              alt='screwDriver_inventory'
-            /> :
+            <ComponentOBJ.ScrewDriverInventory screwDriver={AssetOBJ.screwDriver01} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+            :
             this.state.screwDriver.currState === 2 ?
-              <img src={AssetOBJ.screwDriver02}
-                onClick={() => this.handleInventoryClick('screwDriver')}
-                id='screwDriver_inventory'
-                name='screwDriver_inventory'
-                style={{
-                  position: 'absolute',
-                  top: 437,
-                  left: canvLeft + 217,
-                }}
-                alt='screwDriver_inventory'
-              /> : null)}
-        {/* Key_Inventory */}
+              <ComponentOBJ.ScrewDriverInventory screwDriver={AssetOBJ.screwDriver02} canvLeft={canvLeft} handleClick={this.handleInventoryClick} /> : null)}
         {(this.state.key.currState === 0 ?
           null
           : this.state.key.currState === 1 ?
-            <img src={AssetOBJ.houseKey}
-              onClick={() => this.handleInventoryClick('key')}
-              id='key_inventory'
-              name='key_inventory'
-              style={{
-                position: 'absolute',
-                top: 432,
-                left: canvLeft + 267,
-              }}
-              alt='key_inventory'
-            /> : null)}
-
-        {(this.state.screws.selected === true ? <div style={{
-          top: 425,
-          left: canvLeft + 18,
-          height: 28,
-          width: 33,
-          position: 'absolute',
-          pointerEvents: 'none',
-          borderRadius: 3,
-          borderColor: 'red',
-          borderStyle: 'solid',
-          borderWidth: 2
-        }}></div> : null)}
-        {(this.state.bobbyPin.selected === true ? <div style={{
-          top: 425,
-          left: canvLeft + 58,
-          height: 28,
-          width: 33,
-          position: 'absolute',
-          pointerEvents: 'none',
-          borderRadius: 3,
-          borderColor: 'red',
-          borderStyle: 'solid',
-          borderWidth: 2
-        }}></div> : null)}
-        {(this.state.bulb.selected === true ? <div style={{
-          top: 425,
-          left: canvLeft + 97,
-          height: 28,
-          width: 33,
-          position: 'absolute',
-          pointerEvents: 'none',
-          borderRadius: 3,
-          borderColor: 'red',
-          borderStyle: 'solid',
-          borderWidth: 2
-        }}></div> : null)}
-        {(this.state.glove.selected === true ? <div style={{
-          top: 425,
-          left: canvLeft + 136,
-          height: 28,
-          width: 33,
-          position: 'absolute',
-          pointerEvents: 'none',
-          borderRadius: 3,
-          borderColor: 'red',
-          borderStyle: 'solid',
-          borderWidth: 2
-        }}></div> : null)}
-        {(this.state.crowBar.selected === true ? <div style={{
-          top: 425,
-          left: canvLeft + 175,
-          height: 28,
-          width: 33,
-          position: 'absolute',
-          pointerEvents: 'none',
-          borderRadius: 3,
-          borderColor: 'red',
-          borderStyle: 'solid',
-          borderWidth: 2
-        }}></div> : null)}
-        {(this.state.screwDriver.selected === true ? <div style={{
-          top: 425,
-          left: canvLeft + 214,
-          height: 28,
-          width: 33,
-          position: 'absolute',
-          pointerEvents: 'none',
-          borderRadius: 3,
-          borderColor: 'red',
-          borderStyle: 'solid',
-          borderWidth: 2
-        }}></div> : null)}
-        {(this.state.key.selected === true ? <div style={{
-          top: 425,
-          left: canvLeft + 253,
-          height: 28,
-          width: 33,
-          position: 'absolute',
-          pointerEvents: 'none',
-          borderRadius: 3,
-          borderColor: 'red',
-          borderStyle: 'solid',
-          borderWidth: 2
-        }}></div> : null)}
+            <ComponentOBJ.KeyInventory screwDriver={AssetOBJ.houseKey} canvLeft={canvLeft} handleClick={this.handleInventoryClick} />
+            : null)}
+        {(this.state.screws.selected === true ? <ComponentOBJ.HighLighter top={425} left={18} canvLeft={canvLeft} /> : null)}
+        {(this.state.bobbyPin.selected === true ? <ComponentOBJ.HighLighter top={425} left={58} canvLeft={canvLeft} /> : null)}
+        {(this.state.bulb.selected === true ? <ComponentOBJ.HighLighter top={425} left={97} canvLeft={canvLeft} /> : null)}
+        {(this.state.glove.selected === true ? <ComponentOBJ.HighLighter top={425} left={136} canvLeft={canvLeft} /> : null)}
+        {(this.state.crowBar.selected === true ? <ComponentOBJ.HighLighter top={425} left={175} canvLeft={canvLeft} /> : null)}
+        {(this.state.screwDriver.selected === true ? <ComponentOBJ.HighLighter top={425} left={214} canvLeft={canvLeft} /> : null)}
+        {(this.state.key.selected === true ? <ComponentOBJ.HighLighter top={425} left={253} canvLeft={canvLeft} /> : null)}
       </div>
     )
   }
@@ -1240,88 +985,63 @@ class Game extends Component {
 
     return (
       <div>
-        <Canvas bg={AssetOBJ.background} canvLeft={canvLeft} />
-        <Door ref={this.door} currDoor={currDoor} canvLeft={canvLeft} handleClick={this.handleDoorClick} />
-
+        <ComponentOBJ.Canvas bg={AssetOBJ.background} canvLeft={canvLeft} />
+        <ComponentOBJ.Door ref={this.door} currDoor={currDoor} canvLeft={canvLeft} handleClick={this.handleDoorClick} />
         {(this.state.currDoor !== AssetOBJ.door02 ?
-          <CombinationLock
+          <ComponentOBJ.CombinationLock
             currCombLock={currCombLock} canvLeft={canvLeft}
             handleClick={this.handleCombLockClick} /> : null)}
-
         {(this.state.currDoor !== AssetOBJ.door02 ?
-          <KeyLock currKeyLock={currKeyLock} canvLeft={canvLeft}
+          <ComponentOBJ.KeyLock currKeyLock={currKeyLock} canvLeft={canvLeft}
             handleClick={this.handleKeyLockClick} /> : null)}
-
         {(!this.state.boltUnlocked ?
-          <BoltLock currBoltLock={currBoltLock} canvLeft={canvLeft}
+          <ComponentOBJ.BoltLock currBoltLock={currBoltLock} canvLeft={canvLeft}
             handleClick={this.handleBoltLockClick} /> : null)}
-
-        <Rug ref={this.rug} currRug={currRug} canvLeft={canvLeft} handleClick={this.handleRugClick} />
-
+        <ComponentOBJ.Rug ref={this.rug} currRug={currRug} canvLeft={canvLeft} handleClick={this.handleRugClick} />
         {(this.state.currRug === AssetOBJ.rug02 && !this.state.screws.screw1 ?
-          <Screw1 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleScrewClick} /> : null)}
-
-        <Lamp ref={this.lamp} canvLeft={canvLeft} currLamp={currLamp} handleClick={this.handleLightClick} />
-        <Table ref={this.table} table={AssetOBJ.table} canvLeft={canvLeft} />
-
+          <ComponentOBJ.Screw1 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleScrewClick} /> : null)}
+        <ComponentOBJ.Lamp ref={this.lamp} canvLeft={canvLeft} currLamp={currLamp} handleClick={this.handleLightClick} />
+        <ComponentOBJ.Table ref={this.table} table={AssetOBJ.table} canvLeft={canvLeft} />
         {(this.state.bobbyPin.currState === 0 ?
-          <BobbyPin ref={this.bobPin} canvLeft={canvLeft} bobPin={AssetOBJ.bobbyPin01} handleClick={this.handleBobbyPinClick} />
-          : null)}
-
-        <Papers papers={AssetOBJ.papers} canvLeft={canvLeft} handleClick={this.handlePaperClick} />
-        <Book book={AssetOBJ.book} canvLeft={canvLeft} handleClick={this.handleBookClick} />
-        <HitBox2 ref={this.hitBox2} hitBox={AssetOBJ.hitBox} canvLeft={canvLeft} />
-        <Dresser ref = {this.dresser} currDresser={currDresser} canvLeft={canvLeft} handleClick={this.handleDresserClick} />
-
+          <ComponentOBJ.BobbyPin ref={this.bobPin} canvLeft={canvLeft} bobPin={AssetOBJ.bobbyPin01} handleClick={this.handleBobbyPinClick} />: null)}
+        <ComponentOBJ.Papers papers={AssetOBJ.papers} canvLeft={canvLeft} handleClick={this.handlePaperClick} />
+        <ComponentOBJ.Book book={AssetOBJ.book} canvLeft={canvLeft} handleClick={this.handleBookClick} />
+        <ComponentOBJ.HitBox2 ref={this.hitBox2} hitBox={AssetOBJ.hitBox} canvLeft={canvLeft} />
+        <ComponentOBJ.Dresser ref={this.dresser} currDresser={currDresser} canvLeft={canvLeft} handleClick={this.handleDresserClick} />
         {(this.state.currDresser === AssetOBJ.dresser02 && !this.state.screws.screw3 ?
-          <Screw3 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleScrewClick} /> : null)}
-
-        <Cabinet cabinet={AssetOBJ.cabinet} canvLeft={canvLeft} />
-        <ToolBox ref={this.toolBox} toolBox={currToolBox} canvLeft={canvLeft} handleClick={this.handleToolBoxClick} />
-
+          <ComponentOBJ.Screw3 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleScrewClick} /> : null)}
+        <ComponentOBJ.Cabinet cabinet={AssetOBJ.cabinet} canvLeft={canvLeft} />
+        <ComponentOBJ.ToolBox ref={this.toolBox} toolBox={currToolBox} canvLeft={canvLeft} handleClick={this.handleToolBoxClick} />
         {(this.state.currToolBox === AssetOBJ.toolBox02 && this.state.screwDriver.currState === 0 ?
-          <ScrewDriver screwDriver={AssetOBJ.screwDriver01} canvLeft={canvLeft} handleClick={this.handleScrewDriverClick} /> : null)}
-
-        <Shelf shelf={AssetOBJ.shelf} canvLeft={canvLeft} />
-
+          <ComponentOBJ.ScrewDriver screwDriver={AssetOBJ.screwDriver01} canvLeft={canvLeft} handleClick={this.handleScrewDriverClick} /> : null)}
+        <ComponentOBJ.Shelf shelf={AssetOBJ.shelf} canvLeft={canvLeft} />
         {(this.state.glove.currState === 0 ?
-          <Glove glove={AssetOBJ.glove01} canvLeft={canvLeft} handleClick={this.handleGloveClick} /> : null)}
-
-        <Couch ref={this.couch} currCouch={currCouch} canvLeft={canvLeft} handleClick={this.handleCouchClick} />
-
+          <ComponentOBJ.Glove glove={AssetOBJ.glove01} canvLeft={canvLeft} handleClick={this.handleGloveClick} /> : null)}
+        <ComponentOBJ.Couch ref={this.couch} currCouch={currCouch} canvLeft={canvLeft} handleClick={this.handleCouchClick} />
         {(this.state.currCouch === AssetOBJ.couch02 && !this.state.screws.screw4 ?
-          <Screw4 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleScrewClick} /> : null)}
-
+          <ComponentOBJ.Screw4 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleScrewClick} /> : null)}
         {(!this.state.screws.screw2 ?
-          <Screw2 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleScrewClick} /> : null)}
-
-        <Stool ref={this.stool} currStool={currStool} canvLeft={canvLeft} handleClick={this.handleStoolClick} />
-        <Trash trash={AssetOBJ.trash} canvLeft={canvLeft} handleClick={this.handleTrashClick} />
-        <Safe safe = {AssetOBJ.safe} canvLeft = {canvLeft} handleClick = {this.handleSafeClick}/>
-        
-        {(this.state.crowBar.currState === 0 ? 
-        <CrowBar crowBar = {AssetOBJ.crowBar} canvLeft={canvLeft} handleClick={this.handleCrowBarClick}/> : null)}
-        
-        <Picture ref={this.picture} canvLeft={canvLeft} picture={AssetOBJ.picture} handleClick={this.handlePictureClick} />
-        <HitBox ref={this.hitBox1} hitBox={AssetOBJ.hitBox} canvLeft={canvLeft} />
-       
-        <Character ref={this.char} canvLeft={canvLeft} canMove={(currLamp === AssetOBJ.lamp01 ? true : false)}
+          <ComponentOBJ.Screw2 screw={AssetOBJ.screw01} canvLeft={canvLeft} handleClick={this.handleScrewClick} /> : null)}
+        <ComponentOBJ.Stool ref={this.stool} currStool={currStool} canvLeft={canvLeft} handleClick={this.handleStoolClick} />
+        <ComponentOBJ.Trash trash={AssetOBJ.trash} canvLeft={canvLeft} handleClick={this.handleTrashClick} />
+        <ComponentOBJ.Safe safe={AssetOBJ.safe} canvLeft={canvLeft} handleClick={this.handleSafeClick} />
+        {(this.state.crowBar.currState === 0 ?
+          <ComponentOBJ.CrowBar crowBar={AssetOBJ.crowBar} canvLeft={canvLeft} handleClick={this.handleCrowBarClick} /> : null)}
+        <ComponentOBJ.Picture ref={this.picture} canvLeft={canvLeft} picture={AssetOBJ.picture} handleClick={this.handlePictureClick} />
+        <ComponentOBJ.HitBox ref={this.hitBox1} hitBox={AssetOBJ.hitBox} canvLeft={canvLeft} />
+        <ComponentOBJ.Character ref={this.char} canvLeft={canvLeft} canMove={(currLamp === AssetOBJ.lamp01 ? true : false)}
           borders={this.state.borders} screenWidth={this.props.screenWidth} screenHeight={this.props.screenHeight}
-          noMove = {this.handleNoMove} />
-        
-        {/* Lights Out */}
+          noMove={this.handleNoMove} />
         {(currLamp === AssetOBJ.lamp02 || currLamp === AssetOBJ.lamp03 ?
-        <LightOffFilter canvLeft = {canvLeft} />: null)}
-
-        {/* InfoMessage */}
+          <ComponentOBJ.LightOffFilter canvLeft={canvLeft} /> : null)}
         {(this.state.infoMessage ?
-        <InfoMessage infoMessage = {this.state.infoMessage} clearInfo={this.clearInfo} canvLeft = {canvLeft}/>: null)}
+          <ComponentOBJ.InfoMessage infoMessage={this.state.infoMessage} clearInfo={this.clearInfo} canvLeft={canvLeft} /> : null)}
       </div>
     )
   }
-  renderPuzzles=()=>{
+  renderPuzzles = () => {
     let canvLeft
-    let {answer,answer2,answer3,answer4,answer5} = this.state
+    let { answer, answer2, answer3, answer4, answer5 } = this.state
     if (this.props.screenWidth <= 1085) {
       canvLeft = 0
     } else if (this.props.screenWidth > 1085 && this.props.screenWidth <= 1366) {
@@ -1329,15 +1049,15 @@ class Game extends Component {
     } else {
       canvLeft = 450
     }
-    return(
+    return (
       <div>
-    {(this.state.combinationPuzzle ?
-      <CombinationPuzzle  handleIncClick = {this.handleIncrement} handleDecClick = {this.handleDecrement} check = {this.checkCombAnswer}
-       canvLeft = {canvLeft} ans = {answer} ans2 = {answer2} ans3 = {answer3} ans4 = {answer4} ans5 = {answer5} />: null)}
-     {(this.state.safePuzzle ?
-     <SafePuzzle  handleIncClick = {this.handleIncrement} handleDecClick = {this.handleDecrement} check = {this.checkSafeAnswer}
-     canvLeft = {canvLeft} ans = {answer} ans2 = {answer2} ans3 = {answer3} />: null)}
-     </div>
+        {(this.state.combinationPuzzle ?
+          <ComponentOBJ.CombinationPuzzle handleIncClick={this.handleIncrement} handleDecClick={this.handleDecrement} check={this.checkCombAnswer}
+            canvLeft={canvLeft} ans={answer} ans2={answer2} ans3={answer3} ans4={answer4} ans5={answer5} /> : null)}
+        {(this.state.safePuzzle ?
+          <ComponentOBJ.SafePuzzle handleIncClick={this.handleIncrement} handleDecClick={this.handleDecrement} check={this.checkSafeAnswer}
+            canvLeft={canvLeft} ans={answer} ans2={answer2} ans3={answer3} /> : null)}
+      </div>
     )
   }
 
@@ -1347,7 +1067,7 @@ class Game extends Component {
         {this.renderComponents()}
         {this.renderInventory()}
         {this.renderPuzzles()}
-        <CircleCursor id="circleCursor" />
+        <ComponentOBJ.CircleCursor id="circleCursor" />
       </div>
     )
   }
