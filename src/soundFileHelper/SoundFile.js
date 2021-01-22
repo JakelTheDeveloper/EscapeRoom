@@ -7,6 +7,7 @@ import doorLock from '../SFX/door_lock.mp3'
 import boltUnlock from '../SFX/bolt_unlock.mp3'
 import tickTock from '../SFX/clock_tick.mp3'
 import combinationUnlock from '../SFX/combination_unlock.mp3'
+import selection from '../SFX/selection.mp3'
 
 const tickSFX = new UIfx(
     tickTock,
@@ -64,7 +65,14 @@ const dresserSFX = new UIfx(
       throttleMs: 100
     }
   )
+  const selectionSFX = new UIfx(
+    selection,
+    {
+      volume: 0.2, // number between 0.0 ~ 1.0
+      throttleMs: 100
+    }
+  )
   
-let soundObjects = {dresserSFX,couchSFX,lightSFX,doorOpenSFX,doorLockSFX,boltSFX,combinationSFX,tickSFX}
+let soundObjects = {dresserSFX,couchSFX,lightSFX,doorOpenSFX,doorLockSFX,boltSFX,combinationSFX,tickSFX,selectionSFX}
 
 export default soundObjects

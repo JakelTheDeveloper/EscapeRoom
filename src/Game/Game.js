@@ -36,6 +36,7 @@ class Game extends Component {
       keyUnlocked: false,
       toolBoxUnlock: false,
       infoMessage: null,
+      highScoreMessage:null,
       itemsSelected: 0,
       safePuzzle: false,
       combinationPuzzle: false,
@@ -256,10 +257,37 @@ class Game extends Component {
       obj1Y < obj2Y + door.height && obj1Y + circle.height > obj2Y) {
       touch = true
     }
-    let { currDoor, currKeyLock, boltUnlocked, combUnlocked } = this.state
+    let { currDoor, currKeyLock, boltUnlocked, combUnlocked, highScoreMessage } = this.state
+    let zeroHourData
+    let zeroMinData
+    let zeroSecData
+    if (this.props.hours >= 0 && this.props.hours < 10) {
+      zeroHourData = '0'
+    }
+    if (this.props.minutes >= 0 && this.props.minutes < 10) {
+      zeroMinData = '0'
+    }
+    if (this.props.seconds >= 0 && this.props.seconds < 10) {
+      zeroSecData = '0'
+    }
+    let text = [
+      "Congratulations",
+      <br  key = '0'/>,
+      "You Escaped In",
+      <br  key = '1'/>,
+      zeroHourData,
+      this.props.hours,
+      ":",
+      zeroMinData,
+      this.props.minutes, 
+      ":",
+      zeroSecData,
+      this.props.seconds
+    ]
     if (currDoor === AssetOBJ.door01 && touch && currKeyLock === AssetOBJ.keyLock02 && boltUnlocked && combUnlocked) {
       soundSFX.doorOpenSFX.play()
-      this.setState({ currDoor: currDoor = AssetOBJ.door02 })
+      this.setState({ currDoor: currDoor = AssetOBJ.door02, highScoreMessage: highScoreMessage = text })
+      this.handleParams(highScoreMessage)
       this.props.handleStop()
     } else
       if (currDoor === AssetOBJ.door01 && touch) {
@@ -1004,7 +1032,7 @@ class Game extends Component {
         <ComponentOBJ.Lamp ref={this.lamp} canvLeft={canvLeft} currLamp={currLamp} handleClick={this.handleLightClick} />
         <ComponentOBJ.Table ref={this.table} table={AssetOBJ.table} canvLeft={canvLeft} />
         {(this.state.bobbyPin.currState === 0 ?
-          <ComponentOBJ.BobbyPin ref={this.bobPin} canvLeft={canvLeft} bobPin={AssetOBJ.bobbyPin01} handleClick={this.handleBobbyPinClick} />: null)}
+          <ComponentOBJ.BobbyPin ref={this.bobPin} canvLeft={canvLeft} bobPin={AssetOBJ.bobbyPin01} handleClick={this.handleBobbyPinClick} /> : null)}
         <ComponentOBJ.Papers papers={AssetOBJ.papers} canvLeft={canvLeft} handleClick={this.handlePaperClick} />
         <ComponentOBJ.Book book={AssetOBJ.book} canvLeft={canvLeft} handleClick={this.handleBookClick} />
         <ComponentOBJ.HitBox2 ref={this.hitBox2} hitBox={AssetOBJ.hitBox} canvLeft={canvLeft} />
@@ -1037,6 +1065,8 @@ class Game extends Component {
           <ComponentOBJ.LightOffFilter canvLeft={canvLeft} /> : null)}
         {(this.state.infoMessage ?
           <ComponentOBJ.InfoMessage infoMessage={this.state.infoMessage} clearInfo={this.clearInfo} canvLeft={canvLeft} /> : null)}
+       {(this.state.highScoreMessage ?
+          <ComponentOBJ.HighScoreSubmitter highScoreMessage={this.state.highScoreMessage} clearInfo={this.clearInfo} canvLeft={canvLeft} /> : null)}
       </div>
     )
   }
@@ -1076,11 +1106,11 @@ class Game extends Component {
         {this.renderComponents()}
         {this.renderInventory()}
         {this.renderPuzzles()}
-        <ComponentOBJ.Timer 
-        canvLeft = {canvLeft} 
-        hours = {this.props.hours} 
-        minutes = {this.props.minutes}
-        seconds = {this.props.seconds}
+        <ComponentOBJ.Timer
+          canvLeft={canvLeft}
+          hours={this.props.hours}
+          minutes={this.props.minutes}
+          seconds={this.props.seconds}
         />
         <ComponentOBJ.CircleCursor id="circleCursor" />
       </div>

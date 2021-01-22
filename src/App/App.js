@@ -63,7 +63,6 @@ class App extends Component {
               minutes={this.state.time.m}
               seconds={this.state.time.s}
             />
-            {/* <button onClick={this.startTimer}>Start</button><br /> */}
           </div>)}
       </div>
     )

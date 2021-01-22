@@ -42,6 +42,7 @@ import InventoryHolder from '../Components/InventoryComponents/InventoryHolder/I
 import ScrewInventory from './InventoryComponents/Screws/ScrewInventory'
 import KeyInventory from '../Components/InventoryComponents/Key/KeyInventory'
 import ScrewDriverInventory from '../Components/InventoryComponents/ScrewDriver/ScrewDriverInventory'
+import HighScoreSubmitter from '../Components/GameComponents/HighScore/HighScoreSubmitter'
 import Timer from '../Timer/Timer'
 
 let ComponentOBJ = {
@@ -89,6 +90,7 @@ let ComponentOBJ = {
     ScrewInventory,
     KeyInventory,
     ScrewDriverInventory,
+    HighScoreSubmitter,
     Timer
 }
 

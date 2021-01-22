@@ -19,7 +19,31 @@ html{
   background-color: rgb(228, 153, 13);
   transition: all .4s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-
 .menuItem:hover{
   font-size: 25px;
+}
+input {
+  cursor: none;
+}
+#username{
+  cursor: none;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+label {
+  cursor: none;
+  color: white;
+}
+.highScoreSubmit{
+    position: absolute;
+    color:black;
+    font-weight: bolder;
+    border-style:solid;
+    font-size: 18px;
+    border-color:rgb(0, 0, 0);
+    border-radius:10px;
+    background-color: rgb(228, 153, 13);
+    transition: all .4s cubic-bezier(0.075, 0.82, 0.165, 1);
+    text-align: center;
 }
