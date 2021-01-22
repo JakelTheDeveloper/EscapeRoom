@@ -1062,11 +1062,25 @@ class Game extends Component {
   }
 
   render() {
+    let canvLeft
+    if (this.props.screenWidth <= 1085) {
+      canvLeft = 0
+    } else if (this.props.screenWidth > 1085 && this.props.screenWidth <= 1366) {
+      canvLeft = 350
+    } else {
+      canvLeft = 450
+    }
     return (
       <div>
         {this.renderComponents()}
         {this.renderInventory()}
         {this.renderPuzzles()}
+        <ComponentOBJ.Timer 
+        canvLeft = {canvLeft} 
+        hours = {this.props.hours} 
+        minutes = {this.props.minutes}
+        seconds = {this.props.seconds}
+        />
         <ComponentOBJ.CircleCursor id="circleCursor" />
       </div>
     )

@@ -42,6 +42,7 @@ import InventoryHolder from '../Components/InventoryComponents/InventoryHolder/I
 import ScrewInventory from './Screws/ScrewInventory'
 import KeyInventory from '../Components/InventoryComponents/Key/KeyInventory'
 import ScrewDriverInventory from '../Components/InventoryComponents/ScrewDriver/ScrewDriverInventory'
+import Timer from '../Timer/Timer'
 
 let ComponentOBJ = {
     BobbyPin,
@@ -87,7 +88,8 @@ let ComponentOBJ = {
     InventoryHolder,
     ScrewInventory,
     KeyInventory,
-    ScrewDriverInventory
+    ScrewDriverInventory,
+    Timer
 }
 
 export default ComponentOBJ

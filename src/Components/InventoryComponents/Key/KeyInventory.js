@@ -8,7 +8,7 @@ class KeyInventory extends Component {
                 onClick={() => this.props.handleClick('key')}
                 id='key_inventory'
                 name='key_inventory'
-                style={{position: 'absolute',top: 432,left: canvLeft + 267}}
+                style={{ position: 'absolute', top: 432, left: canvLeft + 267 }}
                 alt='key_inventory'
             />
         )

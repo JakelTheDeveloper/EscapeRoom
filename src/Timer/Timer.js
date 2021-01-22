@@ -6,7 +6,7 @@ class Timer extends Component {
         let zeroHourData
         let zeroMinData
         let zeroSecData
-        if(this.props.hour >=0 && this.props.hour <10){
+        if(this.props.hours >=0 && this.props.hours <10){
             zeroHourData = '0'
        }
         if(this.props.minutes >=0 && this.props.minutes <10){
@@ -16,8 +16,8 @@ class Timer extends Component {
              zeroSecData = '0'
         }
         return (
-            <div style={{position: 'absolute',top: 445,left: canvLeft + 380,color:'red',borderStyle:'solid',borderRadius:5,backgroundColor:'black'}}>
-                  {zeroHourData}{this.props.hour}:{zeroMinData}{this.props.minutes}:{zeroSecData}{this.props.seconds}
+            <div style={{position: 'absolute',top: 440,left: canvLeft + 480,color:'red',borderStyle:'solid',borderRadius:5,backgroundColor:'black'}}>
+                  {zeroHourData}{this.props.hours}:{zeroMinData}{this.props.minutes}:{zeroSecData}{this.props.seconds}
             </div>
         );
     }

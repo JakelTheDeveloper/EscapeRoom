@@ -2,7 +2,9 @@ import './App.css'
 import Game from '../Game/Game'
 import soundSFX from '../soundFileHelper/SoundFile'
 import React, { Component } from 'react'
-import Timer from '../Timer/Timer'
+import AssetOBJ from '../AssetHelper/AssetHelper'
+import Menu from '../Menu/Menu'
+import CircleCursor from '../Components/GameComponents/CircleCursor/CircleCursor'
 
 class App extends Component {
   constructor(props) {
@@ -13,25 +15,46 @@ class App extends Component {
     this.state = {
       width: window.innerWidth,
       height: window.innerHeight,
-      gameStarted: false,
+      gameStarted: true,
       time: {},
       seconds: 0,
     }
   }
+  
   render() {
     let canvLeft
     if (this.state.width <= 1085) {
       canvLeft = 0
-    } else if (this.state.height > 1085 && this.state.screenWidth <= 1366) {
+    } else if (this.state.width > 1085 && this.state.width <= 1366) {
       canvLeft = 350
     } else {
       canvLeft = 450
     }
     return (
       <div className="App">
-        <Game key='game' className="canvas"  screenWidth={this.state.width} screenheight={this.state.height} />
-        <button onClick={this.startTimer}>Start</button><br />
-        <Timer canvLeft = {canvLeft} hour = {this.state.time.h} minutes = {this.state.time.m} seconds = {this.state.time.s}/>
+        {(!this.state.gameStarted ?
+          <div>
+            {canvLeft}
+            <Menu
+            className= "menu"
+            screenWidth={this.state.width} 
+            screenheight={this.state.height}
+            canvLeft={canvLeft} 
+            bg={AssetOBJ.background} />
+            <CircleCursor id="circleCursor" />
+          </div>
+          :
+          <div>
+            <Game key='game'
+             className="canvas" 
+             screenWidth={this.state.width} 
+             screenheight={this.state.height}
+             hours={this.state.time.h} 
+             minutes={this.state.time.m} 
+             seconds={this.state.time.s}
+              />
+            {/* <button onClick={this.startTimer}>Start</button><br /> */}
+          </div>)}
       </div>
     )
   }

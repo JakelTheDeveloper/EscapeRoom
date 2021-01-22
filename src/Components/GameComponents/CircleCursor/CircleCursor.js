@@ -5,14 +5,14 @@ class CircleCursor extends Component {
         super(props)
         this.circleCursor = React.createRef();
     }
-    componentDidMount(){
-    let circleCursor = this.circleCursor.current
-    const onMouseMove = (e) => {
-      circleCursor.style.left = e.pageX + 'px';
-      circleCursor.style.top = e.pageY + 'px';
+    componentDidMount() {
+        let circleCursor = this.circleCursor.current
+        const onMouseMove = (e) => {
+            circleCursor.style.left = e.pageX + 'px';
+            circleCursor.style.top = e.pageY + 'px';
+        }
+        window.addEventListener('mousemove', onMouseMove);
     }
-    window.addEventListener('mousemove', onMouseMove);
-}
     render() {
         return <div id="circleCursor" ref={this.circleCursor}></div>
     }
