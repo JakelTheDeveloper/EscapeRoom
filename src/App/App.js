@@ -1,8 +1,8 @@
 import './App.css'
 import Game from '../Game/Game'
-// import Timer from '../Timer/Timer'
 import soundSFX from '../soundFileHelper/SoundFile'
 import React, { Component } from 'react'
+import Timer from '../Timer/Timer'
 
 class App extends Component {
   constructor(props) {
@@ -15,15 +15,23 @@ class App extends Component {
       height: window.innerHeight,
       gameStarted: false,
       time: {},
-      seconds: 40,
+      seconds: 0,
     }
   }
   render() {
+    let canvLeft
+    if (this.state.width <= 1085) {
+      canvLeft = 0
+    } else if (this.state.height > 1085 && this.state.screenWidth <= 1366) {
+      canvLeft = 350
+    } else {
+      canvLeft = 450
+    }
     return (
       <div className="App">
         <Game key='game' className="canvas"  screenWidth={this.state.width} screenheight={this.state.height} />
         <button onClick={this.startTimer}>Start</button><br />
-              h:{this.state.time.h}  m: {this.state.time.m} s: {this.state.time.s}
+        <Timer canvLeft = {canvLeft} hour = {this.state.time.h} minutes = {this.state.time.m} seconds = {this.state.time.s}/>
       </div>
     )
   }
@@ -48,7 +56,6 @@ class App extends Component {
   }
 
   countDown() {
-    // add one second, set state so a re-render happens.
     let seconds = this.state.seconds + 1;
     soundSFX.tickSFX.play()
     this.setState({
@@ -56,7 +63,6 @@ class App extends Component {
       seconds: seconds,
     });
 
-    // Check if we're at zero.
     if (seconds === 0) {
       clearInterval(this.timer);
     }
