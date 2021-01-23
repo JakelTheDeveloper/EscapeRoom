@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 import MenuItem from './MenuItem/MenuItem'
-import soundSFX from '../soundFileHelper/SoundFile'
 
 class Menu extends Component {
     handleStartGame=()=>{
         this.props.handleStart()
-    }
-    handlePlay=()=>{
-        soundSFX.selectionSFX.play()
     }
     render() {
         let canvLeft = this.props.canvLeft
@@ -23,7 +19,7 @@ class Menu extends Component {
                 alt='menu'
             />
              <h1 className = "text" style={{ position: 'absolute', left: canvLeft + 220, top: 200,color:'red' }}>Escape Room</h1>
-             <MenuItem handlePlay = {this.handlePlay} canvLeft={canvLeft} top ={340} left ={275} item = {instructions}/>
+             <MenuItem handlePlay = {this.handlePlay} handleClick = {this.props.handleInstructions} canvLeft={canvLeft} top ={340} left ={275} item = {instructions}/>
              <MenuItem handlePlay = {this.handlePlay} canvLeft={canvLeft} top ={305} left ={275} item = {highScores}/>
              <MenuItem handlePlay = {this.handlePlay} handleClick = {this.handleStartGame} canvLeft={canvLeft} top ={270} left ={278} item = {startGame}/>
             </div>

@@ -1,4 +1,6 @@
 import background from '../Assets/BG.jpg'
+import introBG from '../Assets/IntroImage.jpg'
+import instructions from '../Assets/Instructions.jpg'
 import table from '../Assets/Table/Table.png'
 import door01 from '../Assets/Door/Door0001.png'
 import door02 from '../Assets/Door/Door0002.png'
@@ -46,6 +48,8 @@ import inventoryHolder from '../Assets/Inventory/InventoryHolder.png'
 
 let AssetOBJ = {
 background,
+introBG,
+instructions,
 table,
 door01,
 door02,

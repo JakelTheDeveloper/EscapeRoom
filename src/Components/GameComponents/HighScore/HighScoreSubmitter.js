@@ -17,12 +17,15 @@ class HighScoreSubmitter extends Component {
             >{this.props.highScoreMessage}<br/>
             <label htmlFor="username" className="username_label">Enter Your Name</label><br/>
             <input type="text" id="username" name="username" onChange={this.handleChange}/><br/>
-             <button type = "button" onMouseOver = {()=>this.handlePlay()} onClick={this.props.clearInfo} className = 'menuItem' style={{
-              marginTop: 5,
-              left: canvLeft - 305,
-            }}>Submit</button>
             </div>
-           
+            <button type = "button" onMouseOver = {()=>this.handlePlay()} onClick={this.props.handleBack} className = 'menuItem' style={{
+              top: 330,
+              left: canvLeft + 297,
+            }}>Menu</button>
+            <button type = "button" onMouseOver = {()=>this.handlePlay()} onClick={this.props.clearInfo} className = 'menuItem' style={{
+              top: 300,
+              left: canvLeft + 290,
+            }}>Submit</button>
           </form>
         )
     }

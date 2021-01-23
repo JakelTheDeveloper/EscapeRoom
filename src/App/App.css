@@ -22,13 +22,33 @@ html{
 .menuItem:hover{
   font-size: 25px;
 }
+.soundConfig{
+  position: absolute;
+  color:black;
+  font-weight: bolder;
+  border-style:solid;
+  font-size: 18px;
+  border-color:rgb(0, 0, 0);
+  border-radius:10px;
+  background-color: rgb(228, 153, 13);
+  transition: all .4s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.soundConfig:hover{
+  font-size: 20px;
+}
 input {
   cursor: none;
+}
+.username_label{
+color: black;
 }
 #username{
   cursor: none;
   margin-bottom: 10px;
   text-align: center;
+  border: solid 2px black;
+  font-family: 'Turret Road', cursive;
+  font-weight: bold;
 }
 
 label {
@@ -46,4 +66,16 @@ label {
     background-color: rgb(228, 153, 13);
     transition: all .4s cubic-bezier(0.075, 0.82, 0.165, 1);
     text-align: center;
+}
+
+.dropdown{
+  animation: 1s ease-out 0s 1 slideInFromTop;
+}
+@keyframes slideInFromTop {
+  0% {
+    transform: translateY(-200%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }

@@ -5,6 +5,8 @@ import React, { Component } from 'react'
 import AssetOBJ from '../AssetHelper/AssetHelper'
 import Menu from '../Menu/Menu'
 import CircleCursor from '../Components/GameComponents/CircleCursor/CircleCursor'
+import Banner from '../Menu/Banner'
+import Instructions from '../Menu/Instructions'
 
 class App extends Component {
   constructor(props) {
@@ -15,6 +17,9 @@ class App extends Component {
     this.state = {
       width: window.innerWidth,
       height: window.innerHeight,
+      timerSFX:true,
+      ad:true,
+      instructions:false,
       gameStarted: false,
       time: {},
       seconds: 0,
@@ -26,7 +31,33 @@ class App extends Component {
   handleStart = () => {
     let { gameStarted } = this.state
     this.setState({ gameStarted: gameStarted = true })
+    this.timer = setInterval(this.countDown, 1000);
     this.handleParams(gameStarted)
+  }
+  handleBack = () => {
+    let seconds = 0
+    let { gameStarted } = this.state
+    this.setState({ gameStarted: gameStarted = false })
+    this.handleParams(gameStarted)
+    this.setState({
+      time: this.secondsToTime(seconds),
+      seconds: seconds,
+    });
+  }
+  closeBanner = () => {
+    let { ad } = this.state
+    this.setState({ ad: ad = false })
+    this.handleParams(ad)
+  }
+  handleInstructions = () => {
+    let { instructions } = this.state
+    this.setState({ instructions: instructions = true })
+    this.handleParams(instructions)
+  }
+  closeInstructions = () => {
+    let { instructions } = this.state
+    this.setState({ instructions: instructions = false })
+    this.handleParams(instructions)
   }
   
   render() {
@@ -42,21 +73,22 @@ class App extends Component {
       <div className="App">
         {(!this.state.gameStarted ?
           <div>
-            {canvLeft}
             <Menu
               handleStart={this.handleStart}
+              handleInstructions = {this.handleInstructions}
               className="menu"
               screenWidth={this.state.width}
               screenheight={this.state.height}
               canvLeft={canvLeft}
               bg={AssetOBJ.background} />
-            <CircleCursor id="circleCursor" />
           </div>
           :
           <div>
             <Game key='game'
               className="canvas"
               handleStop={this.stopTimer}
+              handleMute={this.muteTimer}
+              handleBack={this.handleBack}
               screenWidth={this.state.width}
               screenheight={this.state.height}
               hours={this.state.time.h}
@@ -64,6 +96,11 @@ class App extends Component {
               seconds={this.state.time.s}
             />
           </div>)}
+          {(this.state.instructions?
+        <Instructions bg = {AssetOBJ.instructions} handleClick = {this.closeInstructions} canvLeft = {canvLeft}/>:null)}
+          {(this.state.ad?
+        <Banner bg = {AssetOBJ.introBG} handleClick = {this.closeBanner} canvLeft = {canvLeft}/>:null)}
+         <CircleCursor id="circleCursor" />
       </div>
     )
   }
@@ -84,10 +121,16 @@ class App extends Component {
   stopTimer() {
     clearInterval(this.timer);
   }
-
+  muteTimer=()=>{
+    let {timerSFX} = this.state
+    this.setState({timerSFX:timerSFX = !timerSFX})
+    this.handleParams(timerSFX)
+  }
   countDown() {
     let seconds = this.state.seconds + 1;
+    if(this.state.timerSFX){
     soundSFX.tickSFX.play()
+    }
     this.setState({
       time: this.secondsToTime(seconds),
       seconds: seconds,
