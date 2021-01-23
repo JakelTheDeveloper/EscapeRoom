@@ -7,6 +7,8 @@ import Menu from '../Menu/Menu'
 import CircleCursor from '../Components/GameComponents/CircleCursor/CircleCursor'
 import Banner from '../Menu/Banner'
 import Instructions from '../Menu/Instructions'
+import dummyScores from '../DUMMYDATA'
+import HighScores from '../Menu/HighScoreMenu/HighScores'
 
 class App extends Component {
   constructor(props) {
@@ -19,8 +21,10 @@ class App extends Component {
       height: window.innerHeight,
       timerSFX:true,
       ad:true,
+      highScoreView:false,
       instructions:false,
       gameStarted: false,
+      data:[],
       time: {},
       seconds: 0,
     }
@@ -36,9 +40,9 @@ class App extends Component {
   }
   handleBack = () => {
     let seconds = 0
-    let { gameStarted } = this.state
-    this.setState({ gameStarted: gameStarted = false })
-    this.handleParams(gameStarted)
+    let { gameStarted,highScoreView} = this.state
+    this.setState({ gameStarted: gameStarted = false,highScoreView:highScoreView = false })
+    this.handleParams(gameStarted,highScoreView)
     this.setState({
       time: this.secondsToTime(seconds),
       seconds: seconds,
@@ -54,12 +58,17 @@ class App extends Component {
     this.setState({ instructions: instructions = true })
     this.handleParams(instructions)
   }
+  handleHighScore = () => {
+    let { highScoreView } = this.state
+    this.setState({ highScoreView: highScoreView = true })
+    this.handleParams(highScoreView)
+  }
   closeInstructions = () => {
     let { instructions } = this.state
     this.setState({ instructions: instructions = false })
     this.handleParams(instructions)
   }
-  
+
   render() {
     let canvLeft
     if (this.state.width <= 1085) {
@@ -76,6 +85,7 @@ class App extends Component {
             <Menu
               handleStart={this.handleStart}
               handleInstructions = {this.handleInstructions}
+              handleHighScore = {this.handleHighScore}
               className="menu"
               screenWidth={this.state.width}
               screenheight={this.state.height}
@@ -98,6 +108,12 @@ class App extends Component {
           </div>)}
           {(this.state.instructions?
         <Instructions bg = {AssetOBJ.instructions} handleClick = {this.closeInstructions} canvLeft = {canvLeft}/>:null)}
+           {(this.state.highScoreView ?
+         <HighScores
+         handleClick = {this.handleBack}
+         data = {this.state.data}
+         canvLeft={canvLeft}
+         bg={AssetOBJ.background} /> :null)}
           {(this.state.ad?
         <Banner bg = {AssetOBJ.introBG} handleClick = {this.closeBanner} canvLeft = {canvLeft}/>:null)}
          <CircleCursor id="circleCursor" />
@@ -146,6 +162,9 @@ class App extends Component {
     }
   }
   componentDidMount() {
+    let {data} = this.state
+    this.setState({data:data = dummyScores})
+    this.handleParams(data)
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
     window.addEventListener('resize', this.updateDimensions);

@@ -8,6 +8,29 @@ html{
 .text{
   font-family: 'Turret Road', cursive;
 }
+.highScoreTable{
+  width: 140px;
+  border: 3px solid rgb(111, 81, 41);
+  background-color: burlywood;
+  border-radius: .5em;
+  padding: 10px;
+  height: 200px;
+  overflow-y: scroll;
+}
+.user{
+  width: 100px;
+  padding: 10px;
+  background-color: rgba(240, 147, 61, 0.39);
+  border: 2px solid rgba(192, 132, 19, 0.5);
+  display: inline-block;
+  vertical-align: middle;
+}
+.time{
+  font-family: 'Turret Road', cursive;
+  border: solid 2px black;
+  border-radius: 4px;
+  font-size: 12px;
+}
 .menuItem{
   position: absolute;
   color:black;
@@ -22,7 +45,7 @@ html{
 .menuItem:hover{
   font-size: 25px;
 }
-.soundConfig{
+.menuBtnSmall{
   position: absolute;
   color:black;
   font-weight: bolder;
@@ -33,7 +56,7 @@ html{
   background-color: rgb(228, 153, 13);
   transition: all .4s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-.soundConfig:hover{
+.menuBtnSmall:hover{
   font-size: 20px;
 }
 input {
