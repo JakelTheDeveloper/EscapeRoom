@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class HitBox2 extends Component {
     constructor(props) {
         super(props)
-        this.hitBox2 = React.createRef();
+        this.hitBox2 = React.createRef()
     }
     returnData = () => {
         let hitBox2 = this.hitBox2.current

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class Rug extends Component {
     constructor(props) {
         super(props)
-        this.rug = React.createRef();
+        this.rug = React.createRef()
     }
     returnData =()=> {
         let rug = this.rug.current

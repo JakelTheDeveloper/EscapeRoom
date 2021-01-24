@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class Couch extends Component {
     constructor(props) {
         super(props)
-        this.couch = React.createRef();
+        this.couch = React.createRef()
     }
     returnData = () => {
         let couch = this.couch.current

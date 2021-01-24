@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class Picture extends Component {
     constructor(props) {
         super(props)
-        this.picture = React.createRef();
+        this.picture = React.createRef()
     }
     handleToggled = () => {
         let picture = this.picture.current

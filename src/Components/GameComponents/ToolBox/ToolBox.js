@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class ToolBox extends Component {
     constructor(props) {
         super(props)
-        this.toolBox = React.createRef();
+        this.toolBox = React.createRef()
     }
     returnData =()=> {
         let toolBox = this.toolBox.current

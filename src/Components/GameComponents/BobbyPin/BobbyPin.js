@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class BobbyPin extends Component {
     constructor(props) {
         super(props)
-        this.bobPin = React.createRef();
+        this.bobPin = React.createRef()
     }
     returnData = () => {
         let bobPin = this.bobPin.current

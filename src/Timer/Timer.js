@@ -25,7 +25,7 @@ class Timer extends Component {
             <button className = "menuBtnSmall" onClick = {this.props.handleMute} style={{position: 'absolute',top: 440,left: canvLeft + 550}}>&#128264;</button>)}
             
             </div>
-        );
+        )
     }
 }
 

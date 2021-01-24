@@ -4,7 +4,7 @@ import GamePad from '../GamePad/GamePad'
 class Character extends Component {
     constructor(props) {
         super(props)
-        this.char = React.createRef();
+        this.char = React.createRef()
         this.state = {
             currLeft: false,
             currRight: false,
@@ -19,7 +19,7 @@ class Character extends Component {
         this.intervalId = setInterval(() => {
             let { borders } = this.props
             let circle = this.char.current
-            let moveSpeed = 8;
+            let moveSpeed = 8
             let canvLeft = this.props.canvLeft
             if (this.props.screenWidth <= 1085) {
                 canvLeft = 0
@@ -34,22 +34,22 @@ class Character extends Component {
             if (this.state.currLeft) {
                 let x = parseInt(circle.style.left)
                 if (x > this.props.borders.left) {
-                    circle.style.left = x - moveSpeed + 'px';
+                    circle.style.left = x - moveSpeed + 'px'
                 }
             } if (this.state.currRight) {
                 let x = parseInt(circle.style.left)
                 if (x < this.props.borders.right) {
-                    circle.style.left = x + moveSpeed + 'px';
+                    circle.style.left = x + moveSpeed + 'px'
                 }
             } if (this.state.currUp) {
                 let y = parseInt(circle.style.top)
                 if (y > this.props.borders.top) {
-                    circle.style.top = y - moveSpeed + 'px';
+                    circle.style.top = y - moveSpeed + 'px'
                 }
             } if (this.state.currDown) {
                 let y = parseInt(circle.style.top)
                 if (y < this.props.borders.bottom) {
-                    circle.style.top = y + moveSpeed + 'px';
+                    circle.style.top = y + moveSpeed + 'px'
                 }
             }
         }, 30)

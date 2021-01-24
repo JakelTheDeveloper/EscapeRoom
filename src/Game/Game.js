@@ -7,19 +7,19 @@ import './Game.css'
 class Game extends Component {
   constructor(props) {
     super(props)
-    this.char = React.createRef();
-    this.dresser = React.createRef();
-    this.door = React.createRef();
-    this.couch = React.createRef();
-    this.rug = React.createRef();
-    this.lamp = React.createRef();
-    this.table = React.createRef();
-    this.picture = React.createRef();
-    this.bobPin = React.createRef();
-    this.stool = React.createRef();
-    this.toolBox = React.createRef();
-    this.hitBox1 = React.createRef();
-    this.hitBox2 = React.createRef();
+    this.char = React.createRef()
+    this.dresser = React.createRef()
+    this.door = React.createRef()
+    this.couch = React.createRef()
+    this.rug = React.createRef()
+    this.lamp = React.createRef()
+    this.table = React.createRef()
+    this.picture = React.createRef()
+    this.bobPin = React.createRef()
+    this.stool = React.createRef()
+    this.toolBox = React.createRef()
+    this.hitBox1 = React.createRef()
+    this.hitBox2 = React.createRef()
     this.state = {
       currDoor: AssetOBJ.door01,
       currLamp: AssetOBJ.lamp01,

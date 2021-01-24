@@ -16,13 +16,13 @@ class HighScores extends Component {
     static contextType = AppContext
 
     sortByTimeAsc(a, b) {
-        let results;
-        results = a.hours > b.hours ? 1 : a.hours < b.hours ? -1 : 0;
+        let results
+        results = a.hours > b.hours ? 1 : a.hours < b.hours ? -1 : 0
         if (results === 0)
-            results = a.minutes > b.minutes ? 1 : a.minutes < b.minutes ? -1 : 0;
+            results = a.minutes > b.minutes ? 1 : a.minutes < b.minutes ? -1 : 0
         if (results === 0)
-            results = a.seconds > b.seconds ? 1 : a.seconds < b.seconds ? -1 : 0;
-        return results;
+            results = a.seconds > b.seconds ? 1 : a.seconds < b.seconds ? -1 : 0
+        return results
     }
     render() {
         let data
@@ -58,7 +58,7 @@ class HighScores extends Component {
 
                 <div className="highScoreTable" style={{ position: 'absolute', left: canvLeft + 190, top: 170 }}>
                     {this.state.loading ? <div className="loading">Loading...</div> : null}
-                    {this.state.error ? <div className="error">{this.state.error}</div> : null}
+                    {this.props.error ? <div className="error">{this.props.error}</div> : null}
                     {sortedData.map(data =>
                         <HighScoreItem key={data.id} user={data.username} hours={data.hours} minutes={data.minutes} seconds={data.seconds} />)}
                 </div>

@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class Table extends Component {
     constructor(props) {
         super(props)
-        this.table = React.createRef();
+        this.table = React.createRef()
     }
     returnData =()=> {
         let table = this.table.current

@@ -15,8 +15,8 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.timer = 0
-    this.stopTimer = this.stopTimer.bind(this);
-    this.countDown = this.countDown.bind(this);
+    this.stopTimer = this.stopTimer.bind(this)
+    this.countDown = this.countDown.bind(this)
     this.state = {
       width: window.innerWidth,
       height: window.innerHeight,
@@ -28,6 +28,7 @@ class App extends Component {
       data:[],
       time: {},
       seconds: 0,
+      error:null
     }
   }
   handleParams = (params) => {
@@ -36,7 +37,7 @@ class App extends Component {
   handleStart = () => {
     let { gameStarted } = this.state
     this.setState({ gameStarted: gameStarted = true })
-    this.timer = setInterval(this.countDown, 1000);
+    this.timer = setInterval(this.countDown, 1000)
     this.handleParams(gameStarted)
   }
   handleBack = () => {
@@ -47,7 +48,7 @@ class App extends Component {
     this.setState({
       time: this.secondsToTime(seconds),
       seconds: seconds,
-    });
+    })
   }
   closeBanner = () => {
     let { ad } = this.state
@@ -123,6 +124,7 @@ class App extends Component {
          <HighScores
          handleClick = {this.handleBack}
          data = {this.state.data}
+         error = {this.state.error}
          canvLeft={canvLeft}
          bg={AssetOBJ.background} /> :null)}
           {(this.state.ad?
@@ -133,21 +135,21 @@ class App extends Component {
     )
   }
   secondsToTime(secs) {
-    let hours = Math.floor(secs / (60 * 60));
-    let divisor_for_minutes = secs % (60 * 60);
-    let minutes = Math.floor(divisor_for_minutes / 60);
-    let divisor_for_seconds = divisor_for_minutes % 60;
-    let seconds = Math.ceil(divisor_for_seconds);
+    let hours = Math.floor(secs / (60 * 60))
+    let divisor_for_minutes = secs % (60 * 60)
+    let minutes = Math.floor(divisor_for_minutes / 60)
+    let divisor_for_seconds = divisor_for_minutes % 60
+    let seconds = Math.ceil(divisor_for_seconds)
     let obj = {
       "h": hours,
       "m": minutes,
       "s": seconds
-    };
-    return obj;
+    }
+    return obj
   }
 
   stopTimer() {
-    clearInterval(this.timer);
+    clearInterval(this.timer)
   }
   muteTimer=()=>{
     let {timerSFX} = this.state
@@ -155,26 +157,25 @@ class App extends Component {
     this.handleParams(timerSFX)
   }
   countDown() {
-    let seconds = this.state.seconds + 1;
+    let seconds = this.state.seconds + 1
     if(this.state.timerSFX){
     soundSFX.tickSFX.play()
     }
     this.setState({
       time: this.secondsToTime(seconds),
       seconds: seconds,
-    });
+    })
   }
 
   updateDimensions = () => {
-    this.setState({ width: window.innerWidth, height: window.innerHeight });
-  };
+    this.setState({ width: window.innerWidth, height: window.innerHeight })
+  }
   componentDidUpdate(){
     if (this.timer === 0 && this.state.seconds >= 0 && this.state.gameStarted) {
-      this.timer = setInterval(this.countDown, 1000);
+      this.timer = setInterval(this.countDown, 1000)
     }
   }
   async componentDidMount() {
-    this.setState({ loading: true })
     let options =  {headers: {
       'authorization': `Bearer ${config.API_KEY}`,
     }}
@@ -188,14 +189,14 @@ class App extends Component {
     } catch (error) {
         this.setState({error:error.message})
     }
-    let timeLeftVar = this.secondsToTime(this.state.seconds);
-    this.setState({ time: timeLeftVar });
-    window.addEventListener('resize', this.updateDimensions);
+    let timeLeftVar = this.secondsToTime(this.state.seconds)
+    this.setState({ time: timeLeftVar })
+    window.addEventListener('resize', this.updateDimensions)
   }
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateDimensions);
+    window.removeEventListener('resize', this.updateDimensions)
   }
 }
 
 
-export default App;  
+export default App  

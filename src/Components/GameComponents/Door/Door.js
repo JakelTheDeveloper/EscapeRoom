@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 class Door extends Component {
     constructor(props) {
         super(props)
-        this.door = React.createRef();
+        this.door = React.createRef()
     }
     returnData = () => {
         let door = this.door.current
