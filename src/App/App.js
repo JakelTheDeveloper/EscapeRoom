@@ -10,6 +10,7 @@ import Instructions from '../Menu/Instructions'
 import config from '../config'
 import HighScores from '../Menu/HighScoreMenu/HighScores'
 import AppContext from '../App/AppContext'
+require('dotenv').config()
 
 class App extends Component {
   constructor(props) {
