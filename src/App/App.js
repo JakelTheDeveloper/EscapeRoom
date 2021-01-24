@@ -7,8 +7,9 @@ import Menu from '../Menu/Menu'
 import CircleCursor from '../Components/GameComponents/CircleCursor/CircleCursor'
 import Banner from '../Menu/Banner'
 import Instructions from '../Menu/Instructions'
-import dummyScores from '../DUMMYDATA'
+import config from '../config'
 import HighScores from '../Menu/HighScoreMenu/HighScores'
+import AppContext from '../App/AppContext'
 
 class App extends Component {
   constructor(props) {
@@ -69,7 +70,15 @@ class App extends Component {
     this.handleParams(instructions)
   }
 
+  addScore = newScore => {
+    this.setState({ data: [...this.state.data, newScore] })
+  }
+
   render() {
+    const contextValue = {
+      data:this.state.data,
+      addScore:this.addScore
+    }
     let canvLeft
     if (this.state.width <= 1085) {
       canvLeft = 0
@@ -79,6 +88,7 @@ class App extends Component {
       canvLeft = 450
     }
     return (
+      <AppContext.Provider value={contextValue}>
       <div className="App">
         {(!this.state.gameStarted ?
           <div>
@@ -99,6 +109,7 @@ class App extends Component {
               handleStop={this.stopTimer}
               handleMute={this.muteTimer}
               handleBack={this.handleBack}
+              muteState= {this.state.timerSFX}
               screenWidth={this.state.width}
               screenheight={this.state.height}
               hours={this.state.time.h}
@@ -118,6 +129,7 @@ class App extends Component {
         <Banner bg = {AssetOBJ.introBG} handleClick = {this.closeBanner} canvLeft = {canvLeft}/>:null)}
          <CircleCursor id="circleCursor" />
       </div>
+      </AppContext.Provider>
     )
   }
   secondsToTime(secs) {
@@ -161,10 +173,18 @@ class App extends Component {
       this.timer = setInterval(this.countDown, 1000);
     }
   }
-  componentDidMount() {
-    let {data} = this.state
-    this.setState({data:data = dummyScores})
-    this.handleParams(data)
+  async componentDidMount() {
+    this.setState({ loading: true })
+    try {
+        const response = await fetch(`${config.URL}/api/scores`)
+        if (!response.ok) {
+            throw Error(response.statusText)
+        }
+        const data = await response.json()
+        this.setState({ data: data, loading: false })
+    } catch (error) {
+        this.setState({error:error.message})
+    }
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
     window.addEventListener('resize', this.updateDimensions);

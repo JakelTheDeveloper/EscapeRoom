@@ -8,22 +8,23 @@ class HighScoreItem extends Component {
         let zeroHourData
         let zeroMinData
         let zeroSecData
-        if (this.props.time.h >= 0 && this.props.time.h < 10) {
+        if (this.props.hours >= 0 && this.props.hours < 10) {
             zeroHourData = '0'
         }
-        if (this.props.time.m >= 0 && this.props.time.m < 10) {
+        if (this.props.minutes >= 0 && this.props.minutes < 10) {
             zeroMinData = '0'
         }
-        if (this.props.time.s >= 0 && this.props.time.s < 10) {
+        if (this.props.seconds >= 0 && this.props.seconds < 10) {
             zeroSecData = '0'
         }
         return (<div>
             <div className = "user" onClick={this.props.handleClick}>
-                {this.props.user} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {zeroHourData}{this.props.time.h}
-                :{zeroMinData}{this.props.time.m}
-                :{zeroSecData}{this.props.time.s}
+                {this.props.user} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                {zeroHourData}{this.props.hours}
+                :{zeroMinData}{this.props.minutes}
+                :{zeroSecData}{this.props.seconds}
             </div>
+            {/*  */}
         </div>
 
         )

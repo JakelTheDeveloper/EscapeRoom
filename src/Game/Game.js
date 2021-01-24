@@ -1066,7 +1066,14 @@ class Game extends Component {
         {(this.state.infoMessage ?
           <ComponentOBJ.InfoMessage infoMessage={this.state.infoMessage} clearInfo={this.clearInfo} canvLeft={canvLeft} /> : null)}
        {(this.state.highScoreMessage ?
-          <ComponentOBJ.HighScoreSubmitter highScoreMessage={this.state.highScoreMessage} handleBack = {this.props.handleBack} canvLeft={canvLeft} /> : null)}
+          <ComponentOBJ.HighScoreSubmitter 
+          highScoreMessage={this.state.highScoreMessage}
+          handleBack = {this.props.handleBack} 
+          canvLeft={canvLeft} 
+          hours={this.props.hours}
+          minutes={this.props.minutes}
+          seconds={this.props.seconds}
+           /> : null)}
       </div>
     )
   }
@@ -1109,6 +1116,7 @@ class Game extends Component {
         <ComponentOBJ.Timer
           canvLeft={canvLeft}
           handleMute={this.props.handleMute}
+          muteState={this.props.muteState}
           hours={this.props.hours}
           minutes={this.props.minutes}
           seconds={this.props.seconds}

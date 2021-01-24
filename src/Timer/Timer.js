@@ -20,7 +20,10 @@ class Timer extends Component {
             <div style={{position: 'absolute',top: 440,left: canvLeft + 480,color:'red',borderStyle:'solid',borderRadius:5,backgroundColor:'black'}}>
                   {zeroHourData}{this.props.hours}:{zeroMinData}{this.props.minutes}:{zeroSecData}{this.props.seconds}
             </div>
-            <button className = "menuBtnSmall" onClick = {this.props.handleMute} style={{position: 'absolute',top: 440,left: canvLeft + 550}}>Mute</button>
+            {(this.props.muteState?
+            <button className = "menuBtnSmall" onClick = {this.props.handleMute} style={{position: 'absolute',top: 440,left: canvLeft + 550}}>&#128266;</button>:
+            <button className = "menuBtnSmall" onClick = {this.props.handleMute} style={{position: 'absolute',top: 440,left: canvLeft + 550}}>&#128264;</button>)}
+            
             </div>
         );
     }
