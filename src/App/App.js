@@ -163,8 +163,8 @@ class App extends Component {
       time: this.secondsToTime(seconds),
       seconds: seconds,
     });
-
   }
+
   updateDimensions = () => {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   };
@@ -175,8 +175,11 @@ class App extends Component {
   }
   async componentDidMount() {
     this.setState({ loading: true })
+    let options =  {headers: {
+      'authorization': `Bearer ${config.API_KEY}`,
+    }}
     try {
-        const response = await fetch(`${config.URL}/api/scores`)
+        const response = await fetch(`${config.URL}/api/scores`, options)
         if (!response.ok) {
             throw Error(response.statusText)
         }

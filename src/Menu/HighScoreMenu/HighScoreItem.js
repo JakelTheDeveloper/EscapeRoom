@@ -19,12 +19,13 @@ class HighScoreItem extends Component {
         }
         return (<div>
             <div className = "user" onClick={this.props.handleClick}>
-                {this.props.user} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <div>{this.props.user}</div> 
+                <div>
                 {zeroHourData}{this.props.hours}
                 :{zeroMinData}{this.props.minutes}
                 :{zeroSecData}{this.props.seconds}
+                </div>
             </div>
-            {/*  */}
         </div>
 
         )

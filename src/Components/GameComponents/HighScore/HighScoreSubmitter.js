@@ -29,7 +29,7 @@ class HighScoreSubmitter extends Component {
     if (this.state.username === undefined || this.state.username.length === 0) {
       this.setState({error:"Please enter a name!"})
     }else if(this.state.username.length > 8 ){
-      this.setState({error:"Name has to be 8 or less characters!"})
+      this.setState({error:"Name must be 8 or less characters!"})
         } else {
           const url = `${config.URL}/api/scores`
           const options = {
@@ -40,7 +40,9 @@ class HighScoreSubmitter extends Component {
               minutes: this.props.minutes,
               seconds: this.props.seconds
             }),
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json',
+              authorization: `Bearer ${config.API_KEY}`
+            }
           }
           fetch(url, options)
             .then(res => {

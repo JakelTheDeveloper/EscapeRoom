@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import HighScoreItem from './HighScoreItem'
 import soundSFX from '../../soundFileHelper/SoundFile'
-import config from '../../config'
 import AppContext from '../../App/AppContext'
 
 class HighScores extends Component {
