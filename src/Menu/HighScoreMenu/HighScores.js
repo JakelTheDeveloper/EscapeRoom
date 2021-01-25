@@ -7,9 +7,7 @@ class HighScores extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            data: [],
-            error: null,
-            loading: false
+            data: []
         }
     }
 
@@ -57,7 +55,7 @@ class HighScores extends Component {
                     }}>High Scores</h1>
 
                 <div className="highScoreTable" style={{ position: 'absolute', left: canvLeft + 190, top: 170 }}>
-                    {this.state.loading ? <div className="loading">Loading...</div> : null}
+                    {this.props.loading ? <div className="loading">Loading...</div> : null}
                     {this.props.error ? <div className="error">{this.props.error}</div> : null}
                     {sortedData.map(data =>
                         <HighScoreItem key={data.id} user={data.username} hours={data.hours} minutes={data.minutes} seconds={data.seconds} />)}

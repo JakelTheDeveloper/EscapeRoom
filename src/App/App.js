@@ -29,6 +29,7 @@ class App extends Component {
       data:[],
       time: {},
       seconds: 0,
+      loading:false,
       error:null
     }
   }
@@ -126,6 +127,7 @@ class App extends Component {
          handleClick = {this.handleBack}
          data = {this.state.data}
          error = {this.state.error}
+         loading = {this.state.loading}
          canvLeft={canvLeft}
          bg={AssetOBJ.background} /> :null)}
           {(this.state.ad?
@@ -180,6 +182,7 @@ class App extends Component {
     let options =  {headers: {
       'authorization': `Bearer ${config.API_KEY}`,
     }}
+    this.setState({loading:true})
     try {
         const response = await fetch(`${config.URL}/api/scores`, options)
         if (!response.ok) {

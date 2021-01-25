@@ -1,70 +1,128 @@
-# Getting Started with Create React App
+# EscapeRoom
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### APP DESCRIPTION
 
-## Available Scripts
+The objective of this game is to solve puzzles to retrieve items to escape the room.
+If you get stuck, there is a walkthrough below!
 
-In the project directory, you can run:
+#### *[LIVE APP](https://theescaperoom.vercel.app/)*
 
-### `npm start`
+#### *[BACKEND REPO](https://github.com/JakelTheDeveloper/EscapeRoom-Server)*
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+----------------------------------------------------------------------
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## User Stories
 
-### `npm test`
+* As a user:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    - I can start the game
 
-### `npm run build`
+    - I can view highscores
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    - I can view game instructions
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    - I can submit highscore
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Stack Used
 
-### `npm run eject`
+* Javascript(React)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+* HTML5
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* CSS
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+* NodeJs(Express)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+* PostgreSQL
 
-## Learn More
+#### Version
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+-1.0.0
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# App Walkthrough
 
-### Code Splitting
+DO NOT READ UNLESS YOU GET STUCK!
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+----------------------
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+----------------------
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+----------------------
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+----------------------
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Step 1
 
-### `npm run build` fails to minify
+![Step 1](/Walkthrough/Image_1.jpg)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Step 2
+
+![Step 2](/Walkthrough/Image_2.jpg)
+
+## Step 3
+
+![Step 3](/Walkthrough/Image_3.jpg)
+
+## Step 4
+
+![Step 4](/Walkthrough/Image_4.jpg)
+
+## Step 5
+
+![Step 5](/Walkthrough/Image_5.jpg)
+
+## Step 6
+
+![Step 6](/Walkthrough/Image_6.jpg)
+
+## Step 7
+
+![Step 7](/Walkthrough/Image_7.jpg)
+
+## Step 8
+
+![Step 8](/Walkthrough/Image_8.jpg)
+
+## Step 9
+
+![Step 9](/Walkthrough/Image_9.jpg)
+
+## Step 10
+
+![Step 10](/Walkthrough/Image_10.jpg)
+
+## Step 11
+
+![Step 11](/Walkthrough/Image_11.jpg)
+
+## Step 12
+
+![Step 12](/Walkthrough/Image_12.jpg)
+
+## Step 13
+
+![Step 13](/Walkthrough/Image_13.jpg)
+
+## Step 14
+
+![Step 14](/Walkthrough/Image_14.jpg)
+
+## Step 15
+
+![Step 15](/Walkthrough/Image_15.jpg)
+
+## Step 16
+
+![Step 16](/Walkthrough/Image_16.jpg)
+
+## Step 17
+
+![Step 17](/Walkthrough/Image_17.jpg)
+
+## Step 18
+
+![Step 18](/Walkthrough/Image_18.jpg)
